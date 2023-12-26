@@ -2,6 +2,9 @@
 Changelog for package launch
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+3.2.1 (2023-12-26)
+------------------
+
 3.2.0 (2023-10-04)
 ------------------
 * Add conditional substitution (`#734 <https://github.com/ros2/launch/issues/734>`_)
