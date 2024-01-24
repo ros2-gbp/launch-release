@@ -2,6 +2,9 @@
 Changelog for package test_launch_testing
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+3.3.0 (2024-01-24)
+------------------
+
 3.2.1 (2023-12-26)
 ------------------
 * Update to C++17 (`#742 <https://github.com/ros2/launch/issues/742>`_)
