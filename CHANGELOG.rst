@@ -2,6 +2,9 @@
 Changelog for package launch_xml
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+3.4.0 (2024-02-07)
+------------------
+
 3.3.0 (2024-01-24)
 ------------------
 * Let XML executables/nodes be "required" (like in ROS 1) (`#751 <https://github.com/ros2/launch/issues/751>`_)
