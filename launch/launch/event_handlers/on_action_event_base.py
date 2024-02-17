@@ -28,7 +28,7 @@ from ..event import Event
 from ..event_handler import BaseEventHandler
 from ..launch_context import LaunchContext
 from ..launch_description_entity import LaunchDescriptionEntity
-from ..some_entities_type import SomeEntitiesType
+from ..some_actions_type import SomeActionsType
 
 if TYPE_CHECKING:
     from ..action import Action  # noqa: F401
@@ -42,8 +42,8 @@ class OnActionEventBase(BaseEventHandler):
         *,
         action_matcher: Optional[Union[Callable[['Action'], bool], 'Action']],
         on_event: Union[
-            SomeEntitiesType,
-            Callable[[Event, LaunchContext], Optional[SomeEntitiesType]]
+            SomeActionsType,
+            Callable[[Event, LaunchContext], Optional[SomeActionsType]]
         ],
         target_event_cls: Type[Event],
         target_action_cls: Type['Action'],
@@ -53,7 +53,7 @@ class OnActionEventBase(BaseEventHandler):
         Construct a `OnActionEventBase` instance.
 
         :param action_matcher: `ExecuteProcess` instance or callable to filter events
-            from which process/processes to handle.
+            from which proces/processes to handle.
         :param on_event: Action to be done to handle the event.
         :param target_event_cls: A subclass of `Event`, indicating which events
             should be handled.
@@ -103,7 +103,7 @@ class OnActionEventBase(BaseEventHandler):
             else:
                 self.__actions_on_event = [on_event]
 
-    def handle(self, event: Event, context: LaunchContext) -> Optional[SomeEntitiesType]:
+    def handle(self, event: Event, context: LaunchContext) -> Optional[SomeActionsType]:
         """Handle the given event."""
         super().handle(event, context)
 
@@ -111,7 +111,7 @@ class OnActionEventBase(BaseEventHandler):
             return self.__actions_on_event
         return self.__on_event(event, context)
 
-    def describe(self) -> Tuple[Text, List[SomeEntitiesType]]:
+    def describe(self) -> Tuple[Text, List[SomeActionsType]]:
         """Return a description tuple."""
         text, actions = super().describe()
         if self.__actions_on_event:

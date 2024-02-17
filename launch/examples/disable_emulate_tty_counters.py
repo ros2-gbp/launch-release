@@ -24,6 +24,7 @@ capabilities disabled."
 
 import os
 import sys
+from typing import cast
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))  # noqa
 
 import launch  # noqa: E402
@@ -36,9 +37,10 @@ def generate_launch_description():
     ld.add_action(launch.actions.SetLaunchConfiguration('emulate_tty', 'false'))
 
     # Wire up stdout from processes
-    def on_output(event: launch.events.process.ProcessIO) -> None:
+    def on_output(event: launch.Event) -> None:
         for line in event.text.decode().splitlines():
-            print('[{}] {}'.format(event.process_name, line))
+            print('[{}] {}'.format(
+                cast(launch.events.process.ProcessIO, event).process_name, line))
 
     ld.add_action(launch.actions.RegisterEventHandler(launch.event_handlers.OnProcessIO(
         on_stdout=on_output,

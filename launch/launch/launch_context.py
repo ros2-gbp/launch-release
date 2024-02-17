@@ -22,7 +22,6 @@ from typing import Dict
 from typing import Iterable
 from typing import List  # noqa: F401
 from typing import Mapping
-from typing import MutableMapping
 from typing import Optional
 from typing import Text
 
@@ -202,7 +201,7 @@ class LaunchContext:
         return self.__launch_configurations
 
     @property
-    def environment(self) -> MutableMapping[Text, Text]:
+    def environment(self) -> Mapping[Text, Text]:
         """Getter for environment variables dictionary."""
         return os.environ
 

@@ -9,10 +9,11 @@ package_name = 'launch_pytest'
 
 setup(
     name=package_name,
-    version='3.4.0',
+    version='1.0.5',
     packages=find_packages(exclude=['test']),
     data_files=[
         ('share/ament_index/resource_index/packages', [f'resource/{package_name}']),
+        (f'lib/{package_name}', glob.glob('example_processes/**')),
         (f'share/{package_name}', ['package.xml']),
         (
             f'share/{package_name}/examples',
@@ -31,8 +32,8 @@ setup(
     zip_safe=True,
     author='Ivan Paunovic',
     author_email='ivanpauno@ekumenlabs.com',
-    maintainer='Aditya Pande, Brandon Ong, William Woodall',
-    maintainer_email='aditya.pande@openrobotics.org, brandon@openrobotics.org, william@openrobotics.org',  # noqa: E501
+    maintainer='Aditya Pande, Michel Hidalgo',
+    maintainer_email='aditya.pande@openrobotics.org, michel@ekumenlabs.com',
     url='https://github.com/ros2/launch',
     download_url='https://github.com/ros2/launch/releases',
     keywords=['ROS'],
