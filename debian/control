@@ -1,0 +1,12 @@
+Source: ros-rolling-launch-testing
+Section: misc
+Priority: optional
+Maintainer: Aditya Pande <aditya.pande@openrobotics.org>
+Build-Depends: debhelper (>= 9.0.0), python3-ament-copyright <!nocheck>, python3-ament-flake8 <!nocheck>, python3-ament-pep257 <!nocheck>, ros-rolling-launch <!nocheck>, ros-rolling-ros-workspace, python3-all, python3-setuptools, dh-python
+Homepage: 
+Standards-Version: 3.9.2
+
+Package: ros-rolling-launch-testing
+Architecture: any
+Depends: ${python3:Depends}, ${misc:Depends}, python3-ament-index, python3-osrf-pycommon, python3-pytest, ros-rolling-launch, ros-rolling-launch-xml, ros-rolling-launch-yaml, ros-rolling-ros-workspace
+Description: A package to create tests which involve launch files and multiple processes.
