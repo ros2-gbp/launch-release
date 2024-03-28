@@ -2,6 +2,11 @@
 Changelog for package launch_pytest
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+3.4.1 (2024-03-28)
+------------------
+* Switch tryfirst/trylast to hookimpl.
+* Contributors: Chris Lalancette
+
 3.4.0 (2024-02-07)
 ------------------
 
