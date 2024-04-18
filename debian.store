@@ -1,1 +1,1 @@
-{"base": "c3834e4e", "parent": "debian/rolling/launch_pytest", "previous": "a8692051", "trim": "", "trimbase": ""}
+{"base": "750a5e1c", "parent": "debian/jazzy/launch_pytest", "previous": "2e7f48f9", "trim": "", "trimbase": ""}
