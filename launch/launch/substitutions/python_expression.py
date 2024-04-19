@@ -71,8 +71,8 @@ class PythonExpression(Substitution):
             kwargs['python_modules'] = []
             # Check if we got empty list from XML
             # Ensure that we got a list!
-            assert not isinstance(data[1], str)
-            assert not isinstance(data[1], Substitution)
+            assert(not isinstance(data[1], str))
+            assert(not isinstance(data[1], Substitution))
             # Modules
             modules = list(data[1])
             if len(modules) > 0:
@@ -92,7 +92,7 @@ class PythonExpression(Substitution):
 
     @property
     def python_modules(self) -> List[Substitution]:
-        """Getter for python modules."""
+        """Getter for expression."""
         return self.__python_modules
 
     def describe(self) -> Text:
@@ -108,7 +108,7 @@ class PythonExpression(Substitution):
         module_objects = [importlib.import_module(name) for name in module_names]
         expression_locals = {}
         for module in module_objects:
-            # For backwards compatibility, we allow math definitions to be implicitly
+            # For backwards compatility, we allow math definitions to be implicitly
             # referenced in expressions, without prepending the math module name
             # TODO: This may be removed in a future release.
             if module.__name__ == 'math':
