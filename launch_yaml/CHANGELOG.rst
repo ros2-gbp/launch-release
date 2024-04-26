@@ -2,12 +2,57 @@
 Changelog for package launch_yaml
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-2.0.3 (2024-04-19)
+3.5.0 (2024-04-26)
 ------------------
-* Backport Iron: Let XML executables/nodes be "required" (like in ROS 1) (`#764 <https://github.com/ros2/launch/issues/764>`_)
-* Contributors: Matthew Elwin, Tim Clephas
 
-2.0.2 (2023-07-14)
+3.4.2 (2024-04-16)
+------------------
+
+3.4.1 (2024-03-28)
+------------------
+
+3.4.0 (2024-02-07)
+------------------
+* Fix flake8 warnings in launch_yaml. (`#756 <https://github.com/ros2/launch/issues/756>`_)
+* Contributors: Chris Lalancette
+
+3.3.0 (2024-01-24)
+------------------
+* Let XML executables/nodes be "required" (like in ROS 1) (`#751 <https://github.com/ros2/launch/issues/751>`_)
+  * Let XML nodes be "required"
+  Essentially on_exit="shutdown" is equivalent to ROS 1 required="true".
+  This feature is implemented using the python launchfile on_exit mechanism.
+  Right now "shutdown" is the only action accepted by on_exit,
+  but theoretically more "on_exit" actions could be added later.
+  Example:
+  <executable cmd="ls" on_exit="shutdown"/>
+  * Added tests for yaml
+* Contributors: Matthew Elwin
+
+3.2.1 (2023-12-26)
+------------------
+
+3.2.0 (2023-10-04)
+------------------
+
+3.1.0 (2023-09-08)
+------------------
+
+3.0.1 (2023-09-07)
+------------------
+
+3.0.0 (2023-08-21)
+------------------
+
+2.2.1 (2023-07-11)
+------------------
+* Improve launch file parsing error messages (`#626 <https://github.com/ros2/launch/issues/626>`_)
+* Contributors: Timon Engelke
+
+2.2.0 (2023-06-07)
+------------------
+
+2.1.0 (2023-04-27)
 ------------------
 
 2.0.1 (2023-04-12)

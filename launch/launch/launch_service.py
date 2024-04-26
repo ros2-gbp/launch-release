@@ -32,7 +32,7 @@ from typing import Tuple  # noqa: F401
 
 import launch.logging
 
-import osrf_pycommon.process_utils  # type: ignore
+import osrf_pycommon
 
 from .event import Event
 from .event_handlers import OnIncludeLaunchDescription
@@ -159,7 +159,7 @@ class LaunchService:
                     raise RuntimeError(
                         'LaunchService cannot be run multiple times concurrently.'
                     )
-                this_loop = asyncio.get_event_loop()
+                this_loop = osrf_pycommon.process_utils.get_loop()
 
                 if self.__debug:
                     this_loop.set_debug(True)
@@ -327,14 +327,20 @@ class LaunchService:
                         return_when=asyncio.FIRST_COMPLETED
                     )
                     # Propagate exception from completed tasks
-                    completed_tasks_exceptions = [task.exception() for task in completed_tasks]
-                    completed_tasks_exceptions = list(filter(None, completed_tasks_exceptions))
-                    if completed_tasks_exceptions:
-                        self.__logger.debug('An exception was raised in an async action/event')
-                        # in case there is more than one completed_task, log other exceptions
-                        for completed_tasks_exception in completed_tasks_exceptions[1:]:
-                            self.__logger.error(completed_tasks_exception)
-                        raise completed_tasks_exceptions[0]
+                    exception_to_raise = None
+                    for task in completed_tasks:
+                        exc = task.exception()
+                        if exc is None:
+                            continue
+
+                        if exception_to_raise is None:
+                            self.__logger.debug('An exception was raised in an async action/event')
+                            exception_to_raise = exc
+                        else:
+                            self.__logger.error(exc)
+
+                    if exception_to_raise is not None:
+                        raise exception_to_raise
 
                 except KeyboardInterrupt:
                     continue
@@ -390,7 +396,7 @@ class LaunchService:
             shutdown_event = Shutdown(reason=reason, due_to_sigint=due_to_sigint)
             asyncio_event_loop = None
             try:
-                asyncio_event_loop = asyncio.get_event_loop()
+                asyncio_event_loop = osrf_pycommon.process_utils.get_loop()
             except (RuntimeError, AssertionError):
                 # If no event loop is set for this thread, asyncio will raise an exception.
                 # The exception type depends on the version of Python, so just catch both.

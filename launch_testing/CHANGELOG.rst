@@ -2,10 +2,53 @@
 Changelog for package launch_testing
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-2.0.3 (2024-04-19)
+3.5.0 (2024-04-26)
 ------------------
 
-2.0.2 (2023-07-14)
+3.4.2 (2024-04-16)
+------------------
+* Fix a warning in modern unittest. (`#773 <https://github.com/ros2/launch/issues/773>`_)
+  Newer versions of unittest no longer store an errors
+  list; instead, they store a result, which then stores
+  an error list.  Update the code here to be able to deal
+  with either version.
+* Contributors: Chris Lalancette
+
+3.4.1 (2024-03-28)
+------------------
+* Add consider_namespace_packages=False (`#766 <https://github.com/ros2/launch/issues/766>`_)
+* Contributors: Tony Najjar
+
+3.4.0 (2024-02-07)
+------------------
+
+3.3.0 (2024-01-24)
+------------------
+
+3.2.1 (2023-12-26)
+------------------
+
+3.2.0 (2023-10-04)
+------------------
+* to open expected outpout file with an encoding parameter (`#717 <https://github.com/ros2/launch/issues/717>`_)
+* Contributors: Chen Lihui
+
+3.1.0 (2023-09-08)
+------------------
+
+3.0.1 (2023-09-07)
+------------------
+
+3.0.0 (2023-08-21)
+------------------
+
+2.2.1 (2023-07-11)
+------------------
+
+2.2.0 (2023-06-07)
+------------------
+
+2.1.0 (2023-04-27)
 ------------------
 
 2.0.1 (2023-04-12)
