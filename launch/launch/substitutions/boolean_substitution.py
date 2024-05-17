@@ -15,8 +15,6 @@
 """Module for boolean substitutions."""
 
 from typing import Iterable
-from typing import List
-from typing import Sequence
 from typing import Text
 
 from .substitution_failure import SubstitutionFailure
@@ -39,14 +37,14 @@ class NotSubstitution(Substitution):
         self.__value = normalize_to_list_of_substitutions(value)
 
     @classmethod
-    def parse(cls, data: Sequence[SomeSubstitutionsType]):
+    def parse(cls, data: Iterable[SomeSubstitutionsType]):
         """Parse `NotSubstitution` substitution."""
         if len(data) != 1:
             raise TypeError('not substitution expects 1 argument')
         return cls, {'value': data[0]}
 
     @property
-    def value(self) -> List[Substitution]:
+    def value(self) -> Substitution:
         """Getter for value."""
         return self.__value
 
@@ -69,26 +67,26 @@ class AndSubstitution(Substitution):
     """Substitution that returns 'and' of the input boolean values."""
 
     def __init__(self, left: SomeSubstitutionsType, right: SomeSubstitutionsType) -> None:
-        """Create an AndSubstitution substitution."""
+        """Create a AndSubstitution substitution."""
         super().__init__()
 
         self.__left = normalize_to_list_of_substitutions(left)
         self.__right = normalize_to_list_of_substitutions(right)
 
     @classmethod
-    def parse(cls, data: Sequence[SomeSubstitutionsType]):
+    def parse(cls, data: Iterable[SomeSubstitutionsType]):
         """Parse `AndSubstitution` substitution."""
         if len(data) != 2:
             raise TypeError('and substitution expects 2 arguments')
         return cls, {'left': data[0], 'right': data[1]}
 
     @property
-    def left(self) -> List[Substitution]:
+    def left(self) -> Substitution:
         """Getter for left."""
         return self.__left
 
     @property
-    def right(self) -> List[Substitution]:
+    def right(self) -> Substitution:
         """Getter for right."""
         return self.__right
 
@@ -115,26 +113,26 @@ class OrSubstitution(Substitution):
     """Substitution that returns 'or' of the input boolean values."""
 
     def __init__(self, left: SomeSubstitutionsType, right: SomeSubstitutionsType) -> None:
-        """Create an OrSubstitution substitution."""
+        """Create a AndSubstitution substitution."""
         super().__init__()
 
         self.__left = normalize_to_list_of_substitutions(left)
         self.__right = normalize_to_list_of_substitutions(right)
 
     @classmethod
-    def parse(cls, data: Sequence[SomeSubstitutionsType]):
-        """Parse `OrSubstitution` substitution."""
+    def parse(cls, data: Iterable[SomeSubstitutionsType]):
+        """Parse `AndSubstitution` substitution."""
         if len(data) != 2:
             raise TypeError('and substitution expects 2 arguments')
         return cls, {'left': data[0], 'right': data[1]}
 
     @property
-    def left(self) -> List[Substitution]:
+    def left(self) -> Substitution:
         """Getter for left."""
         return self.__left
 
     @property
-    def right(self) -> List[Substitution]:
+    def right(self) -> Substitution:
         """Getter for right."""
         return self.__right
 
@@ -154,94 +152,3 @@ class OrSubstitution(Substitution):
             raise SubstitutionFailure(e)
 
         return str(left_condition or right_condition).lower()
-
-
-@expose_substitution('any')
-class AnySubstitution(Substitution):
-    """
-    Substitutes to the string 'true' if at least one of the input arguments evaluates to true.
-
-    If none of the arguments evaluate to true, then this substitution returns the string 'false'.
-    """
-
-    def __init__(self, *args: SomeSubstitutionsType) -> None:
-        """
-        Create an AnySubstitution substitution.
-
-        The following string arguments evaluate to true: '1', 'true', 'True', 'on'
-        """
-        super().__init__()
-
-        self.__args = [normalize_to_list_of_substitutions(arg) for arg in args]
-
-    @classmethod
-    def parse(cls, data: Iterable[SomeSubstitutionsType]):
-        """Parse `AnySubstitution` substitution."""
-        return cls, {'args': data}
-
-    @property
-    def args(self) -> List[List[Substitution]]:
-        """Getter for args."""
-        return self.__args
-
-    def describe(self) -> Text:
-        """Return a description of this substitution as a string."""
-        return f'AnySubstitution({" ".join(str(arg) for arg in self.args)})'
-
-    def perform(self, context: LaunchContext) -> Text:
-        """Perform the substitution."""
-        substituted_conditions = []
-        for arg in self.args:
-            try:
-                arg_condition = perform_typed_substitution(context, arg, bool)
-                substituted_conditions.append(arg_condition)
-            except (TypeError, ValueError) as e:
-                raise SubstitutionFailure(e)
-
-        return str(any(substituted_conditions)).lower()
-
-
-@expose_substitution('all')
-class AllSubstitution(Substitution):
-    """
-    Substitutes to the string 'true' if all of the input arguments evaluate to true.
-
-    If any of the arguments evaluates to false, then this substitution returns the string 'false'.
-    """
-
-    def __init__(self, *args: SomeSubstitutionsType) -> None:
-        """
-        Create an AllSubstitution substitution.
-
-        The following string arguments evaluate to true: '1', 'true', 'True', 'on'
-        The following string arguments evaluate to false: '0', 'false', 'False', 'off'
-        """
-        super().__init__()
-
-        self.__args = [normalize_to_list_of_substitutions(arg) for arg in args]
-
-    @classmethod
-    def parse(cls, data: Iterable[SomeSubstitutionsType]):
-        """Parse `AllSubstitution` substitution."""
-        return cls, {'args': data}
-
-    @property
-    def args(self) -> List[List[Substitution]]:
-        """Getter for args."""
-        return self.__args
-
-    def describe(self) -> Text:
-        """Return a description of this substitution as a string."""
-        return f'AllSubstitution({" ".join(str(arg) for arg in self.args)})'
-
-    def perform(self, context: LaunchContext) -> Text:
-        """Perform the substitution."""
-        substituted_conditions = []
-        for arg in self.args:
-            try:
-                arg_condition = perform_typed_substitution(context, arg, bool)
-                substituted_conditions.append(arg_condition)
-            except (TypeError, ValueError) as e:
-                raise SubstitutionFailure(e)
-
-        return str(all(substituted_conditions)).lower()

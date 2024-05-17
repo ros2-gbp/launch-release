@@ -73,24 +73,22 @@ class AsyncSafeSignalManager:
 
         :param loop: event loop that will handle the signals.
         """
-        self.__parent: Optional[AsyncSafeSignalManager] = None
-        self.__loop: asyncio.AbstractEventLoop = loop
-        self.__background_loop: Optional[asyncio.AbstractEventLoop] = None
-        self.__handlers: dict = {}
-        self.__prev_wakeup_handle: Union[int, socket.socket] = -1
-        self.__wsock: Optional[socket.socket] = None
-        self.__rsock: Optional[socket.socket] = None
-        self.__close_sockets: Optional[Callable] = None
+        self.__parent = None  # type: AsyncSafeSignalManager
+        self.__loop = loop  # type: asyncio.AbstractEventLoop
+        self.__background_loop = None  # type: Optional[asyncio.AbstractEventLoop]
+        self.__handlers = {}  # type: dict
+        self.__prev_wakeup_handle = -1  # type: Union[int, socket.socket]
+        self.__wsock = None
+        self.__rsock = None
+        self.__close_sockets = None
 
-    def __enter__(self) -> 'AsyncSafeSignalManager':
+    def __enter__(self):
         pair = socket.socketpair()  # type: Tuple[socket.socket, socket.socket]  # noqa
         with ExitStack() as stack:
             self.__wsock = stack.enter_context(pair[0])
             self.__rsock = stack.enter_context(pair[1])
-            if self.__wsock is not None:
-                self.__wsock.setblocking(False)
-            if self.__rsock is not None:
-                self.__rsock.setblocking(False)
+            self.__wsock.setblocking(False)
+            self.__rsock.setblocking(False)
             self.__close_sockets = stack.pop_all().close
 
         self.__add_signal_readers()
@@ -98,8 +96,7 @@ class AsyncSafeSignalManager:
             self.__install_signal_writers()
         except Exception:
             self.__remove_signal_readers()
-            if self.__close_sockets is not None:
-                self.__close_sockets()
+            self.__close_sockets()
             self.__rsock = None
             self.__wsock = None
             self.__close_sockets = None

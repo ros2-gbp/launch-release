@@ -17,16 +17,16 @@
 import os
 from typing import Iterable
 from typing import Text
-from typing import Union
 
 from ..launch_context import LaunchContext
+from ..some_substitutions_type import SomeSubstitutionsType
 from ..substitution import Substitution
 
 
 class PathJoinSubstitution(Substitution):
     """Substitution that join paths, in a platform independent way."""
 
-    def __init__(self, substitutions: Iterable[Union[Text, Substitution]]) -> None:
+    def __init__(self, substitutions: Iterable[SomeSubstitutionsType]) -> None:
         """Create a PathJoinSubstitution."""
         from ..utilities import normalize_to_list_of_substitutions
         self.__substitutions = normalize_to_list_of_substitutions(substitutions)
@@ -38,7 +38,7 @@ class PathJoinSubstitution(Substitution):
 
     def describe(self) -> Text:
         """Return a description of this substitution as a string."""
-        return f"PathJoin('{' + '.join([s.describe() for s in self.substitutions])}')"
+        return "LocalVar('{}')".format(' + '.join([s.describe() for s in self.substitutions]))
 
     def perform(self, context: LaunchContext) -> Text:
         """Perform the substitution by retrieving the local variable."""
