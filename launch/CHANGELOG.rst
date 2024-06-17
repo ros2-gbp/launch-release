@@ -2,6 +2,11 @@
 Changelog for package launch
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+3.5.1 (2024-06-17)
+------------------
+* Fix typo in comment (`#783 <https://github.com/ros2/launch/issues/783>`_)
+* Contributors: Christophe Bedard
+
 3.5.0 (2024-04-26)
 ------------------
 
