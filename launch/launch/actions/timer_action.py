@@ -43,6 +43,7 @@ from ..launch_description_entity import LaunchDescriptionEntity
 from ..some_entities_type import SomeEntitiesType
 from ..some_substitutions_type import SomeSubstitutionsType
 from ..some_substitutions_type import SomeSubstitutionsType_types_tuple
+from ..utilities import create_future
 from ..utilities import ensure_argument_type
 from ..utilities import is_a_subclass
 from ..utilities import type_utils
@@ -165,16 +166,15 @@ class TimerAction(Action):
         - create a task for the coroutine that waits until canceled or timeout
         - coroutine asynchronously fires event after timeout, if not canceled
         """
-        self._completed_future = context.asyncio_loop.create_future()
-        self._canceled_future = context.asyncio_loop.create_future()
+        self._completed_future = create_future(context.asyncio_loop)
+        self._canceled_future = create_future(context.asyncio_loop)
 
         if self.__canceled:
             # In this case, the action was canceled before being executed.
             self.__logger.debug(
                 'timer {} not waiting because it was canceled before being executed'.format(self),
             )
-            if self._completed_future is not None:
-                self._completed_future.set_result(None)
+            self._completed_future.set_result(None)
             return None
 
         # Once per context, install the general purpose OnTimerEvent event handler.
