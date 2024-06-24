@@ -1,3 +1,35 @@
+## launch (iron) - 2.0.4-1
+
+The packages in the `launch` repository were released into the `iron` distro by running `/usr/bin/bloom-release --rosdistro iron --track iron launch` on `Mon, 24 Jun 2024 09:16:47 -0000`
+
+These packages were released:
+- `launch`
+- `launch_pytest`
+- `launch_testing`
+- `launch_testing_ament_cmake`
+- `launch_xml`
+- `launch_yaml`
+
+These packages were explicitly ignored:
+- `test_launch_testing`
+
+Version of package(s) in repository `launch`:
+
+- upstream repository: https://github.com/ros2/launch.git
+- release repository: https://github.com/ros2-gbp/launch-release.git
+- rosdistro version: `2.0.3-1`
+- old version: `2.0.3-1`
+- new version: `2.0.4-1`
+
+Versions of tools used:
+
+- bloom version: `0.12.0`
+- catkin_pkg version: `0.5.2`
+- rosdep version: `0.24.0`
+- rosdistro version: `0.9.1`
+- vcstools version: `0.1.42`
+
+
 ## launch (rolling) - 3.5.1-1
 
 The packages in the `launch` repository were released into the `rolling` distro by running `/usr/bin/bloom-release --track rolling --rosdistro rolling launch` on `Mon, 17 Jun 2024 14:39:06 -0000`
