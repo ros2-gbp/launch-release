@@ -2,23 +2,77 @@
 Changelog for package launch
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-2.0.4 (2024-06-24)
+3.6.0 (2024-06-25)
 ------------------
-* Add conditional substitution (`#734 <https://github.com/ros2/launch/issues/734>`_) (`#776 <https://github.com/ros2/launch/issues/776>`_)
-  * Add conditional substitution
-  Closes: `#727 <https://github.com/ros2/launch/issues/727>`_
-  Co-authored-by: Nick Lamprianidis <info@nlamprian.me>
-* Contributors: Jonas Otto
 
-2.0.3 (2024-04-19)
+3.5.1 (2024-06-17)
 ------------------
-* Backport Iron: Let XML executables/nodes be "required" (like in ROS 1) (`#764 <https://github.com/ros2/launch/issues/764>`_)
-* Contributors: Matthew Elwin, Tim Clephas
+* Fix typo in comment (`#783 <https://github.com/ros2/launch/issues/783>`_)
+* Contributors: Christophe Bedard
 
-2.0.2 (2023-07-14)
+3.5.0 (2024-04-26)
 ------------------
-* Add file-content launch substitution (`#709 <https://github.com/ros2/launch/issues/709>`_)
+
+3.4.2 (2024-04-16)
+------------------
+* (launch) fix describe of PathJoinSubstitution (`#771 <https://github.com/ros2/launch/issues/771>`_)
+* Contributors: Matthijs van der Burgh
+
+3.4.1 (2024-03-28)
+------------------
+* Small fixes for modern flake8. (`#772 <https://github.com/ros2/launch/issues/772>`_)
+* Cleanup some type annotations.
+* Contributors: Chris Lalancette
+
+3.4.0 (2024-02-07)
+------------------
+* Rework task exceptions loop. (`#755 <https://github.com/ros2/launch/issues/755>`_)
+* add format overriding by environment variables (`#722 <https://github.com/ros2/launch/issues/722>`_)
+* Add exception type to error output (`#753 <https://github.com/ros2/launch/issues/753>`_)
+* Contributors: Chris Lalancette, David Yackzan, Marc Bestmann
+
+3.3.0 (2024-01-24)
+------------------
+* Let XML executables/nodes be "required" (like in ROS 1) (`#751 <https://github.com/ros2/launch/issues/751>`_)
+* Contributors: Matthew Elwin
+
+3.2.1 (2023-12-26)
+------------------
+
+3.2.0 (2023-10-04)
+------------------
+* Add conditional substitution (`#734 <https://github.com/ros2/launch/issues/734>`_)
+* Contributors: Nick Lamprianidis
+
+3.1.0 (2023-09-08)
+------------------
+* Add maximum times for a process to respawn (`#696 <https://github.com/ros2/launch/issues/696>`_)
+* Contributors: Santti4go
+
+3.0.1 (2023-09-07)
+------------------
+* Add in a timeout for launch pytests. (`#725 <https://github.com/ros2/launch/issues/725>`_)
+* Contributors: Chris Lalancette
+
+3.0.0 (2023-08-21)
+------------------
+* Fix remaining occurrences of "There is no current event loop" (`#723 <https://github.com/ros2/launch/issues/723>`_)
+* Update the launch code for newer flake8 and mypy. (`#719 <https://github.com/ros2/launch/issues/719>`_)
+* Remove the deprecated some_actions_type.py (`#718 <https://github.com/ros2/launch/issues/718>`_)
+* Contributors: Chris Lalancette
+
+2.2.1 (2023-07-11)
+------------------
+* Improve launch file parsing error messages (`#626 <https://github.com/ros2/launch/issues/626>`_)
+* Contributors: Timon Engelke
+
+2.2.0 (2023-06-07)
+------------------
+* Add file-content launch substitution (`#708 <https://github.com/ros2/launch/issues/708>`_)
 * Contributors: Scott K Logan
+
+2.1.0 (2023-04-27)
+------------------
 
 2.0.1 (2023-04-12)
 ------------------
