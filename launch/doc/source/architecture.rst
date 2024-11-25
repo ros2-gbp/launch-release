@@ -125,15 +125,10 @@ There are many possible variations of a substitution, but here are some of the c
 - :class:`launch.substitutions.PythonExpression`
 
   - This substitution will evaluate a python expression and get the result as a string.
-  - You may pass a list of Python modules to the constructor to allow the use of those modules in the evaluated expression.
 
 - :class:`launch.substitutions.LaunchConfiguration`
 
   - This substitution gets a launch configuration value, as a string, by name.
-
-- :class:`launch.substitutions.IfElseSubstitution`
-
-  - This substitution takes a substitution, and if it evaluates to true, then the result is the if_value, else the result is the else_value.
 
 - :class:`launch.substitutions.LaunchDescriptionArgument`
 

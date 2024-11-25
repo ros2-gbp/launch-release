@@ -68,7 +68,7 @@ In this xml:
 <executable cmd="ls">
     <env name="a" value="100"/>
     <env name="b" value="stuff"/>
-</executable>
+</node>
 ```
 
 The `env` children could be accessed like:
