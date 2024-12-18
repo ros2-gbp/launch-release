@@ -2,6 +2,9 @@
 Changelog for package launch_testing
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+3.4.3 (2024-12-18)
+------------------
+
 3.4.2 (2024-04-16)
 ------------------
 * Fix a warning in modern unittest. (`#773 <https://github.com/ros2/launch/issues/773>`_)
