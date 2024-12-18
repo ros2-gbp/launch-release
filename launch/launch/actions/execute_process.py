@@ -15,7 +15,6 @@
 """Module for the ExecuteProcess action."""
 
 import shlex
-import threading
 from typing import Dict
 from typing import Iterable
 from typing import List
@@ -23,16 +22,15 @@ from typing import Optional
 from typing import Text
 
 from .execute_local import ExecuteLocal
-
+from .shutdown_action import Shutdown
 from ..descriptions import Executable
 from ..frontend import Entity
 from ..frontend import expose_action
 from ..frontend import Parser
 from ..some_substitutions_type import SomeSubstitutionsType
-from ..substitutions import TextSubstitution
 
-_global_process_counter_lock = threading.Lock()
-_global_process_counter = 0  # in Python3, this number is unbounded (no rollover)
+from ..substitution import Substitution
+from ..substitutions import TextSubstitution
 
 
 @expose_action('executable')
@@ -208,9 +206,9 @@ class ExecuteProcess(ExecuteLocal):
             be overridden with the LaunchConfiguration called 'emulate_tty',
             the value of which is evaluated as true or false according to
             :py:func:`evaluate_condition_expression`.
-            Throws :py:exception:`InvalidConditionExpressionError` if the
+            Throws :py:exc:`InvalidConditionExpressionError` if the
             'emulate_tty' configuration does not represent a boolean.
-        :param: prefix a set of commands/arguments to preceed the cmd, used for
+        :param: prefix a set of commands/arguments to precede the cmd, used for
             things like gdb/valgrind and defaults to the LaunchConfiguration
             called 'launch-prefix'. Note that a non-default prefix provided in
             a launch file will override the prefix provided via the `launch-prefix`
@@ -234,6 +232,8 @@ class ExecuteProcess(ExecuteLocal):
         :param: respawn if 'True', relaunch the process that abnormally died.
             Defaults to 'False'.
         :param: respawn_delay a delay time to relaunch the died process if respawn is 'True'.
+        :param: respawn_max_retries number of times to respawn the process if respawn is 'True'.
+                A negative value will respawn an infinite number of times (default behavior).
         """
         executable = Executable(cmd=cmd, prefix=prefix, name=name, cwd=cwd, env=env,
                                 additional_env=additional_env)
@@ -254,7 +254,7 @@ class ExecuteProcess(ExecuteLocal):
         :returns: a list of command line arguments.
         """
         result_args = []
-        arg = []
+        arg: List[Substitution] = []
 
         def _append_arg():
             nonlocal arg
@@ -264,7 +264,7 @@ class ExecuteProcess(ExecuteLocal):
             if isinstance(sub, TextSubstitution):
                 tokens = shlex.split(sub.text)
                 if not tokens:
-                    # Sting with just spaces.
+                    # String with just spaces.
                     # Appending args allow splitting two substitutions
                     # separated by a space.
                     # e.g.: `$(subst1 asd) $(subst2 bsd)` will be two separate arguments.
@@ -331,6 +331,16 @@ class ExecuteProcess(ExecuteLocal):
             if name is not None:
                 kwargs['name'] = parser.parse_substitution(name)
 
+        if 'on_exit' not in ignore:
+            on_exit = entity.get_attr('on_exit', optional=True)
+            if on_exit is not None:
+                if on_exit == 'shutdown':
+                    kwargs['on_exit'] = [Shutdown()]
+                else:
+                    raise ValueError(
+                        'Attribute on_exit of Entity node expected to be shutdown but got `{}`'
+                        'Other on_exit actions not yet supported'.format(on_exit))
+
         if 'prefix' not in ignore:
             prefix = entity.get_attr('launch-prefix', optional=True)
             if prefix is not None:
@@ -346,6 +356,12 @@ class ExecuteProcess(ExecuteLocal):
             if respawn is not None:
                 kwargs['respawn'] = parser.parse_substitution(respawn)
 
+        if 'respawn_max_retries' not in ignore:
+            respawn_max_retries = entity.get_attr('respawn_max_retries', data_type=int,
+                                                  optional=True)
+            if respawn_max_retries is not None:
+                kwargs['respawn_max_retries'] = respawn_max_retries
+
         if 'respawn_delay' not in ignore:
             respawn_delay = entity.get_attr('respawn_delay', data_type=float, optional=True)
             if respawn_delay is not None:
@@ -356,10 +372,35 @@ class ExecuteProcess(ExecuteLocal):
                     )
                 kwargs['respawn_delay'] = respawn_delay
 
+        if 'sigkill_timeout' not in ignore:
+            sigkill_timeout = entity.get_attr('sigkill_timeout', data_type=float, optional=True)
+            if sigkill_timeout is not None:
+                if sigkill_timeout < 0.0:
+                    raise ValueError(
+                        'Attribute sigkill_timeout of Entity node expected to be '
+                        'a non-negative value but got `{}`'.format(sigkill_timeout)
+                    )
+                kwargs['sigkill_timeout'] = str(sigkill_timeout)
+
+        if 'sigterm_timeout' not in ignore:
+            sigterm_timeout = entity.get_attr('sigterm_timeout', data_type=float, optional=True)
+            if sigterm_timeout is not None:
+                if sigterm_timeout < 0.0:
+                    raise ValueError(
+                        'Attribute sigterm_timeout of Entity node expected to be '
+                        'a non-negative value but got `{}`'.format(sigterm_timeout)
+                    )
+                kwargs['sigterm_timeout'] = str(sigterm_timeout)
+
         if 'shell' not in ignore:
             shell = entity.get_attr('shell', data_type=bool, optional=True)
             if shell is not None:
                 kwargs['shell'] = shell
+
+        if 'emulate_tty' not in ignore:
+            emulate_tty = entity.get_attr('emulate_tty', data_type=bool, optional=True)
+            if emulate_tty is not None:
+                kwargs['emulate_tty'] = emulate_tty
 
         if 'additional_env' not in ignore:
             # Conditions won't be allowed in the `env` tag.

@@ -2,24 +2,84 @@
 Changelog for package launch_xml
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-1.0.7 (2024-11-25)
+3.4.3 (2024-12-18)
 ------------------
 
-1.0.6 (2024-05-17)
+3.4.2 (2024-04-16)
 ------------------
 
-1.0.5 (2024-02-16)
+3.4.1 (2024-03-28)
 ------------------
-* Backport error message improvements (`#754 <https://github.com/ros2/launch/issues/754>`_)
-* Contributors: David Yackzan
+* launch_xml: fix xml syntax in README (`#770 <https://github.com/ros2/launch/issues/770>`_)
+* Contributors: Steve Peters
 
-1.0.4 (2023-01-10)
-------------------
-
-1.0.3 (2022-10-18)
+3.4.0 (2024-02-07)
 ------------------
 
-1.0.2 (2022-05-10)
+3.3.0 (2024-01-24)
+------------------
+* Let XML executables/nodes be "required" (like in ROS 1) (`#751 <https://github.com/ros2/launch/issues/751>`_)
+  * Let XML nodes be "required"
+  Essentially on_exit="shutdown" is equivalent to ROS 1 required="true".
+  This feature is implemented using the python launchfile on_exit mechanism.
+  Right now "shutdown" is the only action accepted by on_exit,
+  but theoretically more "on_exit" actions could be added later.
+  Example:
+  <executable cmd="ls" on_exit="shutdown"/>
+  * Added tests for yaml
+* Contributors: Matthew Elwin
+
+3.2.1 (2023-12-26)
+------------------
+
+3.2.0 (2023-10-04)
+------------------
+
+3.1.0 (2023-09-08)
+------------------
+
+3.0.1 (2023-09-07)
+------------------
+
+3.0.0 (2023-08-21)
+------------------
+
+2.2.1 (2023-07-11)
+------------------
+* Improve launch file parsing error messages (`#626 <https://github.com/ros2/launch/issues/626>`_)
+* Contributors: Timon Engelke
+
+2.2.0 (2023-06-07)
+------------------
+
+2.1.0 (2023-04-27)
+------------------
+
+2.0.1 (2023-04-12)
+------------------
+
+2.0.0 (2023-04-11)
+------------------
+
+1.4.1 (2023-02-24)
+------------------
+* Fixed typos (`#692 <https://github.com/ros2/launch/issues/692>`_)
+* Contributors: Alejandro Hernández Cordero
+
+1.4.0 (2023-02-14)
+------------------
+* Expose emulate_tty to xml and yaml launch (`#669 <https://github.com/ros2/launch/issues/669>`_)
+* Expose sigterm_timeout and sigkill_timeout to xml frontend (`#667 <https://github.com/ros2/launch/issues/667>`_)
+* [rolling] Update maintainers - 2022-11-07 (`#671 <https://github.com/ros2/launch/issues/671>`_)
+* Contributors: Aditya Pande, Audrow Nash
+
+1.3.0 (2022-11-02)
+------------------
+
+1.2.0 (2022-09-13)
+------------------
+
+1.1.0 (2022-04-29)
 ------------------
 
 1.0.1 (2022-04-13)
