@@ -2,12 +2,29 @@
 Changelog for package launch
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-3.4.3 (2024-12-18)
+3.7.1 (2024-12-20)
 ------------------
-* Fix 'set up' typo (`#813 <https://github.com/ros2/launch/issues/813>`_) (`#814 <https://github.com/ros2/launch/issues/814>`_)
-  (cherry picked from commit fda41a218b990c8e3bcc6c3d61f2862704529257)
-  Co-authored-by: Christophe Bedard <christophe.bedard@apex.ai>
-* Contributors: mergify[bot]
+* Fix 'set up' typo (`#813 <https://github.com/ros2/launch/issues/813>`_)
+* Contributors: Christophe Bedard
+
+3.7.0 (2024-11-20)
+------------------
+* Add test_xmllint to all of the ament_python packages. (`#804 <https://github.com/ros2/launch/issues/804>`_)
+* Contributors: Chris Lalancette
+
+3.6.1 (2024-07-29)
+------------------
+
+3.6.0 (2024-06-25)
+------------------
+
+3.5.1 (2024-06-17)
+------------------
+* Fix typo in comment (`#783 <https://github.com/ros2/launch/issues/783>`_)
+* Contributors: Christophe Bedard
+
+3.5.0 (2024-04-26)
+------------------
 
 3.4.2 (2024-04-16)
 ------------------
