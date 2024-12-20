@@ -2,6 +2,11 @@
 Changelog for package launch
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+3.7.1 (2024-12-20)
+------------------
+* Fix 'set up' typo (`#813 <https://github.com/ros2/launch/issues/813>`_)
+* Contributors: Christophe Bedard
+
 3.7.0 (2024-11-20)
 ------------------
 * Add test_xmllint to all of the ament_python packages. (`#804 <https://github.com/ros2/launch/issues/804>`_)
