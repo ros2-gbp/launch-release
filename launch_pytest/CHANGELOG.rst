@@ -2,96 +2,27 @@
 Changelog for package launch_pytest
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-3.8.0 (2025-02-27)
-------------------
-* Cleanup the launch dependencies. (`#819 <https://github.com/ros2/launch/issues/819>`_)
-* Contributors: Chris Lalancette
-
-3.7.1 (2024-12-20)
+1.0.8 (2025-03-25)
 ------------------
 
-3.7.0 (2024-11-20)
+1.0.7 (2024-11-25)
 ------------------
-* Add test_xmllint to all of the ament_python packages. (`#804 <https://github.com/ros2/launch/issues/804>`_)
-* Contributors: Chris Lalancette
+* Drop unused data_files entry for example_processes (`#680 <https://github.com/ros2/launch/issues/680>`_) (`#791 <https://github.com/ros2/launch/issues/791>`_)
+* Contributors: mergify[bot]
 
-3.6.1 (2024-07-29)
-------------------
-* Switch to using an rclpy context manager. (`#787 <https://github.com/ros2/launch/issues/787>`_)
-* Contributors: Chris Lalancette
-
-3.6.0 (2024-06-25)
+1.0.6 (2024-05-17)
 ------------------
 
-3.5.1 (2024-06-17)
+1.0.5 (2024-02-16)
 ------------------
 
-3.5.0 (2024-04-26)
+1.0.4 (2023-01-10)
 ------------------
 
-3.4.2 (2024-04-16)
+1.0.3 (2022-10-18)
 ------------------
 
-3.4.1 (2024-03-28)
-------------------
-* Switch tryfirst/trylast to hookimpl.
-* Contributors: Chris Lalancette
-
-3.4.0 (2024-02-07)
-------------------
-
-3.3.0 (2024-01-24)
-------------------
-
-3.2.1 (2023-12-26)
-------------------
-
-3.2.0 (2023-10-04)
-------------------
-
-3.1.0 (2023-09-08)
-------------------
-
-3.0.1 (2023-09-07)
-------------------
-
-3.0.0 (2023-08-21)
-------------------
-
-2.2.1 (2023-07-11)
-------------------
-
-2.2.0 (2023-06-07)
-------------------
-
-2.1.0 (2023-04-27)
-------------------
-
-2.0.1 (2023-04-12)
-------------------
-
-2.0.0 (2023-04-11)
-------------------
-
-1.4.1 (2023-02-24)
-------------------
-* Fixed typos (`#692 <https://github.com/ros2/launch/issues/692>`_)
-* Contributors: Alejandro Hernández Cordero
-
-1.4.0 (2023-02-14)
-------------------
-* Drop unused data_files entry for example_processes (`#680 <https://github.com/ros2/launch/issues/680>`_)
-* Spelling correction
-* [rolling] Update maintainers - 2022-11-07 (`#671 <https://github.com/ros2/launch/issues/671>`_)
-* Contributors: Audrow Nash, Geoffrey Biggs, Scott K Logan
-
-1.3.0 (2022-11-02)
-------------------
-
-1.2.0 (2022-09-13)
-------------------
-
-1.1.0 (2022-04-29)
+1.0.2 (2022-05-10)
 ------------------
 
 1.0.1 (2022-04-13)

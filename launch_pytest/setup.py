@@ -9,7 +9,7 @@ package_name = 'launch_pytest'
 
 setup(
     name=package_name,
-    version='3.8.0',
+    version='1.0.8',
     packages=find_packages(exclude=['test']),
     data_files=[
         ('share/ament_index/resource_index/packages', [f'resource/{package_name}']),
@@ -31,8 +31,8 @@ setup(
     zip_safe=True,
     author='Ivan Paunovic',
     author_email='ivanpauno@ekumenlabs.com',
-    maintainer='Aditya Pande, Brandon Ong, William Woodall',
-    maintainer_email='aditya.pande@openrobotics.org, brandon@openrobotics.org, william@openrobotics.org',  # noqa: E501
+    maintainer='Aditya Pande, Michel Hidalgo',
+    maintainer_email='aditya.pande@openrobotics.org, michel@ekumenlabs.com',
     url='https://github.com/ros2/launch',
     download_url='https://github.com/ros2/launch/releases',
     keywords=['ROS'],

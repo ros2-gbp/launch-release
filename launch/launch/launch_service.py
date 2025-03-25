@@ -32,7 +32,7 @@ from typing import Tuple  # noqa: F401
 
 import launch.logging
 
-import osrf_pycommon
+import osrf_pycommon.process_utils
 
 from .event import Event
 from .event_handlers import OnIncludeLaunchDescription
@@ -42,7 +42,7 @@ from .events import Shutdown
 from .launch_context import LaunchContext
 from .launch_description import LaunchDescription
 from .launch_description_entity import LaunchDescriptionEntity
-from .some_entities_type import SomeEntitiesType
+from .some_actions_type import SomeActionsType
 from .utilities import AsyncSafeSignalManager
 from .utilities import visit_all_entities_and_collect_futures
 
@@ -63,7 +63,7 @@ class LaunchService:
         :param: argv stored in the context for access by the entities, None results in []
         :param: noninteractive if True (not default), this service will assume it has
             no terminal associated e.g. it is being executed from a non interactive script
-        :param: debug if True (not default), asyncio and the logger are set up for debug
+        :param: debug if True (not default), asyncio the logger are seutp for debug
         """
         # Setup logging and debugging.
         launch.logging.launch_config.level = logging.DEBUG if debug else logging.INFO
@@ -159,7 +159,7 @@ class LaunchService:
                     raise RuntimeError(
                         'LaunchService cannot be run multiple times concurrently.'
                     )
-                this_loop = osrf_pycommon.process_utils.get_loop()
+                this_loop = asyncio.get_event_loop()
 
                 if self.__debug:
                     this_loop.set_debug(True)
@@ -264,7 +264,6 @@ class LaunchService:
         asynchronous runs.
 
         :param: shutdown_when_idle if True (default), the service will shutdown when idle.
-        :return: the return code (non-zero if there are any errors)
         """
         # Make sure this has not been called from any thread but the main thread.
         if threading.current_thread() is not threading.main_thread():
@@ -327,20 +326,14 @@ class LaunchService:
                         return_when=asyncio.FIRST_COMPLETED
                     )
                     # Propagate exception from completed tasks
-                    exception_to_raise = None
-                    for task in completed_tasks:
-                        exc = task.exception()
-                        if exc is None:
-                            continue
-
-                        if exception_to_raise is None:
-                            self.__logger.debug('An exception was raised in an async action/event')
-                            exception_to_raise = exc
-                        else:
-                            self.__logger.error(exc)
-
-                    if exception_to_raise is not None:
-                        raise exception_to_raise
+                    completed_tasks_exceptions = [task.exception() for task in completed_tasks]
+                    completed_tasks_exceptions = list(filter(None, completed_tasks_exceptions))
+                    if completed_tasks_exceptions:
+                        self.__logger.debug('An exception was raised in an async action/event')
+                        # in case there is more than one completed_task, log other exceptions
+                        for completed_tasks_exception in completed_tasks_exceptions[1:]:
+                            self.__logger.error(completed_tasks_exception)
+                        raise completed_tasks_exceptions[0]
 
                 except KeyboardInterrupt:
                     continue
@@ -372,7 +365,6 @@ class LaunchService:
         After the run ends, this behavior is undone.
 
         :param: shutdown_when_idle if True (default), the service will shutdown when idle
-        :return: the return code (non-zero if there are any errors)
         """
         loop = osrf_pycommon.process_utils.get_loop()
         run_async_task = loop.create_task(self.run_async(
@@ -384,7 +376,7 @@ class LaunchService:
             except KeyboardInterrupt:
                 continue
 
-    def __on_shutdown(self, event: Event, context: LaunchContext) -> Optional[SomeEntitiesType]:
+    def __on_shutdown(self, event: Event, context: LaunchContext) -> Optional[SomeActionsType]:
         self.__shutting_down = True
         self.__context._set_is_shutdown(True)
         return None
@@ -396,7 +388,7 @@ class LaunchService:
             shutdown_event = Shutdown(reason=reason, due_to_sigint=due_to_sigint)
             asyncio_event_loop = None
             try:
-                asyncio_event_loop = osrf_pycommon.process_utils.get_loop()
+                asyncio_event_loop = asyncio.get_event_loop()
             except (RuntimeError, AssertionError):
                 # If no event loop is set for this thread, asyncio will raise an exception.
                 # The exception type depends on the version of Python, so just catch both.
@@ -431,7 +423,6 @@ class LaunchService:
                     reason='LaunchService.shutdown() called',
                     due_to_sigint=False, force_sync=force_sync
                 )
-        return None
 
     @property
     def context(self):
