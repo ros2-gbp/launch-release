@@ -1,3 +1,35 @@
+## launch (jazzy) - 3.4.4-1
+
+The packages in the `launch` repository were released into the `jazzy` distro by running `/usr/bin/bloom-release --rosdistro jazzy --track jazzy launch` on `Wed, 02 Apr 2025 14:32:41 -0000`
+
+These packages were released:
+- `launch`
+- `launch_pytest`
+- `launch_testing`
+- `launch_testing_ament_cmake`
+- `launch_xml`
+- `launch_yaml`
+
+These packages were explicitly ignored:
+- `test_launch_testing`
+
+Version of package(s) in repository `launch`:
+
+- upstream repository: https://github.com/ros2/launch.git
+- release repository: https://github.com/ros2-gbp/launch-release.git
+- rosdistro version: `3.4.3-1`
+- old version: `3.4.3-1`
+- new version: `3.4.4-1`
+
+Versions of tools used:
+
+- bloom version: `0.12.0`
+- catkin_pkg version: `1.0.0`
+- rosdep version: `0.25.1`
+- rosdistro version: `1.0.1`
+- vcstools version: `0.1.42`
+
+
 ## launch (humble) - 1.0.8-1
 
 The packages in the `launch` repository were released into the `humble` distro by running `/usr/bin/bloom-release -r humble -y launch` on `Tue, 25 Mar 2025 13:16:50 -0000`
