@@ -25,6 +25,8 @@ from .environment_variable import EnvironmentVariable
 from .equals_substitution import EqualsSubstitution
 from .file_content import FileContent
 from .find_executable import FindExecutable
+from .for_loop_var import ForEachVar
+from .for_loop_var import ForLoopIndex
 from .if_else_substitution import IfElseSubstitution
 from .launch_configuration import LaunchConfiguration
 from .launch_log_dir import LaunchLogDir
@@ -32,6 +34,7 @@ from .local_substitution import LocalSubstitution
 from .not_equals_substitution import NotEqualsSubstitution
 from .path_join_substitution import PathJoinSubstitution
 from .python_expression import PythonExpression
+from .string_join_substitution import StringJoinSubstitution
 from .substitution_failure import SubstitutionFailure
 from .text_substitution import TextSubstitution
 from .this_launch_file import ThisLaunchFile
@@ -47,6 +50,8 @@ __all__ = [
     'EnvironmentVariable',
     'FileContent',
     'FindExecutable',
+    'ForEachVar',
+    'ForLoopIndex',
     'IfElseSubstitution',
     'LaunchConfiguration',
     'LaunchLogDir',
@@ -56,6 +61,7 @@ __all__ = [
     'OrSubstitution',
     'PathJoinSubstitution',
     'PythonExpression',
+    'StringJoinSubstitution',
     'SubstitutionFailure',
     'TextSubstitution',
     'ThisLaunchFile',
