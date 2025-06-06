@@ -1,4 +1,4 @@
-# Copyright 2022 Open Source Robotics Foundation, Inc.
+# Copyright 2018 Open Source Robotics Foundation, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,19 +12,16 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+"""Tests for the create_future() function."""
 
-def ready_to_test_action_timeout(timeout):
-    """
-    Decorate a test launch description in a way that it adds ReadyToTest action timeout.
+import asyncio
 
-    attribute to the function being decorated.
+from launch.utilities import create_future
 
-    :param: timeout Duration for which the ReadyToTest action waits for processes to start up
 
-    """
-
-    def _decorator(func):
-        func.__ready_to_test_action_timeout__ = timeout
-        return func
-
-    return _decorator
+def test_create_future():
+    """Test the create_future() function."""
+    future_none_result = create_future(None)
+    assert isinstance(future_none_result, asyncio.Future)
+    future_event_loop_result = create_future(asyncio.get_event_loop())
+    assert isinstance(future_event_loop_result, asyncio.Future)

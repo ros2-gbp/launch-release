@@ -22,6 +22,7 @@ from typing import Text
 from ..launch_context import LaunchContext
 from ..some_substitutions_type import SomeSubstitutionsType
 from ..substitution import Substitution
+from ..utilities import normalize_to_list_of_substitutions
 from ..utilities import perform_substitutions
 
 
@@ -42,6 +43,13 @@ class PathJoinSubstitution(Substitution):
             ['config_', LaunchConfiguration('map'), '.yml']
         ])
 
+    Or:
+
+    .. code-block:: python
+
+        cfg_dir = PathJoinSubstitution([EnvironmentVariable('SOME_DIR'), 'cfg'])
+        cfg_file = cfg_dir / ['config_', LaunchConfiguration('map'), '.yml']
+
     If the ``SOME_DIR`` environment variable was set to ``/home/user/dir`` and the ``map`` launch
     configuration was set to ``my_map``, this would result in a path equal equivalent to (depending
     on the platform):
@@ -52,11 +60,7 @@ class PathJoinSubstitution(Substitution):
     """
 
     def __init__(self, substitutions: Iterable[SomeSubstitutionsType]) -> None:
-        """
-        Create a PathJoinSubstitution.
-
-        :param substitutions: the list of path component substitutions to join
-        """
+        """Create a PathJoinSubstitution."""
         from ..utilities import normalize_to_list_of_substitutions
         self.__substitutions = [
             normalize_to_list_of_substitutions(path_component_substitutions)
@@ -65,7 +69,7 @@ class PathJoinSubstitution(Substitution):
 
     @property
     def substitutions(self) -> List[List[Substitution]]:
-        """Getter for substitutions."""
+        """Getter for variable_name."""
         return self.__substitutions
 
     def __repr__(self) -> Text:
@@ -83,3 +87,34 @@ class PathJoinSubstitution(Substitution):
             for component_substitutions in self.substitutions
         ]
         return os.path.join(*path_components)
+
+    def __truediv__(self, additional_path: SomeSubstitutionsType) -> 'PathJoinSubstitution':
+        """Join path substitutions using the / operator, mimicking pathlib.Path operation."""
+        return PathJoinSubstitution(
+            self.substitutions + [normalize_to_list_of_substitutions(additional_path)])
+
+
+class PathSubstitution(PathJoinSubstitution):
+    """
+    Thin wrapper on PathJoinSubstitution for more pathlib.Path-like construction.
+
+    .. code-block:: python
+
+        PathSubstitution(LaunchConfiguration('base_dir')) / 'sub_dir' / 'file_name'
+
+    Which, for ``base_dir:=/my_dir``, results in (depending on the platform):
+
+    .. code-block:: python
+
+        /my_dir/sub_dir/file_name
+
+    """
+
+    def __init__(self, path: SomeSubstitutionsType):
+        """
+        Create a PathSubstitution.
+
+        :param path: May be a single text or Substitution element,
+        or an Iterable of them which are then joined
+        """
+        super().__init__(normalize_to_list_of_substitutions(path))
