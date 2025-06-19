@@ -5,13 +5,14 @@ package_name = 'launch_xml'
 
 setup(
     name=package_name,
-    version='3.9.0',
+    version='3.9.1',
     packages=find_packages(exclude=['test']),
     data_files=[
         ('share/' + package_name, ['package.xml']),
         ('share/ament_index/resource_index/packages',
             ['resource/' + package_name]),
     ],
+    package_data={'': ['py.typed']},
     install_requires=['setuptools'],
     zip_safe=True,
     author='Ivan Paunovic',
