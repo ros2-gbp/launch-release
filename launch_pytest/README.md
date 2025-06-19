@@ -85,9 +85,9 @@ It's not recommended to use fixtures with scope larger than `module`.
 A test shouldn't depend on more than one `launch_pytest` fixture.
 Neither of the three things above automatically generates an error in the current `launch_pytest` implementation, but future versions might.
 
-#### Active Tests and shutdwon tests
+#### Active Tests and shutdown tests
 
-Test cases marked with `@pytest.mark.launch` will be run concurrently with the launch service or after launch shutdown, depending on the object being marked and the mark arguements.
+Test cases marked with `@pytest.mark.launch` will be run concurrently with the launch service or after launch shutdown, depending on the object being marked and the mark arguments.
 
 - functions: Functions marked with `@pytest.mark.launch` will run concurrently with the launch service, except when `shutdown=True` is passed as an argument to the decorator.
 

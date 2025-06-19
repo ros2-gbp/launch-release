@@ -6,7 +6,7 @@ from setuptools import setup
 
 setup(
     name='launch_testing',
-    version='1.0.9',
+    version='3.9.1',
     packages=find_packages(exclude=['test']),
     data_files=[
         ('share/ament_index/resource_index/packages', ['resource/launch_testing']),
@@ -14,6 +14,7 @@ setup(
         ('share/launch_testing', ['package.xml']),
         ('share/launch_testing/examples', glob.glob('test/launch_testing/examples/[!_]**')),
     ],
+    package_data={'': ['py.typed']},
     entry_points={
         'console_scripts': ['launch_test=launch_testing.launch_test:main'],
         'pytest11': ['launch_testing = launch_testing.pytest.hooks'],
@@ -22,8 +23,8 @@ setup(
     zip_safe=True,
     author='Pete Baughman, Dirk Thomas, Esteve Fernandez',
     author_email='pete.baughman@apex.ai, dthomas@osrfoundation.org',
-    maintainer='Aditya Pande, Michel Hidalgo',
-    maintainer_email='aditya.pande@openrobotics.org, michel@ekumenlabs.com',
+    maintainer='Aditya Pande, Brandon Ong, William Woodall',
+    maintainer_email='aditya.pande@openrobotics.org, brandon@openrobotics.org, william@openrobotics.org',  # noqa: E501
     url='https://github.com/ros2/launch',
     download_url='https://github.com/ros2/launch/releases',
     keywords=['ROS'],
