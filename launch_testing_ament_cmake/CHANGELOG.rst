@@ -2,37 +2,13 @@
 Changelog for package launch_testing_ament_cmake
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-3.8.2 (2025-06-23)
+3.4.5 (2025-06-23)
 ------------------
 
-3.8.1 (2025-04-18)
-------------------
-* Add CMake parameter to override launch_testing module (`#854 <https://github.com/ros2/launch/issues/854>`_)
-* Contributors: Scott K Logan
-
-3.8.0 (2025-02-27)
+3.4.4 (2025-04-02)
 ------------------
 
-3.7.1 (2024-12-20)
-------------------
-
-3.7.0 (2024-11-20)
-------------------
-* Stop using python_cmake_module. (`#760 <https://github.com/ros2/launch/issues/760>`_)
-* Contributors: Chris Lalancette
-
-3.6.1 (2024-07-29)
-------------------
-
-3.6.0 (2024-06-25)
-------------------
-* Don't write Python bytecode when invoking launch tests (`#785 <https://github.com/ros2/launch/issues/785>`_)
-* Contributors: Scott K Logan
-
-3.5.1 (2024-06-17)
-------------------
-
-3.5.0 (2024-04-26)
+3.4.3 (2024-12-18)
 ------------------
 
 3.4.2 (2024-04-16)

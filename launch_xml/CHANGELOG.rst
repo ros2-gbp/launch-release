@@ -2,37 +2,13 @@
 Changelog for package launch_xml
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-3.8.2 (2025-06-23)
+3.4.5 (2025-06-23)
 ------------------
 
-3.8.1 (2025-04-18)
+3.4.4 (2025-04-02)
 ------------------
 
-3.8.0 (2025-02-27)
-------------------
-* Add ForEach action to repeat entities using iteration-specific values (`#802 <https://github.com/ros2/launch/issues/802>`_)
-* Stop loading extensions during launch\_{xml,yaml} tests. (`#820 <https://github.com/ros2/launch/issues/820>`_)
-* Cleanup the launch dependencies. (`#819 <https://github.com/ros2/launch/issues/819>`_)
-* Contributors: Chris Lalancette, Christophe Bedard
-
-3.7.1 (2024-12-20)
-------------------
-
-3.7.0 (2024-11-20)
-------------------
-* Add test_xmllint to all of the ament_python packages. (`#804 <https://github.com/ros2/launch/issues/804>`_)
-* Contributors: Chris Lalancette
-
-3.6.1 (2024-07-29)
-------------------
-
-3.6.0 (2024-06-25)
-------------------
-
-3.5.1 (2024-06-17)
-------------------
-
-3.5.0 (2024-04-26)
+3.4.3 (2024-12-18)
 ------------------
 
 3.4.2 (2024-04-16)
