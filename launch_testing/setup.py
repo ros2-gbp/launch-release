@@ -6,7 +6,7 @@ from setuptools import setup
 
 setup(
     name='launch_testing',
-    version='3.9.1',
+    version='3.8.2',
     packages=find_packages(exclude=['test']),
     data_files=[
         ('share/ament_index/resource_index/packages', ['resource/launch_testing']),
@@ -14,7 +14,6 @@ setup(
         ('share/launch_testing', ['package.xml']),
         ('share/launch_testing/examples', glob.glob('test/launch_testing/examples/[!_]**')),
     ],
-    package_data={'': ['py.typed']},
     entry_points={
         'console_scripts': ['launch_test=launch_testing.launch_test:main'],
         'pytest11': ['launch_testing = launch_testing.pytest.hooks'],

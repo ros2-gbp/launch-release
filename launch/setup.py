@@ -5,7 +5,7 @@ package_name = 'launch'
 
 setup(
     name=package_name,
-    version='3.9.1',
+    version='3.8.2',
     packages=find_packages(exclude=['test']),
     data_files=[
         ('share/' + package_name, ['package.xml']),
@@ -13,7 +13,6 @@ setup(
             ['resource/' + package_name]),
         ('share/launch/frontend', ['share/launch/frontend/grammar.lark']),
     ],
-    package_data={'': ['py.typed']},
     install_requires=['setuptools'],
     zip_safe=True,
     author='Dirk Thomas',

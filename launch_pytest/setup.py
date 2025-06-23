@@ -9,7 +9,7 @@ package_name = 'launch_pytest'
 
 setup(
     name=package_name,
-    version='3.9.1',
+    version='3.8.2',
     packages=find_packages(exclude=['test']),
     data_files=[
         ('share/ament_index/resource_index/packages', [f'resource/{package_name}']),
@@ -24,7 +24,6 @@ setup(
             glob.glob(f'test/{package_name}/examples/executables/[!_]*')
         ),
     ],
-    package_data={'': ['py.typed']},
     entry_points={
         'pytest11': ['launch_pytest = launch_pytest.plugin'],
     },

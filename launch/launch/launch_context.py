@@ -18,16 +18,13 @@ import asyncio
 import collections
 import os
 from typing import Any
-from typing import Deque
 from typing import Dict
 from typing import Iterable
 from typing import List  # noqa: F401
 from typing import Mapping
 from typing import MutableMapping
-from typing import NoReturn
 from typing import Optional
 from typing import Text
-from typing import Union
 
 import launch.logging
 
@@ -55,17 +52,17 @@ class LaunchContext:
         self.__argv = argv if argv is not None else []
         self.__noninteractive = noninteractive
 
-        self._event_queue: asyncio.Queue[Event] = asyncio.Queue()
-        self._event_handlers: Deque[BaseEventHandler] = collections.deque()
-        self._completion_futures: List[asyncio.Future[Any]] = []
+        self._event_queue: asyncio.Queue = asyncio.Queue()
+        self._event_handlers: collections.deque = collections.deque()
+        self._completion_futures: List[asyncio.Future] = []
 
         self.__globals: Dict[Text, Any] = {}
         self.__locals_stack: List[Dict[Text, Any]] = []
         self.__locals: Dict[Text, Any] = {}
         self.__combined_locals_cache: Optional[Dict[Text, Any]] = None
 
-        self.__launch_configurations_stack: List[Dict[Text, Any]] = []
-        self.__launch_configurations: Dict[Text, Any] = {}
+        self.__launch_configurations_stack: List[Dict[Text, Text]] = []
+        self.__launch_configurations: Dict[Text, Text] = {}
 
         self.__environment_stack: List[Mapping[Text, Text]] = []
         # We will reset to this copy when "reset_environment" is called
@@ -77,12 +74,12 @@ class LaunchContext:
         self.__logger = launch.logging.get_logger(__name__)
 
     @property
-    def argv(self) -> Union[Iterable[Text], List[Text]]:
+    def argv(self):
         """Getter for argv."""
         return self.__argv
 
     @property
-    def noninteractive(self) -> bool:
+    def noninteractive(self):
         """Getter for noninteractive."""
         return self.__noninteractive
 
@@ -90,11 +87,11 @@ class LaunchContext:
         self.__is_shutdown = state
 
     @property
-    def is_shutdown(self) -> bool:
+    def is_shutdown(self):
         """Getter for is_shutdown."""
         return self.__is_shutdown
 
-    def _set_asyncio_loop(self, loop: Optional[asyncio.AbstractEventLoop]) -> None:
+    def _set_asyncio_loop(self, loop: asyncio.AbstractEventLoop) -> None:
         self.__asyncio_loop = loop
 
     @property
@@ -102,14 +99,14 @@ class LaunchContext:
         """Getter for asyncio_loop."""
         return self.__asyncio_loop
 
-    def add_completion_future(self, completion_future: asyncio.Future[Any]) -> None:
+    def add_completion_future(self, completion_future: asyncio.Future) -> None:
         """Add an asyncio.Future to the list of futures that the LaunchService will wait on."""
         self._completion_futures.append(completion_future)
 
-    def _push_locals(self) -> None:
+    def _push_locals(self):
         self.__locals_stack.append(dict(self.__locals))
 
-    def _pop_locals(self) -> None:
+    def _pop_locals(self):
         if not self.__locals_stack:
             raise RuntimeError('locals stack unexpectedly empty')
         self.__locals = self.__locals_stack.pop()
@@ -130,10 +127,10 @@ class LaunchContext:
         self.__locals.update(extensions)
         self._clear_combined_locals_cache()
 
-    def _clear_combined_locals_cache(self) -> None:
+    def _clear_combined_locals_cache(self):
         self.__combined_locals_cache = None
 
-    def _get_combined_locals(self) -> Dict[Text, Any]:
+    def _get_combined_locals(self):
         if self.__combined_locals_cache is None:
             self.__combined_locals_cache = dict(self.__globals)
             self.__combined_locals_cache.update(self.__locals)
@@ -148,10 +145,10 @@ class LaunchContext:
         """Getter for the locals."""
         class AttributeDict:
 
-            def __init__(self, dict_in: Dict[Text, Any]):
+            def __init__(self, dict_in):
                 self.__dict__['__dict'] = dict_in
 
-            def __getattr__(self, key: Text) -> Any:
+            def __getattr__(self, key):
                 _dict = self.__dict__['__dict']
                 if key not in _dict:
                     raise AttributeError(
@@ -162,15 +159,15 @@ class LaunchContext:
                     )
                 return _dict[key]
 
-            def __setattr__(self, key: Text, value: Any) -> NoReturn:
+            def __setattr__(self, key, value):
                 raise AttributeError("can't set attribute '{}', locals are read-only".format(key))
 
         return AttributeDict(self._get_combined_locals())
 
-    def _push_environment(self) -> None:
+    def _push_environment(self):
         self.__environment_stack.append(os.environ.copy())
 
-    def _pop_environment(self) -> None:
+    def _pop_environment(self):
         if not self.__environment_stack:
             raise RuntimeError('environment stack unexpectedly empty')
 
@@ -186,21 +183,21 @@ class LaunchContext:
         os.environ.clear()
         os.environ.update(old_env)
 
-    def _reset_environment(self) -> None:
+    def _reset_environment(self):
         # See the comment in _pop_environment for why we do this dance.
         os.environ.clear()
         os.environ.update(self.__environment_reset)
 
-    def _push_launch_configurations(self) -> None:
+    def _push_launch_configurations(self):
         self.__launch_configurations_stack.append(self.__launch_configurations.copy())
 
-    def _pop_launch_configurations(self) -> None:
+    def _pop_launch_configurations(self):
         if not self.__launch_configurations_stack:
             raise RuntimeError('launch_configurations stack unexpectedly empty')
         self.__launch_configurations = self.__launch_configurations_stack.pop()
 
     @property
-    def launch_configurations(self) -> Dict[Text, Any]:
+    def launch_configurations(self) -> Dict[Text, Text]:
         """Getter for launch_configurations dictionary."""
         return self.__launch_configurations
 
@@ -213,8 +210,7 @@ class LaunchContext:
         """Check whether an event would be handled or not."""
         return any(handler.matches(event) for handler in self._event_handlers)
 
-    def register_event_handler(self, event_handler: BaseEventHandler,
-                               append: bool = False) -> None:
+    def register_event_handler(self, event_handler: BaseEventHandler, append=False) -> None:
         """
         Register a event handler.
 

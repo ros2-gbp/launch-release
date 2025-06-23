@@ -2,12 +2,7 @@
 Changelog for package test_launch_testing
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-3.9.1 (2025-06-19)
-------------------
-* Allow Path in substitutions, instead of requiring cast to str (`#873 <https://github.com/ros2/launch/issues/873>`_)
-* Contributors: Emerson Knapp
-
-3.9.0 (2025-04-24)
+3.8.2 (2025-06-23)
 ------------------
 
 3.8.1 (2025-04-18)
