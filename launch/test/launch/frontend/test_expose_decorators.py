@@ -45,6 +45,6 @@ def test_expose_decorators():
     with pytest.raises(
         RuntimeError,
         match='Exposed test parser for NotACallable is not a callable or a class'
-              ' containing a parse method'
+              ' containg a parse method'
     ):
         expose_test('NotACallable')(NotACallable)

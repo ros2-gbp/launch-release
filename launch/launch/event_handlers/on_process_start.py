@@ -24,10 +24,10 @@ from .on_action_event_base import OnActionEventBase
 from ..event import Event
 from ..events.process import ProcessStarted
 from ..launch_context import LaunchContext
-from ..some_entities_type import SomeEntitiesType
+from ..some_actions_type import SomeActionsType
 
 if TYPE_CHECKING:
-    from ..action import Action  # noqa: F401
+    from ..actions import Action  # noqa: F401
     from ..actions import ExecuteProcess  # noqa: F401
 
 
@@ -43,19 +43,22 @@ class OnProcessStart(OnActionEventBase):
         self,
         *,
         target_action:
-            Optional[Union[Callable[['Action'], bool], 'Action']] = None,
+            Optional[Union[Callable[['ExecuteProcess'], bool], 'ExecuteProcess']] = None,
         on_start:
             Union[
-                SomeEntitiesType,
-                Callable[[ProcessStarted, LaunchContext], Optional[SomeEntitiesType]]],
+                SomeActionsType,
+                Callable[[ProcessStarted, LaunchContext], Optional[SomeActionsType]]],
         **kwargs
     ) -> None:
         """Create an OnProcessStart event handler."""
         from ..actions import ExecuteProcess  # noqa: F811
+        target_action = cast(
+            Optional[Union[Callable[['Action'], bool], 'Action']],
+            target_action)
         on_start = cast(
             Union[
-                SomeEntitiesType,
-                Callable[[Event, LaunchContext], Optional[SomeEntitiesType]]],
+                SomeActionsType,
+                Callable[[Event, LaunchContext], Optional[SomeActionsType]]],
             on_start)
         super().__init__(
             action_matcher=target_action,

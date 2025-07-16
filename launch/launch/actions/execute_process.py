@@ -15,6 +15,7 @@
 """Module for the ExecuteProcess action."""
 
 import shlex
+import threading
 from typing import Dict
 from typing import Iterable
 from typing import List
@@ -28,9 +29,10 @@ from ..frontend import Entity
 from ..frontend import expose_action
 from ..frontend import Parser
 from ..some_substitutions_type import SomeSubstitutionsType
-
-from ..substitution import Substitution
 from ..substitutions import TextSubstitution
+
+_global_process_counter_lock = threading.Lock()
+_global_process_counter = 0  # in Python3, this number is unbounded (no rollover)
 
 
 @expose_action('executable')
@@ -124,15 +126,15 @@ class ExecuteProcess(ExecuteLocal):
     """
 
     def __init__(
-        self,
-        *,
-        cmd: Iterable[SomeSubstitutionsType],
-        prefix: Optional[SomeSubstitutionsType] = None,
-        name: Optional[SomeSubstitutionsType] = None,
-        cwd: Optional[SomeSubstitutionsType] = None,
-        env: Optional[Dict[SomeSubstitutionsType, SomeSubstitutionsType]] = None,
-        additional_env: Optional[Dict[SomeSubstitutionsType, SomeSubstitutionsType]] = None,
-        **kwargs
+            self,
+            *,
+            cmd: Iterable[SomeSubstitutionsType],
+            prefix: Optional[SomeSubstitutionsType] = None,
+            name: Optional[SomeSubstitutionsType] = None,
+            cwd: Optional[SomeSubstitutionsType] = None,
+            env: Optional[Dict[SomeSubstitutionsType, SomeSubstitutionsType]] = None,
+            additional_env: Optional[Dict[SomeSubstitutionsType, SomeSubstitutionsType]] = None,
+            **kwargs
     ) -> None:
         """
         Construct an ExecuteProcess action.
@@ -206,9 +208,9 @@ class ExecuteProcess(ExecuteLocal):
             be overridden with the LaunchConfiguration called 'emulate_tty',
             the value of which is evaluated as true or false according to
             :py:func:`evaluate_condition_expression`.
-            Throws :py:exc:`InvalidConditionExpressionError` if the
+            Throws :py:exception:`InvalidConditionExpressionError` if the
             'emulate_tty' configuration does not represent a boolean.
-        :param: prefix a set of commands/arguments to precede the cmd, used for
+        :param: prefix a set of commands/arguments to preceed the cmd, used for
             things like gdb/valgrind and defaults to the LaunchConfiguration
             called 'launch-prefix'. Note that a non-default prefix provided in
             a launch file will override the prefix provided via the `launch-prefix`
@@ -232,8 +234,6 @@ class ExecuteProcess(ExecuteLocal):
         :param: respawn if 'True', relaunch the process that abnormally died.
             Defaults to 'False'.
         :param: respawn_delay a delay time to relaunch the died process if respawn is 'True'.
-        :param: respawn_max_retries number of times to respawn the process if respawn is 'True'.
-                A negative value will respawn an infinite number of times (default behavior).
         """
         executable = Executable(cmd=cmd, prefix=prefix, name=name, cwd=cwd, env=env,
                                 additional_env=additional_env)
@@ -254,7 +254,7 @@ class ExecuteProcess(ExecuteLocal):
         :returns: a list of command line arguments.
         """
         result_args = []
-        arg: List[Substitution] = []
+        arg = []
 
         def _append_arg():
             nonlocal arg
@@ -264,7 +264,7 @@ class ExecuteProcess(ExecuteLocal):
             if isinstance(sub, TextSubstitution):
                 tokens = shlex.split(sub.text)
                 if not tokens:
-                    # String with just spaces.
+                    # Sting with just spaces.
                     # Appending args allow splitting two substitutions
                     # separated by a space.
                     # e.g.: `$(subst1 asd) $(subst2 bsd)` will be two separate arguments.
@@ -356,12 +356,6 @@ class ExecuteProcess(ExecuteLocal):
             if respawn is not None:
                 kwargs['respawn'] = parser.parse_substitution(respawn)
 
-        if 'respawn_max_retries' not in ignore:
-            respawn_max_retries = entity.get_attr('respawn_max_retries', data_type=int,
-                                                  optional=True)
-            if respawn_max_retries is not None:
-                kwargs['respawn_max_retries'] = respawn_max_retries
-
         if 'respawn_delay' not in ignore:
             respawn_delay = entity.get_attr('respawn_delay', data_type=float, optional=True)
             if respawn_delay is not None:
@@ -371,26 +365,6 @@ class ExecuteProcess(ExecuteLocal):
                         'a non-negative value but got `{}`'.format(respawn_delay)
                     )
                 kwargs['respawn_delay'] = respawn_delay
-
-        if 'sigkill_timeout' not in ignore:
-            sigkill_timeout = entity.get_attr('sigkill_timeout', data_type=float, optional=True)
-            if sigkill_timeout is not None:
-                if sigkill_timeout < 0.0:
-                    raise ValueError(
-                        'Attribute sigkill_timeout of Entity node expected to be '
-                        'a non-negative value but got `{}`'.format(sigkill_timeout)
-                    )
-                kwargs['sigkill_timeout'] = str(sigkill_timeout)
-
-        if 'sigterm_timeout' not in ignore:
-            sigterm_timeout = entity.get_attr('sigterm_timeout', data_type=float, optional=True)
-            if sigterm_timeout is not None:
-                if sigterm_timeout < 0.0:
-                    raise ValueError(
-                        'Attribute sigterm_timeout of Entity node expected to be '
-                        'a non-negative value but got `{}`'.format(sigterm_timeout)
-                    )
-                kwargs['sigterm_timeout'] = str(sigterm_timeout)
 
         if 'shell' not in ignore:
             shell = entity.get_attr('shell', data_type=bool, optional=True)

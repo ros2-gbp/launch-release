@@ -15,8 +15,6 @@
 """Module for boolean substitutions."""
 
 from typing import Iterable
-from typing import List
-from typing import Sequence
 from typing import Text
 
 from .substitution_failure import SubstitutionFailure
@@ -39,14 +37,14 @@ class NotSubstitution(Substitution):
         self.__value = normalize_to_list_of_substitutions(value)
 
     @classmethod
-    def parse(cls, data: Sequence[SomeSubstitutionsType]):
+    def parse(cls, data: Iterable[SomeSubstitutionsType]):
         """Parse `NotSubstitution` substitution."""
         if len(data) != 1:
             raise TypeError('not substitution expects 1 argument')
         return cls, {'value': data[0]}
 
     @property
-    def value(self) -> List[Substitution]:
+    def value(self) -> Substitution:
         """Getter for value."""
         return self.__value
 
@@ -76,19 +74,19 @@ class AndSubstitution(Substitution):
         self.__right = normalize_to_list_of_substitutions(right)
 
     @classmethod
-    def parse(cls, data: Sequence[SomeSubstitutionsType]):
+    def parse(cls, data: Iterable[SomeSubstitutionsType]):
         """Parse `AndSubstitution` substitution."""
         if len(data) != 2:
             raise TypeError('and substitution expects 2 arguments')
         return cls, {'left': data[0], 'right': data[1]}
 
     @property
-    def left(self) -> List[Substitution]:
+    def left(self) -> Substitution:
         """Getter for left."""
         return self.__left
 
     @property
-    def right(self) -> List[Substitution]:
+    def right(self) -> Substitution:
         """Getter for right."""
         return self.__right
 
@@ -122,19 +120,19 @@ class OrSubstitution(Substitution):
         self.__right = normalize_to_list_of_substitutions(right)
 
     @classmethod
-    def parse(cls, data: Sequence[SomeSubstitutionsType]):
+    def parse(cls, data: Iterable[SomeSubstitutionsType]):
         """Parse `OrSubstitution` substitution."""
         if len(data) != 2:
             raise TypeError('and substitution expects 2 arguments')
         return cls, {'left': data[0], 'right': data[1]}
 
     @property
-    def left(self) -> List[Substitution]:
+    def left(self) -> Substitution:
         """Getter for left."""
         return self.__left
 
     @property
-    def right(self) -> List[Substitution]:
+    def right(self) -> Substitution:
         """Getter for right."""
         return self.__right
 
@@ -180,13 +178,13 @@ class AnySubstitution(Substitution):
         return cls, {'args': data}
 
     @property
-    def args(self) -> List[List[Substitution]]:
+    def args(self) -> Substitution:
         """Getter for args."""
         return self.__args
 
     def describe(self) -> Text:
         """Return a description of this substitution as a string."""
-        return f'AnySubstitution({" ".join(str(arg) for arg in self.args)})'
+        return f'AnySubstitution({" ".join(self.args)})'
 
     def perform(self, context: LaunchContext) -> Text:
         """Perform the substitution."""
@@ -226,13 +224,13 @@ class AllSubstitution(Substitution):
         return cls, {'args': data}
 
     @property
-    def args(self) -> List[List[Substitution]]:
+    def args(self) -> Substitution:
         """Getter for args."""
         return self.__args
 
     def describe(self) -> Text:
         """Return a description of this substitution as a string."""
-        return f'AllSubstitution({" ".join(str(arg) for arg in self.args)})'
+        return f'AllSubstitution({" ".join(self.args)})'
 
     def perform(self, context: LaunchContext) -> Text:
         """Perform the substitution."""
