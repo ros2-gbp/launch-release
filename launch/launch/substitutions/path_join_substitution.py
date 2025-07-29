@@ -14,7 +14,7 @@
 
 """Module for the PathJoinSubstitution substitution."""
 
-import os
+from pathlib import Path
 from typing import Iterable
 from typing import List
 from typing import Text
@@ -60,7 +60,11 @@ class PathJoinSubstitution(Substitution):
     """
 
     def __init__(self, substitutions: Iterable[SomeSubstitutionsType]) -> None:
-        """Create a PathJoinSubstitution."""
+        """
+        Create a PathJoinSubstitution.
+
+        :param substitutions: the list of path component substitutions to join
+        """
         from ..utilities import normalize_to_list_of_substitutions
         self.__substitutions = [
             normalize_to_list_of_substitutions(path_component_substitutions)
@@ -69,7 +73,7 @@ class PathJoinSubstitution(Substitution):
 
     @property
     def substitutions(self) -> List[List[Substitution]]:
-        """Getter for variable_name."""
+        """Getter for substitutions."""
         return self.__substitutions
 
     def __repr__(self) -> Text:
@@ -86,7 +90,7 @@ class PathJoinSubstitution(Substitution):
             perform_substitutions(context, component_substitutions)
             for component_substitutions in self.substitutions
         ]
-        return os.path.join(*path_components)
+        return str(Path(*path_components))
 
     def __truediv__(self, additional_path: SomeSubstitutionsType) -> 'PathJoinSubstitution':
         """Join path substitutions using the / operator, mimicking pathlib.Path operation."""

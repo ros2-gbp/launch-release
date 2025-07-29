@@ -14,8 +14,15 @@
 
 """Module for boolean substitutions."""
 
+from typing import Any
+from typing import Dict
 from typing import Iterable
+from typing import List
+from typing import Sequence
 from typing import Text
+from typing import Tuple
+from typing import Type
+
 
 from .substitution_failure import SubstitutionFailure
 from ..frontend import expose_substitution
@@ -37,14 +44,15 @@ class NotSubstitution(Substitution):
         self.__value = normalize_to_list_of_substitutions(value)
 
     @classmethod
-    def parse(cls, data: Iterable[SomeSubstitutionsType]):
+    def parse(cls, data: Sequence[SomeSubstitutionsType]
+              ) -> Tuple[Type['NotSubstitution'], Dict[str, Any]]:
         """Parse `NotSubstitution` substitution."""
         if len(data) != 1:
             raise TypeError('not substitution expects 1 argument')
         return cls, {'value': data[0]}
 
     @property
-    def value(self) -> Substitution:
+    def value(self) -> List[Substitution]:
         """Getter for value."""
         return self.__value
 
@@ -74,19 +82,20 @@ class AndSubstitution(Substitution):
         self.__right = normalize_to_list_of_substitutions(right)
 
     @classmethod
-    def parse(cls, data: Iterable[SomeSubstitutionsType]):
+    def parse(cls, data: Sequence[SomeSubstitutionsType]
+              ) -> Tuple[Type['AndSubstitution'], Dict[str, Any]]:
         """Parse `AndSubstitution` substitution."""
         if len(data) != 2:
             raise TypeError('and substitution expects 2 arguments')
         return cls, {'left': data[0], 'right': data[1]}
 
     @property
-    def left(self) -> Substitution:
+    def left(self) -> List[Substitution]:
         """Getter for left."""
         return self.__left
 
     @property
-    def right(self) -> Substitution:
+    def right(self) -> List[Substitution]:
         """Getter for right."""
         return self.__right
 
@@ -120,19 +129,20 @@ class OrSubstitution(Substitution):
         self.__right = normalize_to_list_of_substitutions(right)
 
     @classmethod
-    def parse(cls, data: Iterable[SomeSubstitutionsType]):
+    def parse(cls, data: Sequence[SomeSubstitutionsType]
+              ) -> Tuple[Type['OrSubstitution'], Dict[str, Any]]:
         """Parse `OrSubstitution` substitution."""
         if len(data) != 2:
             raise TypeError('and substitution expects 2 arguments')
         return cls, {'left': data[0], 'right': data[1]}
 
     @property
-    def left(self) -> Substitution:
+    def left(self) -> List[Substitution]:
         """Getter for left."""
         return self.__left
 
     @property
-    def right(self) -> Substitution:
+    def right(self) -> List[Substitution]:
         """Getter for right."""
         return self.__right
 
@@ -173,18 +183,19 @@ class AnySubstitution(Substitution):
         self.__args = [normalize_to_list_of_substitutions(arg) for arg in args]
 
     @classmethod
-    def parse(cls, data: Iterable[SomeSubstitutionsType]):
+    def parse(cls, data: Iterable[SomeSubstitutionsType]
+              ) -> Tuple[Type['AnySubstitution'], Dict[str, Any]]:
         """Parse `AnySubstitution` substitution."""
         return cls, {'args': data}
 
     @property
-    def args(self) -> Substitution:
+    def args(self) -> List[List[Substitution]]:
         """Getter for args."""
         return self.__args
 
     def describe(self) -> Text:
         """Return a description of this substitution as a string."""
-        return f'AnySubstitution({" ".join(self.args)})'
+        return f'AnySubstitution({" ".join(str(arg) for arg in self.args)})'
 
     def perform(self, context: LaunchContext) -> Text:
         """Perform the substitution."""
@@ -219,18 +230,19 @@ class AllSubstitution(Substitution):
         self.__args = [normalize_to_list_of_substitutions(arg) for arg in args]
 
     @classmethod
-    def parse(cls, data: Iterable[SomeSubstitutionsType]):
+    def parse(cls, data: Iterable[SomeSubstitutionsType]
+              ) -> Tuple[Type['AllSubstitution'], Dict[str, Any]]:
         """Parse `AllSubstitution` substitution."""
         return cls, {'args': data}
 
     @property
-    def args(self) -> Substitution:
+    def args(self) -> List[List[Substitution]]:
         """Getter for args."""
         return self.__args
 
     def describe(self) -> Text:
         """Return a description of this substitution as a string."""
-        return f'AllSubstitution({" ".join(self.args)})'
+        return f'AllSubstitution({" ".join(str(arg) for arg in self.args)})'
 
     def perform(self, context: LaunchContext) -> Text:
         """Perform the substitution."""
