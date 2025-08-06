@@ -14,15 +14,10 @@
 
 """Module for boolean substitutions."""
 
-from typing import Any
-from typing import Dict
 from typing import Iterable
 from typing import List
 from typing import Sequence
 from typing import Text
-from typing import Tuple
-from typing import Type
-
 
 from .substitution_failure import SubstitutionFailure
 from ..frontend import expose_substitution
@@ -44,8 +39,7 @@ class NotSubstitution(Substitution):
         self.__value = normalize_to_list_of_substitutions(value)
 
     @classmethod
-    def parse(cls, data: Sequence[SomeSubstitutionsType]
-              ) -> Tuple[Type['NotSubstitution'], Dict[str, Any]]:
+    def parse(cls, data: Sequence[SomeSubstitutionsType]):
         """Parse `NotSubstitution` substitution."""
         if len(data) != 1:
             raise TypeError('not substitution expects 1 argument')
@@ -82,8 +76,7 @@ class AndSubstitution(Substitution):
         self.__right = normalize_to_list_of_substitutions(right)
 
     @classmethod
-    def parse(cls, data: Sequence[SomeSubstitutionsType]
-              ) -> Tuple[Type['AndSubstitution'], Dict[str, Any]]:
+    def parse(cls, data: Sequence[SomeSubstitutionsType]):
         """Parse `AndSubstitution` substitution."""
         if len(data) != 2:
             raise TypeError('and substitution expects 2 arguments')
@@ -129,8 +122,7 @@ class OrSubstitution(Substitution):
         self.__right = normalize_to_list_of_substitutions(right)
 
     @classmethod
-    def parse(cls, data: Sequence[SomeSubstitutionsType]
-              ) -> Tuple[Type['OrSubstitution'], Dict[str, Any]]:
+    def parse(cls, data: Sequence[SomeSubstitutionsType]):
         """Parse `OrSubstitution` substitution."""
         if len(data) != 2:
             raise TypeError('and substitution expects 2 arguments')
@@ -183,8 +175,7 @@ class AnySubstitution(Substitution):
         self.__args = [normalize_to_list_of_substitutions(arg) for arg in args]
 
     @classmethod
-    def parse(cls, data: Iterable[SomeSubstitutionsType]
-              ) -> Tuple[Type['AnySubstitution'], Dict[str, Any]]:
+    def parse(cls, data: Iterable[SomeSubstitutionsType]):
         """Parse `AnySubstitution` substitution."""
         return cls, {'args': data}
 
@@ -230,8 +221,7 @@ class AllSubstitution(Substitution):
         self.__args = [normalize_to_list_of_substitutions(arg) for arg in args]
 
     @classmethod
-    def parse(cls, data: Iterable[SomeSubstitutionsType]
-              ) -> Tuple[Type['AllSubstitution'], Dict[str, Any]]:
+    def parse(cls, data: Iterable[SomeSubstitutionsType]):
         """Parse `AllSubstitution` substitution."""
         return cls, {'args': data}
 

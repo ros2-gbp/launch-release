@@ -5,7 +5,7 @@ package_name = 'launch'
 
 setup(
     name=package_name,
-    version='3.9.2',
+    version='3.4.6',
     packages=find_packages(exclude=['test']),
     data_files=[
         ('share/' + package_name, ['package.xml']),
@@ -13,7 +13,6 @@ setup(
             ['resource/' + package_name]),
         ('share/launch/frontend', ['share/launch/frontend/grammar.lark']),
     ],
-    package_data={'': ['py.typed']},
     install_requires=['setuptools'],
     zip_safe=True,
     author='Dirk Thomas',
@@ -25,6 +24,7 @@ setup(
     keywords=['ROS'],
     classifiers=[
         'Intended Audience :: Developers',
+        'License :: OSI Approved :: Apache Software License',
         'Programming Language :: Python',
         'Topic :: Software Development',
     ],
@@ -33,9 +33,5 @@ setup(
         'This package provides the ability to run multiple '
         'processes and react on individual processes exiting.'),
     license='Apache License, Version 2.0',
-    extras_require={
-        'test': [
-            'pytest',
-        ],
-    },
+    tests_require=['pytest'],
 )
