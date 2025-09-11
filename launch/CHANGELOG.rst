@@ -2,41 +2,60 @@
 Changelog for package launch
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-3.4.6 (2025-08-06)
+3.8.3 (2025-09-11)
 ------------------
-* Using `TimerAction` with `SetParameter` from launch_ros causes crash (backport `#879 <https://github.com/ros2/launch/issues/879>`_) (`#893 <https://github.com/ros2/launch/issues/893>`_)
-  Co-authored-by: Christophe Bedard <bedard.christophe@gmail.com>
-* Remove LaunchDescriptionArgument (`#891 <https://github.com/ros2/launch/issues/891>`_) (`#896 <https://github.com/ros2/launch/issues/896>`_)
-  (cherry picked from commit 8fd76bb11c45cdd072b5f3ef4f3800ff63ee3c9a)
-  Co-authored-by: Harrison Chen <hchen.robotics@gmail.com>
-* Contributors: Rafal Gorecki, mergify[bot]
-
-3.4.5 (2025-06-23)
-------------------
-* Provide copy of launch configs to TimerAction's entities (`#836 <https://github.com/ros2/launch/issues/836>`_) (`#878 <https://github.com/ros2/launch/issues/878>`_)
-* [backport jazzy] Add a `/` path join operator for `PathJoinSubstitution` (`#868 <https://github.com/ros2/launch/issues/868>`_) (`#880 <https://github.com/ros2/launch/issues/880>`_)
-* Contributors: Emerson Knapp, Kenji Brameld (TRACLabs)
-
-3.4.4 (2025-04-02)
-------------------
-* Document substitutions concatenation in architecture doc (`#845 <https://github.com/ros2/launch/issues/845>`_) (`#846 <https://github.com/ros2/launch/issues/846>`_)
-  (cherry picked from commit 6fcc79e38fa711e04be3d392a6691a36ea5de214)
-  Co-authored-by: Christophe Bedard <bedard.christophe@gmail.com>
-* Update docs to use proper RST literals (`#837 <https://github.com/ros2/launch/issues/837>`_) (`#839 <https://github.com/ros2/launch/issues/839>`_)
-  (cherry picked from commit 3694dc2a14fdf0dd5ccf9e950ab9d8b60bee8a79)
-  Co-authored-by: Christophe Bedard <bedard.christophe@gmail.com>
-* Merge pull request `#834 <https://github.com/ros2/launch/issues/834>`_ from ros2/mergify/bp/jazzy/pr-833
-  Fix function params indentation (backport `#833 <https://github.com/ros2/launch/issues/833>`_)
-* Fix function params indentation (`#833 <https://github.com/ros2/launch/issues/833>`_)
-  (cherry picked from commit 151b024a7cfac06f0d56798cbe87ab180b9ea3ab)
-* Contributors: Alejandro Hernández Cordero, Christophe Bedard, mergify[bot]
-
-3.4.3 (2024-12-18)
-------------------
-* Fix 'set up' typo (`#813 <https://github.com/ros2/launch/issues/813>`_) (`#814 <https://github.com/ros2/launch/issues/814>`_)
-  (cherry picked from commit fda41a218b990c8e3bcc6c3d61f2862704529257)
-  Co-authored-by: Christophe Bedard <christophe.bedard@apex.ai>
+* Using ``TimerAction`` with ``SetParameter`` from launch_ros causes crash (backport `#879 <https://github.com/ros2/launch/issues/879>`_) (`#902 <https://github.com/ros2/launch/issues/902>`_)
+* Remove LaunchDescriptionArgument (`#891 <https://github.com/ros2/launch/issues/891>`_) (`#895 <https://github.com/ros2/launch/issues/895>`_)
 * Contributors: mergify[bot]
+
+3.8.2 (2025-06-23)
+------------------
+* Add a `/` path join operator for `PathJoinSubstitution` (`#868 <https://github.com/ros2/launch/issues/868>`_) (`#875 <https://github.com/ros2/launch/issues/875>`_)
+* Contributors: mergify[bot]
+
+3.8.1 (2025-04-18)
+------------------
+* Provide copy of launch configs to TimerAction's entities (`#836 <https://github.com/ros2/launch/issues/836>`_)
+* Allow concatenating each path component of PathJoinSubstitution (`#838 <https://github.com/ros2/launch/issues/838>`_)
+* Add StringJoinSubstitution substitution (`#843 <https://github.com/ros2/launch/issues/843>`_)
+* Add missing test_depend for launch (`#850 <https://github.com/ros2/launch/issues/850>`_)
+* Document substitutions concatenation in architecture doc (`#845 <https://github.com/ros2/launch/issues/845>`_)
+* Update docs to use proper RST literals (`#837 <https://github.com/ros2/launch/issues/837>`_)
+* Fix function params indentation (`#833 <https://github.com/ros2/launch/issues/833>`_)
+* Contributors: Christian Ruf, Christophe Bedard, Michael Carlstrom
+
+3.8.0 (2025-02-27)
+------------------
+* Add ForEach action to repeat entities using iteration-specific values (`#802 <https://github.com/ros2/launch/issues/802>`_)
+* Create py.typed (`#828 <https://github.com/ros2/launch/issues/828>`_)
+* Improve error reporting by adding file locations to exceptions (`#823 <https://github.com/ros2/launch/issues/823>`_)
+* add test coverage for substitution edgecases involving E notation (`#824 <https://github.com/ros2/launch/issues/824>`_)
+* Cleanup the launch dependencies. (`#819 <https://github.com/ros2/launch/issues/819>`_)
+* Contributors: Chris Lalancette, Christophe Bedard, Michael Carlstrom, Roland Arsenault, danielcranston
+
+3.7.1 (2024-12-20)
+------------------
+* Fix 'set up' typo (`#813 <https://github.com/ros2/launch/issues/813>`_)
+* Contributors: Christophe Bedard
+
+3.7.0 (2024-11-20)
+------------------
+* Add test_xmllint to all of the ament_python packages. (`#804 <https://github.com/ros2/launch/issues/804>`_)
+* Contributors: Chris Lalancette
+
+3.6.1 (2024-07-29)
+------------------
+
+3.6.0 (2024-06-25)
+------------------
+
+3.5.1 (2024-06-17)
+------------------
+* Fix typo in comment (`#783 <https://github.com/ros2/launch/issues/783>`_)
+* Contributors: Christophe Bedard
+
+3.5.0 (2024-04-26)
+------------------
 
 3.4.2 (2024-04-16)
 ------------------

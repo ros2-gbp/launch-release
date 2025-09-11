@@ -73,7 +73,7 @@ class PathJoinSubstitution(Substitution):
 
     @property
     def substitutions(self) -> List[List[Substitution]]:
-        """Getter for variable_name."""
+        """Getter for substitutions."""
         return self.__substitutions
 
     def __repr__(self) -> Text:

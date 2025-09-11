@@ -2,21 +2,42 @@
 Changelog for package launch_testing
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-3.4.6 (2025-08-06)
+3.8.3 (2025-09-11)
 ------------------
 
-3.4.5 (2025-06-23)
+3.8.2 (2025-06-23)
 ------------------
 
-3.4.4 (2025-04-02)
+3.8.1 (2025-04-18)
 ------------------
-* Merge pull request `#834 <https://github.com/ros2/launch/issues/834>`_ from ros2/mergify/bp/jazzy/pr-833
-  Fix function params indentation (backport `#833 <https://github.com/ros2/launch/issues/833>`_)
 * Fix function params indentation (`#833 <https://github.com/ros2/launch/issues/833>`_)
-  (cherry picked from commit 151b024a7cfac06f0d56798cbe87ab180b9ea3ab)
-* Contributors: Alejandro Hernández Cordero, Christophe Bedard
+* Contributors: Christophe Bedard
 
-3.4.3 (2024-12-18)
+3.8.0 (2025-02-27)
+------------------
+* Cleanup the launch dependencies. (`#819 <https://github.com/ros2/launch/issues/819>`_)
+* Contributors: Chris Lalancette
+
+3.7.1 (2024-12-20)
+------------------
+
+3.7.0 (2024-11-20)
+------------------
+* Add test_xmllint to all of the ament_python packages. (`#804 <https://github.com/ros2/launch/issues/804>`_)
+* Contributors: Chris Lalancette
+
+3.6.1 (2024-07-29)
+------------------
+
+3.6.0 (2024-06-25)
+------------------
+
+3.5.1 (2024-06-17)
+------------------
+* Add mechanism to disable workaround for dependency groups (`#775 <https://github.com/ros2/launch/issues/775>`_)
+* Contributors: Scott K Logan
+
+3.5.0 (2024-04-26)
 ------------------
 
 3.4.2 (2024-04-16)
