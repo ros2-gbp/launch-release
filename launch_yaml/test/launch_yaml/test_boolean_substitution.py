@@ -16,9 +16,8 @@ import io
 import textwrap
 
 from launch import LaunchService
+from launch.frontend import Parser
 from launch.utilities import perform_substitutions
-
-from parser_no_extensions import load_no_extensions
 
 
 def test_boolean_substitution_yaml():
@@ -47,7 +46,7 @@ def test_boolean_substitution_yaml():
 
 
 def check_boolean_substitution(file):
-    root_entity, parser = load_no_extensions(file)
+    root_entity, parser = Parser.load(file)
     ld = parser.parse_description(root_entity)
     ls = LaunchService()
     ls.include_launch_description(ld)

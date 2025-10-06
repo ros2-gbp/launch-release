@@ -60,11 +60,7 @@ class PathJoinSubstitution(Substitution):
     """
 
     def __init__(self, substitutions: Iterable[SomeSubstitutionsType]) -> None:
-        """
-        Create a PathJoinSubstitution.
-
-        :param substitutions: the list of path component substitutions to join
-        """
+        """Create a PathJoinSubstitution."""
         from ..utilities import normalize_to_list_of_substitutions
         self.__substitutions = [
             normalize_to_list_of_substitutions(path_component_substitutions)
@@ -73,7 +69,7 @@ class PathJoinSubstitution(Substitution):
 
     @property
     def substitutions(self) -> List[List[Substitution]]:
-        """Getter for substitutions."""
+        """Getter for variable_name."""
         return self.__substitutions
 
     def __repr__(self) -> Text:

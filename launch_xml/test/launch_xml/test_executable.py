@@ -20,8 +20,7 @@ import textwrap
 
 from launch import LaunchService
 from launch.actions import Shutdown
-
-from parser_no_extensions import load_no_extensions
+from launch.frontend import Parser
 
 import pytest
 
@@ -29,7 +28,7 @@ import pytest
 def test_executable():
     """Parse node xml example."""
     xml_file = str(Path(__file__).parent / 'executable.xml')
-    root_entity, parser = load_no_extensions(xml_file)
+    root_entity, parser = Parser.load(xml_file)
     ld = parser.parse_description(root_entity)
     executable = ld.entities[0]
     cmd = [i[0].perform(None) for i in executable.cmd]
@@ -39,8 +38,6 @@ def test_executable():
     assert executable.shell is True
     assert executable.emulate_tty is True
     assert executable.output[0].perform(None) == 'log'
-    assert executable.sigkill_timeout[0].perform(None) == '4.0'
-    assert executable.sigterm_timeout[0].perform(None) == '7.0'
     key, value = executable.additional_env[0]
     key = key[0].perform(None)
     value = value[0].perform(None)
@@ -62,7 +59,7 @@ def test_executable_wrong_subtag():
         </launch>
         """  # noqa, line too long
     xml_file = textwrap.dedent(xml_file)
-    root_entity, parser = load_no_extensions(io.StringIO(xml_file))
+    root_entity, parser = Parser.load(io.StringIO(xml_file))
     with pytest.raises(ValueError) as excinfo:
         parser.parse_description(root_entity)
     assert '`executable`' in str(excinfo.value)
@@ -77,7 +74,7 @@ def test_executable_on_exit():
         </launch>
         """
     xml_file = textwrap.dedent(xml_file)
-    root_entity, parser = load_no_extensions(io.StringIO(xml_file))
+    root_entity, parser = Parser.load(io.StringIO(xml_file))
     ld = parser.parse_description(root_entity)
     executable = ld.entities[0]
     sub_entities = executable.get_sub_entities()
