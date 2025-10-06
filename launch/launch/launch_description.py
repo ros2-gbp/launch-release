@@ -81,7 +81,7 @@ class LaunchDescription(LaunchDescriptionEntity):
         """
         Return a list of :py:class:`launch.actions.DeclareLaunchArgument` actions.
 
-        See :py:method:`get_launch_arguments_with_include_launch_description_actions()`
+        See :py:meth:`get_launch_arguments_with_include_launch_description_actions()`
         for more details.
         """
         return [
@@ -116,7 +116,7 @@ class LaunchDescription(LaunchDescriptionEntity):
         context available.
         This function may fail, e.g. if the path to the launch file to include
         uses the values of launch configurations that have not been set yet,
-        and in that case the failure is ignored and the arugments defined in
+        and in that case the failure is ignored and the arguments defined in
         those launch files will not be seen either.
 
         Duplicate declarations of an argument are ignored, therefore the
@@ -148,10 +148,15 @@ class LaunchDescription(LaunchDescriptionEntity):
                         if next_nested_ild_actions is None:
                             next_nested_ild_actions = []
                         next_nested_ild_actions.append(entity)
-                    process_entities(
-                        entity.describe_sub_entities(),
-                        _conditional_inclusion=False,
-                        nested_ild_actions=next_nested_ild_actions)
+                    try:
+                        process_entities(
+                            entity.describe_sub_entities(),
+                            _conditional_inclusion=False,
+                            nested_ild_actions=next_nested_ild_actions)
+                    except Exception as e:
+                        if hasattr(e, 'add_note'):
+                            e.add_note(f'processing sub-entities of entity: {entity}')
+                        raise
                     for conditional_sub_entity in entity.describe_conditional_sub_entities():
                         process_entities(
                             conditional_sub_entity[1],
