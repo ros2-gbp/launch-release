@@ -19,8 +19,7 @@ import os
 import textwrap
 
 from launch.actions import AppendEnvironmentVariable
-
-from parser_no_extensions import load_no_extensions
+from launch.frontend import Parser
 
 
 def test_append_env():
@@ -52,7 +51,7 @@ def test_append_env():
                 separator: "|"
         """
     yaml_file = textwrap.dedent(yaml_file)
-    root_entity, parser = load_no_extensions(io.StringIO(yaml_file))
+    root_entity, parser = Parser.load(io.StringIO(yaml_file))
     ld = parser.parse_description(root_entity)
     assert len(ld.entities) == 6
     assert isinstance(ld.entities[0], AppendEnvironmentVariable)
