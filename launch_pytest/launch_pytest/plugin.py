@@ -213,7 +213,7 @@ def from_parent(cls, *args, **kwargs):
 # Part of this function was adapted from
 # https://github.com/pytest-dev/pytest-asyncio/blob/f21e0da345f877755b89ff87b6dcea70815b4497/pytest_asyncio/plugin.py#L37-L50.
 # See their license https://github.com/pytest-dev/pytest-asyncio/blob/master/LICENSE.
-@pytest.hookimpl(tryfirst=True)
+@pytest.mark.tryfirst
 def pytest_pycollect_makeitem(collector, name, obj):
     """Collect coroutine based launch tests."""
     if collector.funcnamefilter(name) and is_valid_test_item(obj):
@@ -275,7 +275,7 @@ def is_same_launch_test_fixture(left_item, right_item):
     return get_fixture_params(left_item) == get_fixture_params(right_item)
 
 
-@pytest.hookimpl(trylast=True)
+@pytest.mark.trylast
 def pytest_collection_modifyitems(session, config, items):
     """Move shutdown tests after normal tests."""
     def enumerate_reversed(sequence):
@@ -316,12 +316,7 @@ def pytest_pyfunc_call(pyfuncitem):
         yield
         return
 
-    # Store the original unwrapped function to avoid re-wrapping on reruns.
-    # This prevents issues with pytest plugins like pytest-flaky or pytest-rerunfailures,
-    # which reuse the same pyfuncitem across multiple test runs.
-    func = getattr(pyfuncitem, '_launch_pytest_original_obj', pyfuncitem.obj)
-    pyfuncitem._launch_pytest_original_obj = func
-
+    func = pyfuncitem.obj
     if has_shutdown_kwarg(pyfuncitem) and need_shutdown_test_item(func):
         error_msg = (
             'generator or async generator based launch test items cannot be marked with'

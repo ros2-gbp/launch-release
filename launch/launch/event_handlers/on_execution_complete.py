@@ -12,7 +12,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from typing import Any
 from typing import Callable
 from typing import cast
 from typing import Optional
@@ -23,7 +22,7 @@ from .on_action_event_base import OnActionEventBase
 from ..event import Event
 from ..events import ExecutionComplete
 from ..launch_context import LaunchContext
-from ..some_entities_type import SomeEntitiesType
+from ..some_actions_type import SomeActionsType
 
 if TYPE_CHECKING:
     from .. import Action  # noqa: F401
@@ -44,16 +43,16 @@ class OnExecutionComplete(OnActionEventBase):
             Optional[Union[Callable[['Action'], bool], 'Action']] = None,
         on_completion:
             Union[
-                SomeEntitiesType,
-                Callable[[ExecutionComplete, LaunchContext], Optional[SomeEntitiesType]]],
-        **kwargs: Any
+                SomeActionsType,
+                Callable[[ExecutionComplete, LaunchContext], Optional[SomeActionsType]]],
+        **kwargs
     ) -> None:
         """Create an OnExecutionComplete event handler."""
         from ..action import Action  # noqa: F811
         on_completion = cast(
             Union[
-                SomeEntitiesType,
-                Callable[[Event, LaunchContext], Optional[SomeEntitiesType]]],
+                SomeActionsType,
+                Callable[[Event, LaunchContext], Optional[SomeActionsType]]],
             on_completion)
         super().__init__(
             action_matcher=target_action,
