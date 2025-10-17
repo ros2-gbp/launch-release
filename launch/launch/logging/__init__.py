@@ -24,10 +24,14 @@ import os
 import socket
 import sys
 
-from typing import Any
+from typing import Iterable
 from typing import List
 
 from . import handlers
+
+from ..frontend import expose_substitution
+from ..some_substitutions_type import SomeSubstitutionsType
+from ..substitutions import TextSubstitution
 
 __all__ = [
     'get_logger',
@@ -82,24 +86,6 @@ def _make_unique_log_dir(*, base_path):
             return log_dir
 
 
-def _renew_latest_log_dir(*, log_dir):
-    """
-    Renew the symbolic link to the latest logging directory.
-
-    :param log_dir: the current logging directory
-    :return True if the link was successfully created/updated, False otherwise
-    """
-    base_dir = os.path.dirname(log_dir)
-    latest_dir = os.path.join(base_dir, 'latest')
-
-    if os.path.lexists(latest_dir):
-        if not os.path.islink(latest_dir):
-            return False
-        os.unlink(latest_dir)
-    os.symlink(log_dir, latest_dir, target_is_directory=True)
-    return True
-
-
 class LaunchConfig:
     """Launch Logging Configuration class."""
 
@@ -137,18 +123,6 @@ class LaunchConfig:
             self._log_dir = _make_unique_log_dir(
                 base_path=_get_logging_directory()
             )
-            try:
-                success = _renew_latest_log_dir(log_dir=self._log_dir)
-                if not success:
-                    import warnings
-                    warnings.warn(
-                        'Cannot create a symlink to latest log directory')
-
-            except OSError as e:
-                import warnings
-                warnings.warn(
-                    ('Cannot create a symlink to latest log directory: {}\n')
-                    .format(e))
 
         return self._log_dir
 
@@ -206,21 +180,10 @@ class LaunchConfig:
         :param screen_format: format specification used when logging to the screen,
             as expected by the `logging.Formatter` constructor.
             Alternatively, aliases for common formats are available, see above.
-            This format can also be overridden by the environment variable
-            'OVERRIDE_LAUNCH_SCREEN_FORMAT'.
         :param screen_style: the screen style used if no alias is used for
             screen_format.
             No style can be provided if a format alias is given.
         """
-        # Check if the environment variable is set
-        screen_format_env = os.environ.get('OVERRIDE_LAUNCH_SCREEN_FORMAT')
-        # If the environment variable is set override the given format
-        if screen_format_env not in [None, '']:
-            # encoded escape characters correctly
-            screen_format = screen_format_env.encode(
-                'latin1').decode('unicode_escape')
-            # Set the style correspondingly
-            screen_style = '{'
         if screen_format is not None:
             if screen_format == 'default':
                 screen_format = '[{levelname}] [{name}]: {msg}'
@@ -269,20 +232,9 @@ class LaunchConfig:
             as expected by the `logging.Formatter` constructor.
             Alternatively, the 'default' alias can be given to log verbosity level,
             logger name and logged message.
-            This format can also be overridden by the environment variable
-            'OVERRIDE_LAUNCH_LOG_FORMAT'.
         :param log_style: the log style used if no alias is given for log_format.
             No style can be provided if a format alias is given.
         """
-        # Check if the environment variable is set
-        log_format_env = os.environ.get('OVERRIDE_LAUNCH_LOG_FORMAT')
-        # If the environment variable is set override the given format
-        if log_format_env not in [None, '']:
-            # encoded escape characters correctly
-            log_format = log_format_env.encode(
-                'latin1').decode('unicode_escape')
-            # Set the style correspondingly
-            log_style = '{'
         if log_format is not None:
             if log_format == 'default':
                 log_format = '{created:.7f} [{levelname}] [{name}]: {msg}'
@@ -341,7 +293,7 @@ def log_launch_config(*, logger=logging.root):
     )))
 
 
-def get_logger(name=None) -> logging.Logger:
+def get_logger(name=None):
     """Get named logger, configured to output to screen and launch main log file."""
     logger = logging.getLogger(name)
     screen_handler = launch_config.get_screen_handler()
@@ -351,6 +303,13 @@ def get_logger(name=None) -> logging.Logger:
     if launch_log_file_handler not in logger.handlers:
         logger.addHandler(launch_log_file_handler)
     return logger
+
+
+@expose_substitution('log_dir')
+def _log_dir(data: Iterable[SomeSubstitutionsType]):
+    if len(data) > 0:
+        raise ValueError('log_dir substitution does not expect any arguments')
+    return TextSubstitution, {'text': launch_config.log_dir}
 
 
 def _normalize_output_configuration(config):
@@ -509,13 +468,8 @@ def get_output_loggers(process_name, output_config):
     )
 
 
-# Mypy does not support dynamic base classes, so workaround by typing the base
-# class as Any
-_Base: Any = logging.getLoggerClass()
-
-
 # Track all loggers to support module resets
-class LaunchLogger(_Base):
+class LaunchLogger(logging.getLoggerClass()):
     all_loggers: List[logging.Logger] = []
 
     def __new__(cls, *args, **kwargs):
