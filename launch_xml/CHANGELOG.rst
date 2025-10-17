@@ -2,34 +2,20 @@
 Changelog for package launch_xml
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-3.9.4 (2025-10-17)
+3.8.5 (2025-10-17)
 ------------------
-* Fix all/any in xml and yaml launch files (`#906 <https://github.com/ros2/launch/issues/906>`_)
-* Contributors: Matthijs van der Burgh
+* Fix all/any in xml and yaml launch files (backport `#906 <https://github.com/ros2/launch/issues/906>`_) (`#911 <https://github.com/ros2/launch/issues/911>`_)
+* Contributors: mergify[bot]
 
-3.9.3 (2025-10-06)
+3.8.4 (2025-10-06)
 ------------------
-* Allow providing launch args to include using let in frontends (`#848 <https://github.com/ros2/launch//issues/848>`_)
-* Contributors: Christophe Bedard
+* Allow providing launch args to include using let in frontends (`#848 <https://github.com/ros2/launch/issues/848>`_) (`#909 <https://github.com/ros2/launch/issues/909>`_)
+* Contributors: mergify[bot]
 
-3.9.2 (2025-07-29)
+3.8.3 (2025-09-11)
 ------------------
-* Fix Setuptoolsdeprecations (`#898 <https://github.com/ros2/launch/issues/898>`_)
-* Contributors: mosfet80
 
-3.9.1 (2025-06-19)
-------------------
-* Make sure to install py.typed files (`#886 <https://github.com/ros2/launch/issues/886>`_)
-* Add remaining `py.typed` (`#884 <https://github.com/ros2/launch/issues/884>`_)
-* Fix `log\_*` warnings (`#883 <https://github.com/ros2/launch/issues/883>`_)
-* Allow Path in substitutions, instead of requiring cast to str (`#873 <https://github.com/ros2/launch/issues/873>`_)
-* Other Logging Implementations with `getLevelNamesMapping` fix (`#866 <https://github.com/ros2/launch/issues/866>`_)
-* Revert "Add Other Logging Implementations (`#858 <https://github.com/ros2/launch/issues/858>`_)" (`#865 <https://github.com/ros2/launch/issues/865>`_)
-  This reverts commit b7b31c45b0eb350deedd282b88398d1ca0d5faf4.
-* Add Other Logging Implementations (`#858 <https://github.com/ros2/launch/issues/858>`_)
-* Contributors: Christophe Bedard, Emerson Knapp, Michael Carlstrom
-
-3.9.0 (2025-04-24)
+3.8.2 (2025-06-23)
 ------------------
 
 3.8.1 (2025-04-18)

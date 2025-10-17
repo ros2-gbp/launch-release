@@ -14,12 +14,6 @@
 
 """Module for the ResetEnvironment action."""
 
-from typing import Any
-from typing import Dict
-from typing import Tuple
-from typing import Type
-
-
 from ..action import Action
 from ..frontend import Entity
 from ..frontend import expose_action
@@ -37,17 +31,16 @@ class ResetEnvironment(Action):
     i.e. the contents of ``os.environ``.
     """
 
-    def __init__(self, **kwargs: Any) -> None:
+    def __init__(self, **kwargs) -> None:
         """Create a ResetEnvironment action."""
         super().__init__(**kwargs)
 
     @classmethod
-    def parse(cls, entity: Entity, parser: Parser
-              ) -> Tuple[Type['ResetEnvironment'], Dict[str, Any]]:
+    def parse(cls, entity: Entity, parser: Parser):
         """Return ``ResetEnvironment`` action and kwargs for constructing it."""
         _, kwargs = super().parse(entity, parser)
         return cls, kwargs
 
-    def execute(self, context: LaunchContext) -> None:
+    def execute(self, context: LaunchContext):
         """Execute the action."""
         context._reset_environment()

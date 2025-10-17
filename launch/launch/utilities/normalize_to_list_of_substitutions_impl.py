@@ -14,12 +14,9 @@
 
 """Module for the normalize_to_list_of_substitutions() utility function."""
 
-from pathlib import Path
 from typing import cast
 from typing import Iterable
 from typing import List
-from typing import Text
-from typing import Union
 
 from .class_tools_impl import is_a_subclass
 from ..some_substitutions_type import SomeSubstitutionsType
@@ -31,17 +28,17 @@ def normalize_to_list_of_substitutions(subs: SomeSubstitutionsType) -> List[Subs
     # Avoid recursive import
     from ..substitutions import TextSubstitution
 
-    def normalize(x: Union[Substitution, str]) -> Substitution:
+    def normalize(x):
         if isinstance(x, Substitution):
             return x
-        if isinstance(x, (str, Path)):
-            return TextSubstitution(text=str(x))
+        if isinstance(x, str):
+            return TextSubstitution(text=x)
         raise TypeError(
             "Failed to normalize given item of type '{}', when only "
             "'str' or 'launch.Substitution' were expected.".format(type(x)))
 
-    if isinstance(subs, (str, Path)):
-        return [TextSubstitution(text=str(subs))]
+    if isinstance(subs, str):
+        return [TextSubstitution(text=subs)]
     if is_a_subclass(subs, Substitution):
         return [cast(Substitution, subs)]
-    return [normalize(y) for y in cast(Iterable[Union[Text, Substitution]], subs)]
+    return [normalize(y) for y in cast(Iterable, subs)]

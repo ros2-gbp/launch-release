@@ -13,8 +13,7 @@
 # limitations under the License.
 
 import os
-from pathlib import Path
 import typing
 
 # Type of a filesystem path
-FilePath = typing.TypeVar('FilePath', str, bytes, os.PathLike[typing.Any], Path)
+FilePath = typing.TypeVar('FilePath', str, bytes, os.PathLike)

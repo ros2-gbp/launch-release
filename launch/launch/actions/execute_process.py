@@ -15,16 +15,11 @@
 """Module for the ExecuteProcess action."""
 
 import shlex
-from typing import Any
 from typing import Dict
 from typing import Iterable
 from typing import List
 from typing import Optional
 from typing import Text
-from typing import Tuple
-from typing import Type
-from typing import Union
-
 
 from .execute_local import ExecuteLocal
 from .shutdown_action import Shutdown
@@ -137,7 +132,7 @@ class ExecuteProcess(ExecuteLocal):
         cwd: Optional[SomeSubstitutionsType] = None,
         env: Optional[Dict[SomeSubstitutionsType, SomeSubstitutionsType]] = None,
         additional_env: Optional[Dict[SomeSubstitutionsType, SomeSubstitutionsType]] = None,
-        **kwargs: Any
+        **kwargs
     ) -> None:
         """
         Construct an ExecuteProcess action.
@@ -258,10 +253,10 @@ class ExecuteProcess(ExecuteLocal):
            list again as a `TextSubstitution`.
         :returns: a list of command line arguments.
         """
-        result_args: List[SomeSubstitutionsType] = []
+        result_args = []
         arg: List[Substitution] = []
 
-        def _append_arg() -> None:
+        def _append_arg():
             nonlocal arg
             result_args.append(arg)
             arg = []
@@ -311,7 +306,7 @@ class ExecuteProcess(ExecuteLocal):
         entity: Entity,
         parser: Parser,
         ignore: Optional[List[str]] = None
-    ) -> Tuple[Type['ExecuteProcess'], Dict[str, Any]]:
+    ):
         """
         Return the `ExecuteProcess` action and kwargs for constructing it.
 
@@ -422,35 +417,34 @@ class ExecuteProcess(ExecuteLocal):
         return cls, kwargs
 
     @property
-    def name(self) -> Union[str, List[Substitution], None]:
+    def name(self):
         """Getter for name."""
         if self.process_description.final_name is not None:
             return self.process_description.final_name
         return self.process_description.name
 
     @property
-    def cmd(self) -> Union[List[str], List[List[Substitution]]]:
+    def cmd(self):
         """Getter for cmd."""
         if self.process_description.final_cmd is not None:
             return self.process_description.final_cmd
         return self.process_description.cmd
 
     @property
-    def cwd(self) -> Union[str, List[Substitution], None]:
+    def cwd(self):
         """Getter for cwd."""
         if self.process_description.final_cwd is not None:
             return self.process_description.final_cwd
         return self.process_description.cwd
 
     @property
-    def env(self) -> Union[Dict[str, str],
-                           List[Tuple[List[Substitution], List[Substitution]]], None]:
+    def env(self):
         """Getter for env."""
         if self.process_description.final_env is not None:
             return self.process_description.final_env
         return self.process_description.env
 
     @property
-    def additional_env(self) -> Optional[List[Tuple[List[Substitution], List[Substitution]]]]:
+    def additional_env(self):
         """Getter for additional_env."""
         return self.process_description.additional_env
