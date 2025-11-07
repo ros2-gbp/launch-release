@@ -1,3 +1,35 @@
+## launch (kilted) - 3.8.6-1
+
+The packages in the `launch` repository were released into the `kilted` distro by running `/usr/bin/bloom-release --rosdistro kilted --track kilted launch` on `Fri, 07 Nov 2025 09:27:57 -0000`
+
+These packages were released:
+- `launch`
+- `launch_pytest`
+- `launch_testing`
+- `launch_testing_ament_cmake`
+- `launch_xml`
+- `launch_yaml`
+
+These packages were explicitly ignored:
+- `test_launch_testing`
+
+Version of package(s) in repository `launch`:
+
+- upstream repository: https://github.com/ros2/launch.git
+- release repository: https://github.com/ros2-gbp/launch-release.git
+- rosdistro version: `3.8.5-3`
+- old version: `3.8.5-3`
+- new version: `3.8.6-1`
+
+Versions of tools used:
+
+- bloom version: `0.13.0`
+- catkin_pkg version: `1.1.0`
+- rosdep version: `0.26.0`
+- rosdistro version: `1.0.1`
+- vcstools version: `0.1.42`
+
+
 ## launch (rolling) - 3.9.5-1
 
 The packages in the `launch` repository were released into the `rolling` distro by running `/usr/bin/bloom-release --rosdistro rolling --track rolling launch` on `Fri, 07 Nov 2025 08:58:35 -0000`
