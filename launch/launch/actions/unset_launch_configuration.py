@@ -14,7 +14,6 @@
 
 """Module for the UnsetLaunchConfiguration action."""
 
-from typing import Any
 from typing import List
 
 from ..action import Action
@@ -38,7 +37,7 @@ class UnsetLaunchConfiguration(Action):
     def __init__(
         self,
         name: SomeSubstitutionsType,
-        **kwargs: Any
+        **kwargs
     ) -> None:
         """Create an UnsetLaunchConfiguration action."""
         super().__init__(**kwargs)
@@ -49,7 +48,7 @@ class UnsetLaunchConfiguration(Action):
         """Getter for self.__name."""
         return self.__name
 
-    def execute(self, context: LaunchContext) -> None:
+    def execute(self, context: LaunchContext):
         """Execute the action."""
         key = perform_substitutions(context, self.name)
         if key in context.launch_configurations:

@@ -17,15 +17,11 @@
 from copy import deepcopy
 from typing import Any
 from typing import Callable
-from typing import Dict
 from typing import List
 from typing import Mapping
 from typing import Optional
 from typing import Protocol
 from typing import Text
-from typing import Tuple
-from typing import Type
-
 
 # yaml has type annotations in typeshed, but those cannot be installed via rosdep
 # since there is no definition for types-PyYAML
@@ -95,7 +91,7 @@ class ForEach(Action):
         <launch>
             <arg name="robots" default="{name: 'robotA', id: 1};{name: 'robotB', id: 2}" />
             <for_each values="$(var robots)" >
-                <log_info message="'$(for-var name)' id=$(for-var id)" />
+                <log message="'$(for-var name)' id=$(for-var id)" />
             </for_each>
         </launch>
 
@@ -108,7 +104,7 @@ class ForEach(Action):
             - for_each:
                 iter: $(var robots)
                 children:
-                    - log_info:
+                    - log:
                         message: "'$(for-var name)' id=$(for-var id)"
 
     The above examples would ouput the following log messages by default:
@@ -173,8 +169,7 @@ class ForEach(Action):
         )
 
     @classmethod
-    def parse(cls, entity: Entity, parser: Parser
-              ) -> Tuple[Type['ForEach'], Dict[str, Any]]:
+    def parse(cls, entity: Entity, parser: Parser):
         """Return `ForEach` action and kwargs for constructing it."""
         _, kwargs = super().parse(entity, parser)
         input_values = entity.get_attr('values')
@@ -187,7 +182,7 @@ class ForEach(Action):
         kwargs['function'] = for_each
         return cls, kwargs
 
-    def execute(self, context: LaunchContext) -> List[LaunchDescriptionEntity]:
+    def execute(self, context: LaunchContext) -> Optional[List[LaunchDescriptionEntity]]:
         # Get the for-each input values
         input_values = perform_substitutions(context, self._input_values)
         self._logger.debug(f'input_values={input_values}')
@@ -228,7 +223,7 @@ class ForEach(Action):
     def _push_locals(
         cls,
         context: LaunchContext,
-    ) -> None:
+    ) -> Optional[List[LaunchDescriptionEntity]]:
         context._push_locals()
         return None
 
@@ -236,7 +231,7 @@ class ForEach(Action):
     def _pop_locals(
         cls,
         context: LaunchContext,
-    ) -> None:
+    ) -> Optional[List[LaunchDescriptionEntity]]:
         context._pop_locals()
         return None
 
@@ -289,7 +284,7 @@ class ForLoop(Action):
         <launch>
             <arg name="num" default="2" />
             <for len="$(var num)" name="i" >
-                <log_info message="i=$(index i)" />
+                <log message="i=$(index i)" />
             </for>
         </launch>
 
@@ -303,7 +298,7 @@ class ForLoop(Action):
                 len: $(var num)
                 name: i
                 children:
-                    - log_info:
+                    - log:
                         message: i=$(index i)
 
     The above examples would ouput the following log messages by default:
@@ -372,8 +367,7 @@ class ForLoop(Action):
         )
 
     @classmethod
-    def parse(cls, entity: Entity, parser: Parser
-              ) -> Tuple[Type['ForLoop'], Dict[str, Any]]:
+    def parse(cls, entity: Entity, parser: Parser):
         """Return `ForLoop` action and kwargs for constructing it."""
         _, kwargs = super().parse(entity, parser)
         length = entity.get_attr('len')
@@ -388,7 +382,7 @@ class ForLoop(Action):
         kwargs['function'] = for_i
         return cls, kwargs
 
-    def execute(self, context: LaunchContext) -> List[ForEach]:
+    def execute(self, context: LaunchContext) -> Optional[List[LaunchDescriptionEntity]]:
         # Get the for-loop length and convert to int
         length = int(perform_substitutions(context, self._length))
         self._logger.debug(f'for-loop length={length}')

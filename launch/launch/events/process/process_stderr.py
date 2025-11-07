@@ -14,8 +14,6 @@
 
 """Module for ProcessStderr event."""
 
-from typing import Any
-
 from .process_io import ProcessIO
 
 
@@ -24,7 +22,7 @@ class ProcessStderr(ProcessIO):
 
     name = 'launch.events.process.ProcessStderr'
 
-    def __init__(self, *, text: bytes, **kwargs: Any) -> None:
+    def __init__(self, *, text: bytes, **kwargs) -> None:
         """
         Create a ProcessStderr event.
 

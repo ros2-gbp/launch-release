@@ -2,48 +2,31 @@
 Changelog for package launch
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-3.9.5 (2025-11-07)
+3.8.6 (2025-11-07)
 ------------------
-* Make the directory-finding substitutions into a PathSubstitution for / operator (`#914 <https://github.com/ros2/launch//issues/914>`_)
-* Expose StringJoinSubstitution to frontend (`#857 <https://github.com/ros2/launch//issues/857>`_)
-* Contributors: Christian Ruf, Emerson Knapp
+* [backport kilted] Make the directory-finding substitutions into a PathSubstitution for / operator (backport `#914 <https://github.com/ros2/launch//issues/914>`_) (`#919 <https://github.com/ros2/launch//issues/919>`_)
+* Contributors: mergify[bot]
 
-3.9.4 (2025-10-17)
+3.8.5 (2025-10-17)
 ------------------
-* Shared logic for substitutions (`#769 <https://github.com/ros2/launch/issues/769>`_)
-* Use yaml types (`#781 <https://github.com/ros2/launch/issues/781>`_)
-* Switch osrf_pycommon dependency to system package (`#817 <https://github.com/ros2/launch/issues/817>`_)
-* Fix all/any in xml and yaml launch files (`#906 <https://github.com/ros2/launch/issues/906>`_)
-* Contributors: Matthijs van der Burgh, Michael Carlstrom, Scott K Logan
+* Fix all/any in xml and yaml launch files (backport `#906 <https://github.com/ros2/launch/issues/906>`_) (`#911 <https://github.com/ros2/launch/issues/911>`_)
+* Contributors: mergify[bot]
 
-3.9.3 (2025-10-06)
+3.8.4 (2025-10-06)
 ------------------
-* Allow providing launch args to include using let in frontends (`#848 <https://github.com/ros2/launch//issues/848>`_)
-* Contributors: Christophe Bedard
+* Allow providing launch args to include using let in frontends (`#848 <https://github.com/ros2/launch/issues/848>`_) (`#909 <https://github.com/ros2/launch/issues/909>`_)
+* Contributors: mergify[bot]
 
-3.9.2 (2025-07-29)
+3.8.3 (2025-09-11)
 ------------------
-* Fix Setuptoolsdeprecations (`#898 <https://github.com/ros2/launch/issues/898>`_)
-* Remove LaunchDescriptionArgument (`#891 <https://github.com/ros2/launch/issues/891>`_)
-* Contributors: Harrison Chen, mosfet80
+* Using ``TimerAction`` with ``SetParameter`` from launch_ros causes crash (backport `#879 <https://github.com/ros2/launch/issues/879>`_) (`#902 <https://github.com/ros2/launch/issues/902>`_)
+* Remove LaunchDescriptionArgument (`#891 <https://github.com/ros2/launch/issues/891>`_) (`#895 <https://github.com/ros2/launch/issues/895>`_)
+* Contributors: mergify[bot]
 
-3.9.1 (2025-06-19)
+3.8.2 (2025-06-23)
 ------------------
-* Make sure to install py.typed files (`#886 <https://github.com/ros2/launch/issues/886>`_)
-* use custom log_file name as per the user setting (`#861 <https://github.com/ros2/launch/issues/861>`_)
-* Using ``TimerAction`` with ``SetParameter`` from launch_ros causes crash (`#879 <https://github.com/ros2/launch/issues/879>`_)
-* Fix `log\_*` warnings (`#883 <https://github.com/ros2/launch/issues/883>`_)
-* Updated `launch` typings (`#831 <https://github.com/ros2/launch/issues/831>`_)
-* Allow Path in substitutions, instead of requiring cast to str (`#873 <https://github.com/ros2/launch/issues/873>`_)
-* Add a `/` path join operator for `PathJoinSubstitution` (`#868 <https://github.com/ros2/launch/issues/868>`_)
-* Other Logging Implementations with `getLevelNamesMapping` fix (`#866 <https://github.com/ros2/launch/issues/866>`_)
-* Revert "Add Other Logging Implementations (`#858 <https://github.com/ros2/launch/issues/858>`_)" (`#865 <https://github.com/ros2/launch/issues/865>`_)
-  This reverts commit b7b31c45b0eb350deedd282b88398d1ca0d5faf4.
-* Add Other Logging Implementations (`#858 <https://github.com/ros2/launch/issues/858>`_)
-* Contributors: Christophe Bedard, Emerson Knapp, Kenji Brameld (TRACLabs), Michael Carlstrom, Tanishq Chaudhary
-
-3.9.0 (2025-04-24)
-------------------
+* Add a `/` path join operator for `PathJoinSubstitution` (`#868 <https://github.com/ros2/launch/issues/868>`_) (`#875 <https://github.com/ros2/launch/issues/875>`_)
+* Contributors: mergify[bot]
 
 3.8.1 (2025-04-18)
 ------------------
