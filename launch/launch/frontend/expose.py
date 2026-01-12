@@ -16,8 +16,6 @@
 
 import functools
 import inspect
-from typing import Any
-from typing import Dict
 from typing import Iterable
 from typing import Optional
 from typing import Text
@@ -30,8 +28,8 @@ if False:
     from .entity import Entity  # noqa: F401
     from .parser import Parser  # noqa: F401
 
-action_parse_methods: Dict[str, Any] = {}
-substitution_parse_methods: Dict[str, Any] = {}
+action_parse_methods = {}
+substitution_parse_methods = {}
 
 
 def instantiate_action(entity: 'Entity', parser: 'Parser') -> Action:

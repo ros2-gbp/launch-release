@@ -35,8 +35,6 @@ def load_python_launch_file_as_module(python_launch_file_path: Union[Text, Path]
     """Load a given Python launch file (by path) as a Python module."""
     loader = SourceFileLoader('python_launch_file', str(python_launch_file_path))
     spec = spec_from_loader(loader.name, loader)
-    if spec is None:
-        raise RuntimeError('Failed to load module spec!')
     mod = module_from_spec(spec)
     loader.exec_module(mod)
     return mod

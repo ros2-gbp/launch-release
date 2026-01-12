@@ -19,7 +19,6 @@ from typing import Any
 from typing import Iterable
 from typing import List
 from typing import Optional
-from typing import Sequence
 from typing import Text
 from typing import Union
 
@@ -45,7 +44,6 @@ class LaunchConfiguration(Substitution):
 
         from ..utilities import normalize_to_list_of_substitutions
         self.__variable_name = normalize_to_list_of_substitutions(variable_name)
-        self.__default: Optional[List[Substitution]]
         if default is None:
             self.__default = default
         else:
@@ -62,10 +60,12 @@ class LaunchConfiguration(Substitution):
                 else:
                     str_normalized_default.append(str(item))
             # use normalize_to_list_of_substitutions to convert str to TextSubstitution's too
-            self.__default = normalize_to_list_of_substitutions(str_normalized_default)
+            self.__default = \
+                normalize_to_list_of_substitutions(
+                    str_normalized_default)  # type: List[Substitution]
 
     @classmethod
-    def parse(cls, data: Sequence[SomeSubstitutionsType]):
+    def parse(cls, data: Iterable[SomeSubstitutionsType]):
         """Parse `FindExecutable` substitution."""
         if len(data) < 1 or len(data) > 2:
             raise TypeError('var substitution expects 1 or 2 arguments')
