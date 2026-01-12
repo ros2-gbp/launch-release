@@ -2,7 +2,7 @@
 <?xml-model href="http://download.ros.org/schema/package_format2.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="2">
   <name>launch</name>
-  <version>3.9.5</version>
+  <version>3.9.6</version>
   <description>The ROS launch tool.</description>
 
   <maintainer email="aditya.pande@openrobotics.org">Aditya Pande</maintainer>
@@ -21,7 +21,6 @@
   <doc_depend>lark</doc_depend>
 
   <exec_depend>ament_index_python</exec_depend>
-  <exec_depend>python3-importlib-metadata</exec_depend>
   <exec_depend>python3-lark-parser</exec_depend>
   <exec_depend>python3-osrf-pycommon</exec_depend>
   <exec_depend>python3-yaml</exec_depend>
