@@ -21,13 +21,12 @@ from typing import Dict
 from typing import Iterable
 from typing import Optional
 from typing import Text
-from typing import TYPE_CHECKING
 
 from ..action import Action
 from ..some_substitutions_type import SomeSubstitutionsType
 from ..substitution import Substitution
 
-if TYPE_CHECKING:
+if False:
     from .entity import Entity  # noqa: F401
     from .parser import Parser  # noqa: F401
 

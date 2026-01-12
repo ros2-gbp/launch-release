@@ -84,7 +84,7 @@ class LaunchDescriptionSource:
                 self._get_launch_description(self.__expanded_location)
         return self.__launch_description
 
-    def _get_launch_description(self, location: Text):
+    def _get_launch_description(self, location):
         """Get the LaunchDescription from location."""
         if self.__launch_description is None:
             raise RuntimeError(
