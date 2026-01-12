@@ -1,0 +1,12 @@
+Source: ros-jazzy-launch-testing
+Section: misc
+Priority: optional
+Maintainer: Aditya Pande <aditya.pande@openrobotics.org>
+Build-Depends: debhelper (>= 9.0.0), ros-jazzy-ament-copyright <!nocheck>, ros-jazzy-ament-flake8 <!nocheck>, ros-jazzy-ament-pep257 <!nocheck>, ros-jazzy-launch <!nocheck>, ros-jazzy-ros-workspace, python3-all, python3-setuptools, dh-python
+Homepage: 
+Standards-Version: 3.9.2
+
+Package: ros-jazzy-launch-testing
+Architecture: any
+Depends: ${python3:Depends}, ${misc:Depends}, python3-pytest, ros-jazzy-ament-index-python, ros-jazzy-launch, ros-jazzy-launch-xml, ros-jazzy-launch-yaml, ros-jazzy-osrf-pycommon, ros-jazzy-ros-workspace
+Description: A package to create tests which involve launch files and multiple processes.
