@@ -19,7 +19,8 @@ import textwrap
 
 from launch import LaunchService
 from launch.actions import Shutdown
-from launch.frontend import Parser
+
+from parser_no_extensions import load_no_extensions
 
 
 def test_executable():
@@ -34,31 +35,34 @@ def test_executable():
                 shell: true
                 emulate_tty: true
                 output: log
+                sigkill_timeout: 4.0
+                sigterm_timeout: 7.0
                 'launch-prefix': $(env LAUNCH_PREFIX '')
                 env:
                     -   name: var
                         value: '1'
         """
     yaml_file = textwrap.dedent(yaml_file)
-    root_entity, parser = Parser.load(io.StringIO(yaml_file))
+    root_entity, parser = load_no_extensions(io.StringIO(yaml_file))
     ld = parser.parse_description(root_entity)
     executable = ld.entities[0]
     cmd = [i[0].perform(None) for i in executable.cmd]
-    assert(
-        cmd == ['ls', '-l', '-a', '-s'])
-    assert(executable.cwd[0].perform(None) == '/')
-    assert(executable.name[0].perform(None) == 'my_ls')
-    assert(executable.shell is True)
-    assert(executable.emulate_tty is True)
-    assert(executable.output[0].perform(None) == 'log')
+    assert cmd == ['ls', '-l', '-a', '-s']
+    assert executable.cwd[0].perform(None) == '/'
+    assert executable.name[0].perform(None) == 'my_ls'
+    assert executable.shell is True
+    assert executable.emulate_tty is True
+    assert executable.output[0].perform(None) == 'log'
+    assert executable.sigkill_timeout[0].perform(None) == '4.0'
+    assert executable.sigterm_timeout[0].perform(None) == '7.0'
     key, value = executable.additional_env[0]
     key = key[0].perform(None)
     value = value[0].perform(None)
-    assert(key == 'var')
-    assert(value == '1')
+    assert key == 'var'
+    assert value == '1'
     ls = LaunchService()
     ls.include_launch_description(ld)
-    assert(0 == ls.run())
+    assert 0 == ls.run()
 
 
 def test_executable_on_exit():
@@ -70,7 +74,7 @@ def test_executable_on_exit():
                 on_exit: shutdown
         """
     yaml_file = textwrap.dedent(yaml_file)
-    root_entity, parser = Parser.load(io.StringIO(yaml_file))
+    root_entity, parser = load_no_extensions(io.StringIO(yaml_file))
     ld = parser.parse_description(root_entity)
     executable = ld.entities[0]
     sub_entities = executable.get_sub_entities()

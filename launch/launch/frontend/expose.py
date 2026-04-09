@@ -16,20 +16,23 @@
 
 import functools
 import inspect
+from typing import Any
+from typing import Dict
 from typing import Iterable
 from typing import Optional
 from typing import Text
+from typing import TYPE_CHECKING
 
 from ..action import Action
 from ..some_substitutions_type import SomeSubstitutionsType
 from ..substitution import Substitution
 
-if False:
+if TYPE_CHECKING:
     from .entity import Entity  # noqa: F401
     from .parser import Parser  # noqa: F401
 
-action_parse_methods = {}
-substitution_parse_methods = {}
+action_parse_methods: Dict[str, Any] = {}
+substitution_parse_methods: Dict[str, Any] = {}
 
 
 def instantiate_action(entity: 'Entity', parser: 'Parser') -> Action:

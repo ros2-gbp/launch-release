@@ -17,6 +17,7 @@ from collections.abc import Sequence
 import functools
 import inspect
 
+from _pytest.fixtures import getfixturemarker
 from _pytest.outcomes import fail
 from _pytest.outcomes import skip
 
@@ -169,6 +170,16 @@ def get_launch_test_fixturename(item):
     return None if fixture is None else fixture.__name__
 
 
+def get_launch_test_fixture_scope(fixture):
+    """Return launch fixture scope for multiple pytest fixture representations."""
+    fixture_marker = getfixturemarker(fixture)
+    if fixture_marker is None:
+        raise AttributeError(
+            f'Unable to retrieve fixture scope from fixture {fixture!r}.'
+        )
+    return fixture_marker.scope
+
+
 def is_valid_test_item(obj):
     """Return true if obj is a valid launch test item."""
     return (
@@ -213,7 +224,7 @@ def from_parent(cls, *args, **kwargs):
 # Part of this function was adapted from
 # https://github.com/pytest-dev/pytest-asyncio/blob/f21e0da345f877755b89ff87b6dcea70815b4497/pytest_asyncio/plugin.py#L37-L50.
 # See their license https://github.com/pytest-dev/pytest-asyncio/blob/master/LICENSE.
-@pytest.mark.tryfirst
+@pytest.hookimpl(tryfirst=True)
 def pytest_pycollect_makeitem(collector, name, obj):
     """Collect coroutine based launch tests."""
     if collector.funcnamefilter(name) and is_valid_test_item(obj):
@@ -236,7 +247,7 @@ def pytest_pycollect_makeitem(collector, name, obj):
                 return [item]
             fixture = get_launch_test_fixture(item)
             fixturename = fixture.__name__
-            scope = fixture._pytestfixturefunction.scope
+            scope = get_launch_test_fixture_scope(fixture)
             is_shutdown = has_shutdown_kwarg(item)
             items = generate_test_items(
                 collector, name, obj, fixturename, is_shutdown=is_shutdown, needs_renaming=False)
@@ -264,7 +275,7 @@ def is_same_launch_test_fixture(left_item, right_item):
         return False
     if lfn is not rfn:
         return False
-    if lfn._pytestfixturefunction.scope == 'function':
+    if get_launch_test_fixture_scope(lfn) == 'function':
         return False
     name = lfn.__name__
 
@@ -275,7 +286,7 @@ def is_same_launch_test_fixture(left_item, right_item):
     return get_fixture_params(left_item) == get_fixture_params(right_item)
 
 
-@pytest.mark.trylast
+@pytest.hookimpl(trylast=True)
 def pytest_collection_modifyitems(session, config, items):
     """Move shutdown tests after normal tests."""
     def enumerate_reversed(sequence):
@@ -316,7 +327,12 @@ def pytest_pyfunc_call(pyfuncitem):
         yield
         return
 
-    func = pyfuncitem.obj
+    # Store the original unwrapped function to avoid re-wrapping on reruns.
+    # This prevents issues with pytest plugins like pytest-flaky or pytest-rerunfailures,
+    # which reuse the same pyfuncitem across multiple test runs.
+    func = getattr(pyfuncitem, '_launch_pytest_original_obj', pyfuncitem.obj)
+    pyfuncitem._launch_pytest_original_obj = func
+
     if has_shutdown_kwarg(pyfuncitem) and need_shutdown_test_item(func):
         error_msg = (
             'generator or async generator based launch test items cannot be marked with'
@@ -326,7 +342,7 @@ def pytest_pyfunc_call(pyfuncitem):
         return
     shutdown_test = is_shutdown_test(pyfuncitem)
     fixture = get_launch_test_fixture(pyfuncitem)
-    scope = fixture._pytestfixturefunction.scope
+    scope = get_launch_test_fixture_scope(fixture)
     event_loop = pyfuncitem.funcargs['event_loop']
     ls = pyfuncitem.funcargs['launch_service']
     auto_shutdown = fixture._launch_pytest_fixture_options['auto_shutdown']
@@ -402,7 +418,6 @@ def wrap_generator(func, event_loop, on_shutdown):
     gen = None
 
     def shutdown():
-        nonlocal gen
         if gen is None:
             skip('shutdown test skipped because the test failed before')
         on_shutdown()
@@ -453,7 +468,6 @@ def wrap_asyncgen(func, event_loop, on_shutdown):
     agen = None
 
     def shutdown(**kwargs):
-        nonlocal agen
         if agen is None:
             skip('shutdown test skipped because the test failed before')
         on_shutdown()
