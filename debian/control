@@ -1,0 +1,12 @@
+Source: ros-lyrical-launch-testing-ament-cmake
+Section: misc
+Priority: optional
+Maintainer: Aditya Pande <aditya.pande@openrobotics.org>
+Build-Depends: debhelper (>= 9.0.0), ros-lyrical-ament-cmake, ros-lyrical-ament-cmake-copyright <!nocheck>, ros-lyrical-launch-testing <!nocheck>, ros-lyrical-ros-workspace
+Homepage: https://index.ros.org/p/launch_testing_ament_cmake/#lyrical
+Standards-Version: 3.9.2
+
+Package: ros-lyrical-launch-testing-ament-cmake
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ros-lyrical-ament-cmake-test, ros-lyrical-launch-testing, ros-lyrical-ros-workspace
+Description: A package providing cmake functions for running launch tests from the build.
