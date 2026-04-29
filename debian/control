@@ -1,0 +1,12 @@
+Source: ros-lyrical-launch-testing
+Section: misc
+Priority: optional
+Maintainer: Aditya Pande <aditya.pande@openrobotics.org>
+Build-Depends: debhelper (>= 9.0.0), ros-lyrical-ament-copyright <!nocheck>, ros-lyrical-ament-flake8 <!nocheck>, ros-lyrical-ament-pep257 <!nocheck>, ros-lyrical-ament-xmllint <!nocheck>, ros-lyrical-ros-workspace, python3-all, python3-setuptools, dh-python
+Homepage: https://index.ros.org/p/launch_testing/#lyrical
+Standards-Version: 3.9.2
+
+Package: ros-lyrical-launch-testing
+Architecture: any
+Depends: ${python3:Depends}, ${misc:Depends}, python3-osrf-pycommon, python3-pytest, ros-lyrical-ament-index-python, ros-lyrical-launch, ros-lyrical-launch-xml, ros-lyrical-launch-yaml, ros-lyrical-ros-workspace
+Description: A package to create tests which involve launch files and multiple processes.
