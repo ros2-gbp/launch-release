@@ -12,7 +12,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from typing import Any
 from typing import Callable
 from typing import cast
 from typing import Optional
@@ -46,7 +45,7 @@ class OnExecutionComplete(OnActionEventBase):
             Union[
                 SomeEntitiesType,
                 Callable[[ExecutionComplete, LaunchContext], Optional[SomeEntitiesType]]],
-        **kwargs: Any
+        **kwargs
     ) -> None:
         """Create an OnExecutionComplete event handler."""
         from ..action import Action  # noqa: F811
