@@ -119,17 +119,12 @@ def pytest_fixture_setup(fixturedef, request):
         run_async_task = event_loop.create_task(ls.run_async(
             shutdown_when_idle=options['shutdown_when_idle']
         ))
-        fixturedef.addfinalizer(functools.partial(
-            finalize_launch_service,
-            ls,
-            eprefix=eprefix,
-            auto_shutdown=options['auto_shutdown'],
-            task=run_async_task
-        ))
         ready = get_ready_to_test_action(ld)
         asyncio.set_event_loop(event_loop)
         event = asyncio.Event()
         ready._add_callback(lambda: event.set())
+        fixturedef.addfinalizer(functools.partial(
+            finalize_launch_service, ls, eprefix=eprefix, auto_shutdown=options['auto_shutdown']))
         run_until_complete(event_loop, event.wait())
         # this is guaranteed by the current run_async() implementation, let's check it just in case
         # it changes in the future
@@ -332,12 +327,7 @@ def pytest_pyfunc_call(pyfuncitem):
         yield
         return
 
-    # Store the original unwrapped function to avoid re-wrapping on reruns.
-    # This prevents issues with pytest plugins like pytest-flaky or pytest-rerunfailures,
-    # which reuse the same pyfuncitem across multiple test runs.
-    func = getattr(pyfuncitem, '_launch_pytest_original_obj', pyfuncitem.obj)
-    pyfuncitem._launch_pytest_original_obj = func
-
+    func = pyfuncitem.obj
     if has_shutdown_kwarg(pyfuncitem) and need_shutdown_test_item(func):
         error_msg = (
             'generator or async generator based launch test items cannot be marked with'
@@ -366,7 +356,7 @@ def pytest_pyfunc_call(pyfuncitem):
                 wrap_generator(func, event_loop, on_shutdown)
             )
             shutdown_item._fixtureinfo = shutdown_item.session._fixturemanager.getfixtureinfo(
-                shutdown_item, shutdown_item.obj, shutdown_item.cls)
+                shutdown_item, shutdown_item.obj, shutdown_item.cls, funcargs=True)
         else:
             pyfuncitem.obj = wrap_generator_fscope(func, event_loop, on_shutdown)
     elif inspect.isasyncgenfunction(func):
@@ -376,7 +366,7 @@ def pytest_pyfunc_call(pyfuncitem):
                 wrap_asyncgen(func, event_loop, on_shutdown)
             )
             shutdown_item._fixtureinfo = shutdown_item.session._fixturemanager.getfixtureinfo(
-                shutdown_item, shutdown_item.obj, shutdown_item.cls)
+                shutdown_item, shutdown_item.obj, shutdown_item.cls, funcargs=True)
         else:
             pyfuncitem.obj = wrap_asyncgen_fscope(func, event_loop, on_shutdown)
     elif not getattr(pyfuncitem.obj, '_launch_pytest_wrapped', False):
@@ -422,7 +412,8 @@ def wrap_generator(func, event_loop, on_shutdown):
     """Return wrappers for the normal test and the teardown test for a generator function."""
     gen = None
 
-    def shutdown(**kwargs):
+    def shutdown():
+        nonlocal gen
         if gen is None:
             skip('shutdown test skipped because the test failed before')
         on_shutdown()
@@ -473,6 +464,7 @@ def wrap_asyncgen(func, event_loop, on_shutdown):
     agen = None
 
     def shutdown(**kwargs):
+        nonlocal agen
         if agen is None:
             skip('shutdown test skipped because the test failed before')
         on_shutdown()

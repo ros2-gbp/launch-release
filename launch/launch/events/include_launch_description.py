@@ -28,6 +28,6 @@ class IncludeLaunchDescription(Event):
         self.__launch_description = launch_description
 
     @property
-    def launch_description(self) -> LaunchDescription:
+    def launch_description(self):
         """Getter for launch_description."""
         return self.__launch_description

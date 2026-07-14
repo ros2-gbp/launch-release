@@ -14,15 +14,10 @@
 
 """Module for the ForLoopIndex substitution."""
 
-from typing import Any
-from typing import Dict
 from typing import List
 from typing import Optional
 from typing import Sequence
 from typing import Text
-from typing import Tuple
-from typing import Type
-
 
 from ..frontend import expose_substitution
 from ..launch_context import LaunchContext
@@ -79,11 +74,11 @@ class ForEachVar(Substitution):
         )
 
     @classmethod
-    def parse(cls, data: Sequence[SomeSubstitutionsType]
-              ) -> Tuple[Type['ForEachVar'], Dict[str, Any]]:
+    def parse(cls, data: Sequence[SomeSubstitutionsType]):
         if not any(len(data) == length for length in (1, 2)):
             raise ValueError(f'{cls.__name__} substitution expects 1 or 2 arguments')
-        kwargs = {'name': data[0]}
+        kwargs = {}
+        kwargs['name'] = data[0]
         if len(data) == 2:
             kwargs['default_value'] = data[1]
         return cls, kwargs

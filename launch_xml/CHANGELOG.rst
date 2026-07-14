@@ -2,53 +2,34 @@
 Changelog for package launch_xml
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-3.9.8 (2026-07-14)
+3.8.8 (2026-07-14)
 ------------------
+* Correct typos (backport `#961 <https://github.com/ros2/launch//issues/961>`_) (`#962 <https://github.com/ros2/launch//issues/962>`_)
+* Contributors: mergify[bot]
 
-3.9.7 (2026-04-09)
+3.8.7 (2026-01-12)
 ------------------
-* Correct typos (`#961 <https://github.com/ros2/launch/issues/961>`_)
-* Support frontends for PathJoinSubstitution (`#943 <https://github.com/ros2/launch/issues/943>`_)
-* Contributors: Auguste Lalande, Christophe Bedard
-
-3.9.6 (2026-01-12)
-------------------
-* Capture the environment variables in TimerAction (`#728 <https://github.com/ros2/launch/issues/728>`_)
-* Contributors: Sebastian Javier D'Alessandro Szymanowski
-
-3.9.5 (2025-11-07)
-------------------
-* Expose StringJoinSubstitution to frontend (`#857 <https://github.com/ros2/launch//issues/857>`_)
-* Contributors: Christian Ruf
-
-3.9.4 (2025-10-17)
-------------------
-* Fix all/any in xml and yaml launch files (`#906 <https://github.com/ros2/launch/issues/906>`_)
-* Contributors: Matthijs van der Burgh
-
-3.9.3 (2025-10-06)
-------------------
-* Allow providing launch args to include using let in frontends (`#848 <https://github.com/ros2/launch//issues/848>`_)
-* Contributors: Christophe Bedard
-
-3.9.2 (2025-07-29)
-------------------
-* Fix Setuptoolsdeprecations (`#898 <https://github.com/ros2/launch/issues/898>`_)
-* Contributors: mosfet80
-
-3.9.1 (2025-06-19)
-------------------
-* Make sure to install py.typed files (`#886 <https://github.com/ros2/launch/issues/886>`_)
-* Add remaining `py.typed` (`#884 <https://github.com/ros2/launch/issues/884>`_)
-* Fix `log\_*` warnings (`#883 <https://github.com/ros2/launch/issues/883>`_)
+* Merge pull request `#928 <https://github.com/ros2/launch/issues/928>`_ from ros2/mergify/bp/kilted/pr-873
 * Allow Path in substitutions, instead of requiring cast to str (`#873 <https://github.com/ros2/launch/issues/873>`_)
-* Other Logging Implementations with `getLevelNamesMapping` fix (`#866 <https://github.com/ros2/launch/issues/866>`_)
-* Revert "Add Other Logging Implementations (`#858 <https://github.com/ros2/launch/issues/858>`_)" (`#865 <https://github.com/ros2/launch/issues/865>`_)
-  This reverts commit b7b31c45b0eb350deedd282b88398d1ca0d5faf4.
-* Add Other Logging Implementations (`#858 <https://github.com/ros2/launch/issues/858>`_)
-* Contributors: Christophe Bedard, Emerson Knapp, Michael Carlstrom
+* Contributors: Emerson Knapp
 
-3.9.0 (2025-04-24)
+3.8.6 (2025-11-07)
+------------------
+
+3.8.5 (2025-10-17)
+------------------
+* Fix all/any in xml and yaml launch files (backport `#906 <https://github.com/ros2/launch/issues/906>`_) (`#911 <https://github.com/ros2/launch/issues/911>`_)
+* Contributors: mergify[bot]
+
+3.8.4 (2025-10-06)
+------------------
+* Allow providing launch args to include using let in frontends (`#848 <https://github.com/ros2/launch/issues/848>`_) (`#909 <https://github.com/ros2/launch/issues/909>`_)
+* Contributors: mergify[bot]
+
+3.8.3 (2025-09-11)
+------------------
+
+3.8.2 (2025-06-23)
 ------------------
 
 3.8.1 (2025-04-18)
