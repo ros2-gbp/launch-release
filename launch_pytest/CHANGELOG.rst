@@ -2,30 +2,48 @@
 Changelog for package launch_pytest
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-3.8.8 (2026-07-14)
-------------------
-* Backport `#949 <https://github.com/ros2/launch//issues/949>`_ (`#966 <https://github.com/ros2/launch//issues/966>`_)
-* Contributors: Tim Clephas
+3.10.1 (2026-09-02)
+-------------------
 
-3.8.7 (2026-01-12)
+3.10.0 (2026-05-07)
+-------------------
+* Fix Pytest 8/9 compatibility and coroutine leaks in launch_pytest (`#972 <https://github.com/ros2/launch/issues/972>`_)
+* Contributors: Michael Carroll
+
+3.9.7 (2026-04-09)
 ------------------
-* Merge pull request `#928 <https://github.com/ros2/launch/issues/928>`_ from ros2/mergify/bp/kilted/pr-873
+* fix regressions (`#959 <https://github.com/ros2/launch/issues/959>`_)
+* fix: add get_launch_test_fixture_scope for pytest compatibility (`#949 <https://github.com/ros2/launch/issues/949>`_)
+* Contributors: Daisuke Nishimatsu, Michael Carlstrom
+
+3.9.6 (2026-01-12)
+------------------
+
+3.9.5 (2025-11-07)
+------------------
+
+3.9.4 (2025-10-17)
+------------------
+* Switch osrf_pycommon dependency to system package (`#817 <https://github.com/ros2/launch/issues/817>`_)
+* Contributors: Scott K Logan
+
+3.9.3 (2025-10-06)
+------------------
+
+3.9.2 (2025-07-29)
+------------------
+* Fix Setuptoolsdeprecations (`#898 <https://github.com/ros2/launch/issues/898>`_)
+* Contributors: mosfet80
+
+3.9.1 (2025-06-19)
+------------------
+* Make sure to install py.typed files (`#886 <https://github.com/ros2/launch/issues/886>`_)
+* Add remaining `py.typed` (`#884 <https://github.com/ros2/launch/issues/884>`_)
 * Allow Path in substitutions, instead of requiring cast to str (`#873 <https://github.com/ros2/launch/issues/873>`_)
-* Contributors: Emerson Knapp
+* fix(launch_pytest): prevent re-wrapping test funtions on re-run (`#855 <https://github.com/ros2/launch/issues/855>`_)
+* Contributors: Christophe Bedard, David Revay, Emerson Knapp, Michael Carlstrom
 
-3.8.6 (2025-11-07)
-------------------
-
-3.8.5 (2025-10-17)
-------------------
-
-3.8.4 (2025-10-06)
-------------------
-
-3.8.3 (2025-09-11)
-------------------
-
-3.8.2 (2025-06-23)
+3.9.0 (2025-04-24)
 ------------------
 
 3.8.1 (2025-04-18)
