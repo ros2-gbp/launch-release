@@ -2,7 +2,7 @@
 <?xml-model href="http://download.ros.org/schema/package_format2.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="2">
   <name>test_launch_testing</name>
-  <version>3.10.0</version>
+  <version>3.10.1</version>
   <description>Tests for the launch_testing package.</description>
 
   <maintainer email="aditya.pande@openrobotics.org">Aditya Pande</maintainer>
@@ -17,6 +17,7 @@
 
   <build_depend>ament_cmake</build_depend>
   <build_depend>ament_cmake_python</build_depend>
+  <build_depend>ament_cmake_ros_core</build_depend>
 
   <test_depend>ament_cmake_gtest</test_depend>
   <test_depend>ament_cmake_pytest</test_depend>
