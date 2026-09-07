@@ -15,21 +15,23 @@
 
 """Module for Parser class and parsing methods."""
 
-from importlib import metadata
 import itertools
 import os.path
-import sys
 import traceback
 from typing import List
 from typing import Optional
 from typing import Set
 from typing import Text
 from typing import TextIO
-from typing import Tuple
 from typing import Type
 from typing import TYPE_CHECKING
 from typing import Union
 import warnings
+
+try:
+    import importlib.metadata as importlib_metadata
+except ModuleNotFoundError:
+    import importlib_metadata
 
 from .entity import Entity
 from .expose import instantiate_action
@@ -71,8 +73,8 @@ class Parser:
     def load_launch_extensions(cls):
         """Load launch extensions, in order to get all the exposed substitutions and actions."""
         if cls.extensions_loaded is False:
-            entry_points = metadata.entry_points()
-            if sys.version_info >= (3, 12):
+            entry_points = importlib_metadata.entry_points()
+            if hasattr(entry_points, 'select'):
                 groups = entry_points.select(group='launch.frontend.launch_extension')
             else:
                 groups = entry_points.get('launch.frontend.launch_extension', [])
@@ -89,8 +91,8 @@ class Parser:
         """Load all the available frontend entities."""
         if cls.frontend_parsers is None:
             parsers = {}
-            entry_points = metadata.entry_points()
-            if sys.version_info >= (3, 12):
+            entry_points = importlib_metadata.entry_points()
+            if hasattr(entry_points, 'select'):
                 groups = entry_points.select(group='launch.frontend.parser')
             else:
                 groups = entry_points.get('launch.frontend.parser', [])
@@ -135,7 +137,6 @@ class Parser:
     def get_available_extensions(cls) -> List[Text]:
         """Return the registered extensions."""
         cls.load_parser_implementations()
-        assert cls.frontend_parsers is not None
         return cls.frontend_parsers.keys()
 
     @classmethod
@@ -147,7 +148,6 @@ class Parser:
         warnings.warn(
             'Parser.is_extension_valid is deprecated, use Parser.is_filename_valid instead')
         cls.load_parser_implementations()
-        assert cls.frontend_parsers is not None
         return extension in cls.frontend_parsers
 
     @classmethod
@@ -160,7 +160,6 @@ class Parser:
             'Parser.get_parser_from_extension is deprecated, '
             'use Parser.get_parsers_from_filename instead')
         cls.load_parser_implementations()
-        assert cls.frontend_parsers is not None
         try:
             return cls.frontend_parsers[extension]
         except KeyError:
@@ -181,7 +180,6 @@ class Parser:
     ) -> bool:
         """Return `True` if the filename is valid for any parser."""
         cls.load_parser_implementations()
-        assert cls.frontend_parsers is not None
         return any(
             parser.may_parse(filename)
             for parser in cls.frontend_parsers.values()
@@ -194,7 +192,6 @@ class Parser:
     ) -> List[Type['Parser']]:
         """Return a list of parsers which entity loaded with a markup file."""
         cls.load_parser_implementations()
-        assert cls.frontend_parsers is not None
         return [
             parser for parser in cls.frontend_parsers.values()
             if parser.may_parse(filename)
@@ -204,7 +201,6 @@ class Parser:
     def get_file_extensions_from_parsers(cls) -> Set[Type['Parser']]:
         """Return a set of file extensions known to the parser implementations."""
         cls.load_parser_implementations()
-        assert cls.frontend_parsers is not None
         return set(itertools.chain.from_iterable(
             parser_extension.get_file_extensions()
             for parser_extension in cls.frontend_parsers.values()
@@ -214,7 +210,7 @@ class Parser:
     def load(
         cls,
         file: Union[FilePath, TextIO],
-    ) -> Tuple[Entity, 'Parser']:
+    ) -> (Entity, 'Parser'):
         """
         Parse an Entity from a markup language-based launch file.
 
@@ -226,18 +222,16 @@ class Parser:
         # Imported here, to avoid recursive import.
         cls.load_parser_implementations()
 
-        fileobj: TextIO
-        if isinstance(file, (str, bytes, os.PathLike)):
+        try:
             fileobj = open(file, 'r')
             didopen = True
-        else:
+        except TypeError:
             fileobj = file
             didopen = False
 
         try:
             filename = getattr(fileobj, 'name', '')
             implementations = cls.get_parsers_from_filename(filename)
-            assert cls.frontend_parsers is not None
             implementations += [
                 parser for parser in cls.frontend_parsers.values()
                 if parser not in implementations
@@ -261,4 +255,4 @@ class Parser:
     @classmethod
     def get_file_extensions(cls) -> Set[Text]:
         """Return the set of file extensions known to this parser."""
-        return set()
+        return {}

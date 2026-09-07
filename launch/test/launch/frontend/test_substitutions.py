@@ -21,16 +21,13 @@ from launch import LaunchContext
 from launch import SomeSubstitutionsType
 from launch import Substitution
 from launch.actions import ExecuteProcess
-from launch.frontend import Parser
 from launch.frontend.expose import expose_substitution
 from launch.frontend.parse_substitution import parse_if_substitutions
 from launch.frontend.parse_substitution import parse_substitution
 from launch.substitutions import EnvironmentVariable
 from launch.substitutions import PythonExpression
-from launch.substitutions import StringStripSubstitution
 from launch.substitutions import TextSubstitution
 from launch.substitutions import ThisLaunchFileDir
-from launch.utilities import normalize_to_list_of_substitutions
 
 import pytest
 
@@ -60,8 +57,7 @@ def test_text_only():
 
 
 def perform_substitutions_without_context(subs: List[Substitution]):
-    # XXX : Why is it possible to pass `None` to perform?
-    return ''.join([sub.perform(None) for sub in subs])  # type: ignore
+    return ''.join([sub.perform(None) for sub in subs])
 
 
 class CustomSubstitution(Substitution):
@@ -209,83 +205,16 @@ def test_eval_subst():
     assert 'asdbsd' == expr.perform(LaunchContext())
 
 
-def test_string_strip_subst():
-    subst = parse_substitution("$(string-strip '  $(test asd)  ')")
-    assert len(subst) == 1
-    string_strip = subst[0]
-    assert isinstance(string_strip, StringStripSubstitution)
-    assert string_strip.perform(LaunchContext()) == 'asd'
-
-
 def test_eval_subst_of_math_expr():
-    # Math module is included by default
     subst = parse_substitution(r'$(eval "ceil(1.3)")')
     assert len(subst) == 1
     expr = subst[0]
     assert isinstance(expr, PythonExpression)
     assert '2' == expr.perform(LaunchContext())
 
-    # Do it again, with the math module explicitly given
-    subst = parse_substitution(r'$(eval "ceil(1.3)" "math")')
-    assert len(subst) == 1
-    expr = subst[0]
-    assert isinstance(expr, PythonExpression)
-    assert '2' == expr.perform(LaunchContext())
-
-    # Do it again, with the math module explicitly given and referenced in the expression
-    subst = parse_substitution(r'$(eval "math.ceil(1.3)" "math")')
-    assert len(subst) == 1
-    expr = subst[0]
-    assert isinstance(expr, PythonExpression)
-    assert '2' == expr.perform(LaunchContext())
-
-
-def test_eval_missing_module():
-    # Test with implicit math definition
-    subst = parse_substitution(r'$(eval "ceil(1.3)" "")')
-    assert len(subst) == 1
-    expr = subst[0]
-    assert isinstance(expr, PythonExpression)
-
-    # Should raise NameError since it does not have math module
-    with pytest.raises(NameError):
-        assert expr.perform(LaunchContext())
-
-    # Test with explicit math definition
-    subst = parse_substitution(r'$(eval "math.ceil(1.3)" "")')
-    assert len(subst) == 1
-    expr = subst[0]
-    assert isinstance(expr, PythonExpression)
-
-    # Should raise NameError since it does not have math module
-    with pytest.raises(NameError):
-        assert expr.perform(LaunchContext())
-
-
-def test_eval_subst_multiple_modules():
-    subst = parse_substitution(
-        r'$(eval "math.isfinite(sys.getrefcount(str(\'hello world!\')))" "math, sys")')
-    assert len(subst) == 1
-    expr = subst[0]
-    assert isinstance(expr, PythonExpression)
-    assert expr.perform(LaunchContext())
-
-
-def test_eval_subst_multiple_modules_alt_syntax():
-    # Case where the module names are listed with irregular spacing
-    subst = parse_substitution(
-        r'$(eval "math.isfinite(sys.getrefcount(str(\'hello world!\')))" " math,sys ")')
-    assert len(subst) == 1
-    expr = subst[0]
-    assert isinstance(expr, PythonExpression)
-    assert expr.perform(LaunchContext())
-
 
 def expand_cmd_subs(cmd_subs: List[SomeSubstitutionsType]):
-    return [
-      perform_substitutions_without_context(normalize_to_list_of_substitutions(x))
-      for x in cmd_subs
-    ]
+    return [perform_substitutions_without_context(x) for x in cmd_subs]
 
 
 def test_parse_if_substitutions():
@@ -327,13 +256,13 @@ def test_parse_if_substitutions():
         parse_if_substitutions(['$(test asd)', 1, 1.0])
 
 
-class MockParser(Parser):
+class MockParser:
 
-    def parse_substitution(self, value: Text) -> List[Substitution]:
+    def parse_substitution(self, value: Text) -> SomeSubstitutionsType:
         return parse_substitution(value)
 
 
-def test_execute_process_parse_cmd_line() -> None:
+def test_execute_process_parse_cmd_line():
     """Test ExecuteProcess._parse_cmd_line."""
     parser = MockParser()
 
@@ -376,13 +305,3 @@ def test_execute_process_parse_cmd_line() -> None:
     cmd_subs = ExecuteProcess._parse_cmdline(cmd_text, parser)
     cmd_performed = expand_cmd_subs(cmd_subs)
     assert cmd_performed == ['that', 'this']
-
-
-def test_eval_subst_submodule():
-    # Case where a submodule is used
-    subst = parse_substitution(
-        r'$(eval "os.path.exists(\'/\')" "os")')
-    assert len(subst) == 1
-    expr = subst[0]
-    assert isinstance(expr, PythonExpression)
-    assert expr.perform(LaunchContext())

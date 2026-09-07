@@ -49,11 +49,7 @@ def retry_on_failure(*, times, delay=None):
                         assert self._outcome.success
                     return ret
                 except AssertionError:
-                    if hasattr(self._outcome, 'errors'):
-                        self._outcome.errors.clear()
-                    else:
-                        if self._outcome.result is not None:
-                            self._outcome.result.errors.clear()
+                    self._outcome.errors.clear()
                     self._outcome.success = True
                     n -= 1
                 if delay is not None:

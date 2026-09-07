@@ -15,7 +15,6 @@
 """Module with handlers for launch specific logging."""
 
 import sys
-import types
 
 
 def with_per_logger_formatting(cls):
@@ -51,7 +50,7 @@ def with_per_logger_formatting(cls):
 
 # TODO(hidmic): replace module wrapper with module-level __getattr__
 #               implementation when we switch to Python 3.7+
-class _module_wrapper(types.ModuleType):
+class _module_wrapper:
     """Provide all Python `logging` module handlers with per logger formatting support."""
 
     def __init__(self, wrapped_module):

@@ -17,6 +17,7 @@
 
 """Module for a description of an Executable."""
 
+import copy
 import os
 import re
 import shlex
@@ -100,67 +101,67 @@ class Executable:
                     normalize_to_list_of_substitutions(key),
                     normalize_to_list_of_substitutions(value)))
         self.__arguments = arguments
-        self.__final_cmd: Optional[List[str]] = None
-        self.__final_cwd: Optional[str] = None
-        self.__final_env: Optional[Dict[str, str]] = None
-        self.__final_name: Optional[str] = None
+        self.__final_cmd = None
+        self.__final_cwd = None
+        self.__final_env = None
+        self.__final_name = None
 
     @property
-    def name(self) -> Optional[List[Substitution]]:
+    def name(self):
         """Getter for name."""
         return self.__name
 
     @property
-    def prefix(self) -> List[Substitution]:
+    def prefix(self):
         """Getter for prefix."""
         return self.__prefix
 
     @property
-    def cmd(self) -> List[List[Substitution]]:
+    def cmd(self):
         """Getter for cmd."""
         return self.__cmd
 
     @property
-    def cwd(self) -> Optional[List[Substitution]]:
+    def cwd(self):
         """Getter for cwd."""
         return self.__cwd
 
     @property
-    def env(self) -> Optional[List[Tuple[List[Substitution], List[Substitution]]]]:
+    def env(self):
         """Getter for env."""
         return self.__env
 
     @property
-    def additional_env(self) -> Optional[List[Tuple[List[Substitution], List[Substitution]]]]:
+    def additional_env(self):
         """Getter for additional_env."""
         return self.__additional_env
 
     @property
-    def arguments(self) -> Optional[Iterable[SomeSubstitutionsType]]:
+    def arguments(self):
         """Getter for arguments."""
         return self.__arguments
 
     @property
-    def final_name(self) -> Optional[str]:
+    def final_name(self):
         """Getter for final_name."""
         return self.__final_name
 
     @property
-    def final_cmd(self) -> Optional[List[str]]:
+    def final_cmd(self):
         """Getter for final_cmd."""
         return self.__final_cmd
 
     @property
-    def final_cwd(self) -> Optional[str]:
+    def final_cwd(self):
         """Getter for cwd."""
         return self.__final_cwd
 
     @property
-    def final_env(self) -> Optional[Dict[str, str]]:
+    def final_env(self):
         """Getter for final_env."""
         return self.__final_env
 
-    def prepare(self, context: LaunchContext, action: Action) -> None:
+    def prepare(self, context: LaunchContext, action: Action):
         """
         Prepare an executable description for execution in a given environment.
 
@@ -177,14 +178,12 @@ class Executable:
         if self.__prefix_filter is not None:  # no prefix given on construction
             prefix_filter = perform_substitutions(context, self.__prefix_filter)
             # Apply if filter regex matches (empty regex matches all strings)
-            should_apply_prefix = re.match(prefix_filter, os.path.basename(cmd[0])) is not None
-        # Derive the logger name from the user's command before the prefix is
-        # prepended, otherwise ``prefix='gdb ...'`` ends up as the logger name.
-        name = os.path.basename(cmd[0]) if self.__name is None \
-            else perform_substitutions(context, self.__name)
+            should_apply_prefix = re.match(prefix_filter, os.path.basename(cmd[0]))
         if should_apply_prefix:
             cmd = shlex.split(perform_substitutions(context, self.__prefix)) + cmd
         self.__final_cmd = cmd
+        name = os.path.basename(cmd[0]) if self.__name is None \
+            else perform_substitutions(context, self.__name)
         with _executable_process_counter_lock:
             global _executable_process_counter
             _executable_process_counter += 1
@@ -199,7 +198,7 @@ class Executable:
                 env[''.join([context.perform_substitution(x) for x in key])] = \
                     ''.join([context.perform_substitution(x) for x in value])
         else:
-            env = dict(context.environment)
+            env = copy.deepcopy(context.environment)
         if self.__additional_env is not None:
             for key, value in self.__additional_env:
                 env[''.join([context.perform_substitution(x) for x in key])] = \

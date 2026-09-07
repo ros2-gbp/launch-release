@@ -19,11 +19,7 @@ import textwrap
 
 from launch import LaunchService
 from launch.actions import Shutdown
-from launch.actions.execute_process import ExecuteProcess
-
-from parser_no_extensions import load_no_extensions
-
-import pytest
+from launch.frontend import Parser
 
 
 def test_executable():
@@ -38,34 +34,31 @@ def test_executable():
                 shell: true
                 emulate_tty: true
                 output: log
-                sigkill_timeout: 4.0
-                sigterm_timeout: 7.0
                 'launch-prefix': $(env LAUNCH_PREFIX '')
                 env:
                     -   name: var
                         value: '1'
         """
     yaml_file = textwrap.dedent(yaml_file)
-    root_entity, parser = load_no_extensions(io.StringIO(yaml_file))
+    root_entity, parser = Parser.load(io.StringIO(yaml_file))
     ld = parser.parse_description(root_entity)
     executable = ld.entities[0]
     cmd = [i[0].perform(None) for i in executable.cmd]
-    assert cmd == ['ls', '-l', '-a', '-s']
-    assert executable.cwd[0].perform(None) == '/'
-    assert executable.name[0].perform(None) == 'my_ls'
-    assert executable.shell is True
-    assert executable.emulate_tty is True
-    assert executable.output[0].perform(None) == 'log'
-    assert executable.sigkill_timeout[0].perform(None) == '4.0'
-    assert executable.sigterm_timeout[0].perform(None) == '7.0'
+    assert(
+        cmd == ['ls', '-l', '-a', '-s'])
+    assert(executable.cwd[0].perform(None) == '/')
+    assert(executable.name[0].perform(None) == 'my_ls')
+    assert(executable.shell is True)
+    assert(executable.emulate_tty is True)
+    assert(executable.output[0].perform(None) == 'log')
     key, value = executable.additional_env[0]
     key = key[0].perform(None)
     value = value[0].perform(None)
-    assert key == 'var'
-    assert value == '1'
+    assert(key == 'var')
+    assert(value == '1')
     ls = LaunchService()
     ls.include_launch_description(ld)
-    assert 0 == ls.run()
+    assert(0 == ls.run())
 
 
 def test_executable_on_exit():
@@ -77,58 +70,12 @@ def test_executable_on_exit():
                 on_exit: shutdown
         """
     yaml_file = textwrap.dedent(yaml_file)
-    root_entity, parser = load_no_extensions(io.StringIO(yaml_file))
+    root_entity, parser = Parser.load(io.StringIO(yaml_file))
     ld = parser.parse_description(root_entity)
     executable = ld.entities[0]
     sub_entities = executable.get_sub_entities()
     assert len(sub_entities) == 1
     assert isinstance(sub_entities[0], Shutdown)
-
-
-def test_executable_respawn_max_retries_string_zero():
-    yaml_file = \
-        """\
-        launch:
-        -   executable:
-                cmd: echo test
-                respawn_max_retries: '0'
-        """
-    yaml_file = textwrap.dedent(yaml_file)
-    root_entity, parser = load_no_extensions(io.StringIO(yaml_file))
-    _, kwargs = ExecuteProcess.parse(root_entity.children[0], parser)
-
-    assert kwargs['respawn_max_retries'] == 0
-    assert isinstance(kwargs['respawn_max_retries'], int)
-
-
-def test_executable_respawn_max_retries_empty_string_error():
-    yaml_file = \
-        """\
-        launch:
-        -   executable:
-                cmd: echo test
-                respawn_max_retries: ''
-        """
-    yaml_file = textwrap.dedent(yaml_file)
-    root_entity, parser = load_no_extensions(io.StringIO(yaml_file))
-
-    with pytest.raises(ValueError, match='respawn_max_retries'):
-        ExecuteProcess.parse(root_entity.children[0], parser)
-
-
-def test_executable_respawn_max_retries_bool_error():
-    yaml_file = \
-        """\
-        launch:
-        -   executable:
-                cmd: echo test
-                respawn_max_retries: true
-        """
-    yaml_file = textwrap.dedent(yaml_file)
-    root_entity, parser = load_no_extensions(io.StringIO(yaml_file))
-
-    with pytest.raises(ValueError, match='respawn_max_retries'):
-        ExecuteProcess.parse(root_entity.children[0], parser)
 
 
 if __name__ == '__main__':

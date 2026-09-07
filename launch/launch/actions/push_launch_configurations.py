@@ -14,8 +14,6 @@
 
 """Module for the PushLaunchConfigurations action."""
 
-from typing import Any
-
 from ..action import Action
 from ..launch_context import LaunchContext
 
@@ -28,10 +26,10 @@ class PushLaunchConfigurations(Action):
     :py:class:`launch.actions.PopLaunchConfigurations` action.
     """
 
-    def __init__(self, **kwargs: Any) -> None:
+    def __init__(self, **kwargs) -> None:
         """Create a PushLaunchConfigurations action."""
         super().__init__(**kwargs)
 
-    def execute(self, context: LaunchContext) -> None:
+    def execute(self, context: LaunchContext):
         """Execute the action."""
         context._push_launch_configurations()

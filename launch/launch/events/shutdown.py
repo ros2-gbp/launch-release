@@ -30,11 +30,11 @@ class Shutdown(Event):
         self.__due_to_sigint = due_to_sigint
 
     @property
-    def reason(self) -> Text:
+    def reason(self):
         """Getter for reason."""
         return self.__reason
 
     @property
-    def due_to_sigint(self) -> bool:
+    def due_to_sigint(self):
         """Getter for due_to_sigint."""
         return self.__due_to_sigint
