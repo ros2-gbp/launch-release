@@ -2,6 +2,9 @@
 Changelog for package launch_xml
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+1.0.15 (2026-09-06)
+-------------------
+
 1.0.14 (2026-01-12)
 -------------------
 * [humble] Allow Path in substitutions, instead of requiring cast to str (backport `#873 <https://github.com/ros2/launch/issues/873>`_) (`#926 <https://github.com/ros2/launch/issues/926>`_)
