@@ -2,65 +2,48 @@
 Changelog for package launch_testing
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-3.8.9 (2026-09-18)
-------------------
-* Robust pytest_ignore_collect for multi-version Pytest compatibility (`#974 <https://github.com/ros2/launch/issues/974>`_) (`#1005 <https://github.com/ros2/launch/issues/1005>`_)
-* Fix Pytest 8/9 compatibility and coroutine leaks in launch_pytest (`#972 <https://github.com/ros2/launch/issues/972>`_) (`#1007 <https://github.com/ros2/launch/issues/1007>`_)
+3.4.12 (2026-09-18)
+-------------------
+* Robust pytest_ignore_collect for multi-version Pytest compatibility (`#974 <https://github.com/ros2/launch/issues/974>`_) (`#1006 <https://github.com/ros2/launch/issues/1006>`_)
+* Fix Pytest 8/9 compatibility and coroutine leaks in launch_pytest (`#972 <https://github.com/ros2/launch/issues/972>`_) (`#1008 <https://github.com/ros2/launch/issues/1008>`_)
 * Contributors: Guilhem Saurel
 
-3.8.8 (2026-07-14)
-------------------
-* Correct typos (backport `#961 <https://github.com/ros2/launch//issues/961>`_) (`#962 <https://github.com/ros2/launch//issues/962>`_)
+3.4.11 (2026-06-02)
+-------------------
+* Correct typos (backport `#961 <https://github.com/ros2/launch/issues/961>`_) (`#963 <https://github.com/ros2/launch/issues/963>`_)
+  * Correct typos (`#961 <https://github.com/ros2/launch/issues/961>`_)
+  (cherry picked from commit b51d67a0fb3c572a8255855ac73364ca53ed3691)
+  Co-authored-by: Auguste Lalande <auguste.lalande@gmail.com>
+  Co-authored-by: Alejandro Hernandez Cordero <ahcorde@gmail.com>
 * Contributors: mergify[bot]
 
-3.8.7 (2026-01-12)
+3.4.10 (2026-01-12)
+-------------------
+
+3.4.9 (2025-11-07)
 ------------------
 
-3.8.6 (2025-11-07)
+3.4.8 (2025-10-17)
 ------------------
 
-3.8.5 (2025-10-17)
+3.4.7 (2025-10-06)
 ------------------
 
-3.8.4 (2025-10-06)
+3.4.6 (2025-08-06)
 ------------------
 
-3.8.3 (2025-09-11)
+3.4.5 (2025-06-23)
 ------------------
 
-3.8.2 (2025-06-23)
+3.4.4 (2025-04-02)
 ------------------
-
-3.8.1 (2025-04-18)
-------------------
+* Merge pull request `#834 <https://github.com/ros2/launch/issues/834>`_ from ros2/mergify/bp/jazzy/pr-833
+  Fix function params indentation (backport `#833 <https://github.com/ros2/launch/issues/833>`_)
 * Fix function params indentation (`#833 <https://github.com/ros2/launch/issues/833>`_)
-* Contributors: Christophe Bedard
+  (cherry picked from commit 151b024a7cfac06f0d56798cbe87ab180b9ea3ab)
+* Contributors: Alejandro Hernández Cordero, Christophe Bedard
 
-3.8.0 (2025-02-27)
-------------------
-* Cleanup the launch dependencies. (`#819 <https://github.com/ros2/launch/issues/819>`_)
-* Contributors: Chris Lalancette
-
-3.7.1 (2024-12-20)
-------------------
-
-3.7.0 (2024-11-20)
-------------------
-* Add test_xmllint to all of the ament_python packages. (`#804 <https://github.com/ros2/launch/issues/804>`_)
-* Contributors: Chris Lalancette
-
-3.6.1 (2024-07-29)
-------------------
-
-3.6.0 (2024-06-25)
-------------------
-
-3.5.1 (2024-06-17)
-------------------
-* Add mechanism to disable workaround for dependency groups (`#775 <https://github.com/ros2/launch/issues/775>`_)
-* Contributors: Scott K Logan
-
-3.5.0 (2024-04-26)
+3.4.3 (2024-12-18)
 ------------------
 
 3.4.2 (2024-04-16)

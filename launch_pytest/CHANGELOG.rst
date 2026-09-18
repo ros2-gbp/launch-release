@@ -2,65 +2,40 @@
 Changelog for package launch_pytest
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-3.8.9 (2026-09-18)
-------------------
-* Fix Pytest 8/9 compatibility and coroutine leaks in launch_pytest (`#972 <https://github.com/ros2/launch/issues/972>`_) (`#1007 <https://github.com/ros2/launch/issues/1007>`_)
+3.4.12 (2026-09-18)
+-------------------
+* Fix Pytest 8/9 compatibility and coroutine leaks in launch_pytest (`#972 <https://github.com/ros2/launch/issues/972>`_) (`#1008 <https://github.com/ros2/launch/issues/1008>`_)
 * Contributors: Guilhem Saurel
 
-3.8.8 (2026-07-14)
-------------------
-* Backport `#949 <https://github.com/ros2/launch//issues/949>`_ (`#966 <https://github.com/ros2/launch//issues/966>`_)
+3.4.11 (2026-06-02)
+-------------------
+* Backport `#949 <https://github.com/ros2/launch/issues/949>`_ (`#967 <https://github.com/ros2/launch/issues/967>`_)
 * Contributors: Tim Clephas
 
-3.8.7 (2026-01-12)
-------------------
-* Merge pull request `#928 <https://github.com/ros2/launch/issues/928>`_ from ros2/mergify/bp/kilted/pr-873
-* Allow Path in substitutions, instead of requiring cast to str (`#873 <https://github.com/ros2/launch/issues/873>`_)
-* Contributors: Emerson Knapp
+3.4.10 (2026-01-12)
+-------------------
+* [jazzy] Allow Path in substitutions, instead of requiring cast to str (backport `#873 <https://github.com/ros2/launch/issues/873>`_) (`#927 <https://github.com/ros2/launch/issues/927>`_)
+* Contributors: mergify[bot]
 
-3.8.6 (2025-11-07)
-------------------
-
-3.8.5 (2025-10-17)
+3.4.9 (2025-11-07)
 ------------------
 
-3.8.4 (2025-10-06)
+3.4.8 (2025-10-17)
 ------------------
 
-3.8.3 (2025-09-11)
+3.4.7 (2025-10-06)
 ------------------
 
-3.8.2 (2025-06-23)
+3.4.6 (2025-08-06)
 ------------------
 
-3.8.1 (2025-04-18)
+3.4.5 (2025-06-23)
 ------------------
 
-3.8.0 (2025-02-27)
-------------------
-* Cleanup the launch dependencies. (`#819 <https://github.com/ros2/launch/issues/819>`_)
-* Contributors: Chris Lalancette
-
-3.7.1 (2024-12-20)
+3.4.4 (2025-04-02)
 ------------------
 
-3.7.0 (2024-11-20)
-------------------
-* Add test_xmllint to all of the ament_python packages. (`#804 <https://github.com/ros2/launch/issues/804>`_)
-* Contributors: Chris Lalancette
-
-3.6.1 (2024-07-29)
-------------------
-* Switch to using an rclpy context manager. (`#787 <https://github.com/ros2/launch/issues/787>`_)
-* Contributors: Chris Lalancette
-
-3.6.0 (2024-06-25)
-------------------
-
-3.5.1 (2024-06-17)
-------------------
-
-3.5.0 (2024-04-26)
+3.4.3 (2024-12-18)
 ------------------
 
 3.4.2 (2024-04-16)

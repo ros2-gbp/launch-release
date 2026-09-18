@@ -46,11 +46,14 @@ def generate_test_description():
 
 @pytest.mark.launch(fixture=generate_test_description)
 def test_check_if_msgs_published():
-    with rclpy.init():
+    rclpy.init()
+    try:
         node = MakeTestNode('test_node')
         node.start_subscriber()
         msgs_received_flag = node.msg_event_object.wait(timeout=5.0)
         assert msgs_received_flag, 'Did not receive msgs !'
+    finally:
+        rclpy.shutdown()
 
 
 class MakeTestNode(Node):
