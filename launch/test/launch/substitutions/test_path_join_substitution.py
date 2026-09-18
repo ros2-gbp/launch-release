@@ -21,7 +21,7 @@ from launch.substitutions import PathJoinSubstitution, PathSubstitution
 from launch.substitutions import TextSubstitution
 
 
-def test_this_launch_file_path():
+def test_path_join():
     context = LaunchContext()
 
     path = ['asd', 'bsd', 'cds']
