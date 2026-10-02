@@ -5,7 +5,7 @@ package_name = 'launch'
 
 setup(
     name=package_name,
-    version='3.10.1',
+    version='3.10.2',
     packages=find_packages(exclude=['test']),
     data_files=[
         ('share/' + package_name, ['package.xml']),
@@ -32,7 +32,7 @@ setup(
     long_description=(
         'This package provides the ability to run multiple '
         'processes and react on individual processes exiting.'),
-    license='Apache License, Version 2.0',
+    license='Apache-2.0',
     extras_require={
         'test': [
             'pytest',
