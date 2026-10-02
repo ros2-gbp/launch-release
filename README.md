@@ -1,3 +1,35 @@
+## launch (rolling) - 3.10.2-1
+
+The packages in the `launch` repository were released into the `rolling` distro by running `/usr/local/google/home/wjwwood/.local/bin/bloom-release --rosdistro rolling --track rolling --non-interactive --no-web launch` on `Fri, 02 Oct 2026 00:07:04 -0000`
+
+These packages were released:
+- `launch`
+- `launch_pytest`
+- `launch_testing`
+- `launch_testing_ament_cmake`
+- `launch_xml`
+- `launch_yaml`
+
+These packages were explicitly ignored:
+- `test_launch_testing`
+
+Version of package(s) in repository `launch`:
+
+- upstream repository: https://github.com/ros2/launch.git
+- release repository: https://github.com/ros2-gbp/launch-release.git
+- rosdistro version: `3.10.1-1`
+- old version: `3.10.1-1`
+- new version: `3.10.2-1`
+
+Versions of tools used:
+
+- bloom version: `0.14.4`
+- catkin_pkg version: `1.1.1`
+- rosdep version: `0.26.0`
+- rosdistro version: `1.1.0`
+- vcstools version: `0.1.42`
+
+
 ## launch (jazzy) - 3.4.12-1
 
 The packages in the `launch` repository were released into the `jazzy` distro by running `/usr/bin/bloom-release --rosdistro jazzy launch` on `Fri, 18 Sep 2026 22:07:39 -0000`
