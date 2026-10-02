@@ -14,8 +14,13 @@
 
 """Module for the ThisLaunchFileDir substitution."""
 
+from typing import Any
+from typing import Dict
 from typing import Sequence
 from typing import Text
+from typing import Tuple
+from typing import Type
+
 
 from .path_join_substitution import PathSubstitution
 from .substitution_failure import SubstitutionFailure
@@ -33,7 +38,8 @@ class ThisLaunchFileDir(PathSubstitution):
         super().__init__(path=self)
 
     @classmethod
-    def parse(cls, data: Sequence[SomeSubstitutionsType]):
+    def parse(cls, data: Sequence[SomeSubstitutionsType]
+              ) -> Tuple[Type['ThisLaunchFileDir'], Dict[str, Any]]:
         """Parse `ThisLaunchFileDir` substitution."""
         if len(data) != 0:
             raise TypeError("dirname substitution doesn't expect arguments")
