@@ -27,16 +27,13 @@ except ImportError:
     from _pytest.fixtures import scopemismatch as scope_gt
 
 
-def finalize_launch_service(launch_service, eprefix='', auto_shutdown=True, task=None):
+def finalize_launch_service(launch_service, eprefix='', auto_shutdown=True):
     if auto_shutdown:
         launch_service.shutdown(force_sync=True)
     loop = launch_service.event_loop
     if loop is not None and not loop.is_closed():
-        if task is None:
-            task = launch_service.task
-        if task is not None:
-            rc = loop.run_until_complete(task)
-            assert rc == 0, f"{eprefix} launch service failed when finishing, return code '{rc}'"
+        rc = loop.run_until_complete(launch_service.task)
+        assert rc == 0, f"{eprefix} launch service failed when finishing, return code '{rc}'"
 
 
 def get_launch_service_fixture(*, scope='function', overridable=True):

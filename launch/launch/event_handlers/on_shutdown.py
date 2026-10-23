@@ -24,19 +24,11 @@ from typing import Union
 from ..event import Event
 from ..event_handler import BaseEventHandler
 from ..events import Shutdown
-from ..some_entities_type import SomeEntitiesType
+from ..some_actions_type import SomeActionsType
 from ..utilities import is_a_subclass
 
 if TYPE_CHECKING:
     from ..launch_context import LaunchContext  # noqa: F401
-
-
-def gen_handler(
-        entities: SomeEntitiesType
-        ) -> Callable[[Shutdown, 'LaunchContext'], SomeEntitiesType]:
-    def handler(event: Shutdown, context: 'LaunchContext') -> SomeEntitiesType:
-        return entities
-    return handler
 
 
 class OnShutdown(BaseEventHandler):
@@ -45,8 +37,8 @@ class OnShutdown(BaseEventHandler):
     def __init__(
         self,
         *,
-        on_shutdown: Union[SomeEntitiesType,
-                           Callable[[Shutdown, 'LaunchContext'], Optional[SomeEntitiesType]]],
+        on_shutdown: Union[SomeActionsType,
+                           Callable[[Shutdown, 'LaunchContext'], Optional[SomeActionsType]]],
         **kwargs
     ) -> None:
         """Create an OnShutdown event handler."""
@@ -56,12 +48,11 @@ class OnShutdown(BaseEventHandler):
         )
         # TODO(wjwwood) check that it is not only callable, but also a callable that matches
         # the correct signature for a handler in this case
-        if callable(on_shutdown):
-            self.__on_shutdown = on_shutdown
-        else:
-            self.__on_shutdown = gen_handler(on_shutdown)
+        self.__on_shutdown = on_shutdown
+        if not callable(on_shutdown):
+            self.__on_shutdown = (lambda event, context: on_shutdown)
 
-    def handle(self, event: Event, context: 'LaunchContext') -> Optional[SomeEntitiesType]:
+    def handle(self, event: Event, context: 'LaunchContext') -> Optional[SomeActionsType]:
         """Handle the given event."""
         super().handle(event, context)
         return self.__on_shutdown(cast(Shutdown, event), context)

@@ -15,7 +15,6 @@
 """Tests for the visit_all_entities_and_collect_futures() function."""
 
 import asyncio
-import warnings
 
 from launch import LaunchContext, LaunchDescriptionEntity
 from launch.utilities import visit_all_entities_and_collect_futures
@@ -28,12 +27,7 @@ def test_visit_all_entities_and_collect_futures_with_future():
     class MockEntityDescriptionWithFuture(LaunchDescriptionEntity):
 
         def get_asyncio_future(self):
-            with warnings.catch_warnings():
-                warnings.filterwarnings(
-                    'ignore',
-                    'There is no current event loop',
-                    DeprecationWarning)
-                return asyncio.Future()
+            return asyncio.Future()
 
     visit_with_future_result = visit_all_entities_and_collect_futures(
         MockEntityDescriptionWithFuture(),
@@ -67,12 +61,7 @@ def test_visit_all_entities_and_collect_futures_sub_entities():
     class MockEntityDescriptionWithFuture(LaunchDescriptionEntity):
 
         def get_asyncio_future(self):
-            with warnings.catch_warnings():
-                warnings.filterwarnings(
-                    'ignore',
-                    'There is no current event loop',
-                    DeprecationWarning)
-                return asyncio.Future()
+            return asyncio.Future()
 
     class MockEntityDescriptionNoFuture(LaunchDescriptionEntity):
         pass
@@ -83,12 +72,7 @@ def test_visit_all_entities_and_collect_futures_sub_entities():
             self.__recurse_count = recurse_count
 
         def get_asyncio_future(self):
-            with warnings.catch_warnings():
-                warnings.filterwarnings(
-                    'ignore',
-                    'There is no current event loop',
-                    DeprecationWarning)
-                return asyncio.Future()
+            return asyncio.Future()
 
         def visit(self, context):
             # Recurse three times

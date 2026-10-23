@@ -19,7 +19,7 @@ from typing import Optional
 from typing import Union
 
 from launch import LaunchContext
-from launch import SomeEntitiesType
+from launch import SomeActionsType
 from launch import SomeSubstitutionsType
 from launch.action import Action
 from launch.actions import ExecuteProcess
@@ -56,9 +56,7 @@ class Test(ExecuteProcess):
         """Getter for timeout."""
         return self.__timeout
 
-    def __on_process_exit(
-        self, event: Event, context: LaunchContext
-    ) -> Optional[SomeEntitiesType]:
+    def __on_process_exit(self, event: Event, context: LaunchContext) -> Optional[SomeActionsType]:
         """On shutdown event."""
         if self.__timer:
             self.__timer.cancel()
