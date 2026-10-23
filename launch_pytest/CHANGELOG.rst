@@ -2,22 +2,13 @@
 Changelog for package launch_pytest
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-3.10.3 (2026-10-23)
--------------------
+3.9.9 (2026-10-23)
+------------------
 
-3.10.2 (2026-10-01)
--------------------
-* Remove unused launch_pytest talker args (`#1021 <https://github.com/ros2/launch/issues/1021>`_)
-* Use the SPDX identifier Apache-2.0 in license declarations (`#1013 <https://github.com/ros2/launch/issues/1013>`_)
-* Contributors: Michael Carroll, manbujingxindele
-
-3.10.1 (2026-09-02)
--------------------
-
-3.10.0 (2026-05-07)
--------------------
-* Fix Pytest 8/9 compatibility and coroutine leaks in launch_pytest (`#972 <https://github.com/ros2/launch/issues/972>`_)
-* Contributors: Michael Carroll
+3.9.8 (2026-07-14)
+------------------
+* Fix Pytest 8/9 compatibility in hooks (backport `#972 <https://github.com/ros2/launch//issues/972>`_) (`#973 <https://github.com/ros2/launch//issues/973>`_)
+* Contributors: mergify[bot]
 
 3.9.7 (2026-04-09)
 ------------------

@@ -16,7 +16,7 @@
 import xml.etree.ElementTree as ET
 
 
-def unittestResultsToXml(*, name='launch_test', test_results={}, classname_suffix=None):
+def unittestResultsToXml(*, name='launch_test', test_results={}):
     """
     Serialize multiple unittest.TestResult objects into an XML document.
 
@@ -46,12 +46,12 @@ def unittestResultsToXml(*, name='launch_test', test_results={}, classname_suffi
     test_suites.set('time', str(round(time, 3)))
 
     for (name, test_result) in test_results.items():
-        test_suites.append(unittestResultToXml(str(name), test_result, classname_suffix))
+        test_suites.append(unittestResultToXml(str(name), test_result))
 
     return ET.ElementTree(test_suites)
 
 
-def unittestResultToXml(name, test_result, classname_suffix=None):
+def unittestResultToXml(name, test_result):
     """
     Serialize a single unittest.TestResult to an XML element.
 
@@ -68,23 +68,12 @@ def unittestResultToXml(name, test_result, classname_suffix=None):
     test_suite.set('time', str(round(sum(test_result.testTimes.values()), 3)))
 
     for case in test_result.testCases:
-        test_suite.append(unittestCaseToXml(test_result, case, classname_suffix))
+        test_suite.append(unittestCaseToXml(test_result, case))
 
     return test_suite
 
 
-def _classname_suffix(test_name):
-    """
-    Make a CTest target name safe to append to a JUnit class name.
-
-    Jenkins splits the classname on the last '.', so a '.' in the suffix would
-    move it into the package name.  The default TARGET of add_launch_test()
-    is the test file name, which carries a '.py' extension.
-    """
-    return test_name.replace('.', '_')
-
-
-def unittestCaseToXml(test_result, test_case, classname_suffix=None):
+def unittestCaseToXml(test_result, test_case):
     """
     Serialize a unittest.TestCase into an XML element.
 
@@ -96,9 +85,6 @@ def unittestCaseToXml(test_result, test_case, classname_suffix=None):
     case_xml = ET.Element('testcase')
     full_methodname, _, qualifiers = test_case.id().partition(' ')
     full_classname, _, methodname = full_methodname.rpartition('.')
-    if classname_suffix:
-        full_classname = '{}__{}'.format(
-            full_classname, _classname_suffix(classname_suffix))
     case_xml.set('classname', full_classname)
     case_xml.set('name', (methodname + ' ' + qualifiers).strip())
     case_xml.set('time', str(round(test_result.testTimes[test_case], 3)))

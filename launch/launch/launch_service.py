@@ -18,6 +18,7 @@ import asyncio
 import collections.abc
 import contextlib
 import logging
+import platform
 import signal
 import sys
 import threading
@@ -27,7 +28,6 @@ from typing import Generator
 from typing import Iterable
 from typing import List  # noqa: F401
 from typing import Optional
-from typing import Set  # noqa: F401
 from typing import Text
 from typing import Tuple  # noqa: F401
 
@@ -94,8 +94,7 @@ class LaunchService:
         # it being set to None by run() as it exits.
         self.__loop_from_run_thread_lock = threading.RLock()
         self.__loop_from_run_thread = None
-        self.__this_task: Optional[asyncio.Task[None]] = None
-        self.__process_one_event_task: Optional[asyncio.Task[None]] = None
+        self.__this_task: Optional[asyncio.Future[None]] = None
 
         # Used to indicate when shutdown() has been called.
         self.__shutting_down = False
@@ -157,17 +156,7 @@ class LaunchService:
     def _is_idle(self) -> bool:
         number_of_entity_future_pairs = self._prune_and_count_entity_future_pairs()
         number_of_entity_future_pairs += self._prune_and_count_context_completion_futures()
-        if self.event_loop is not None:
-            tasks_to_ignore = {self.__this_task, self.__process_one_event_task}
-            active_tasks = [
-                task for task in asyncio.all_tasks(self.event_loop)
-                if task not in tasks_to_ignore and not task.done()
-            ]
-        else:
-            active_tasks = []
-        return (number_of_entity_future_pairs == 0 and
-                self.__context._event_queue.empty() and
-                len(active_tasks) == 0)
+        return number_of_entity_future_pairs == 0 and self.__context._event_queue.empty()
 
     @contextlib.contextmanager
     def _prepare_run_loop(
@@ -206,27 +195,38 @@ class LaunchService:
                 this_task = asyncio.Task.current_task(this_loop)
 
             self.__this_task = this_task
-            # Setup custom signal handlers for SIGINT & SIGTERM
-            signals_received: Set[str] = set()
+            # Setup custom signal handlers for SIGINT, SIGTERM and maybe SIGQUIT.
+            sigint_received = False
 
-            def _on_signal(signum: int) -> None:
-                signal_name = signal.Signals(signum).name
-                base_msg = 'caught ' + signal_name
-                if signal_name not in signals_received:
-                    signals_received.add(signal_name)
-                    due_to_sigint = True if signal_name == 'SIGINT' else False
+            def _on_sigint(signum: int) -> None:
+                nonlocal sigint_received
+                base_msg = 'user interrupted with ctrl-c (SIGINT)'
+                if not sigint_received:
                     self.__logger.warning(base_msg)
                     ret = self._shutdown(
-                        reason=base_msg, due_to_sigint=due_to_sigint, force_sync=True
+                        reason='ctrl-c (SIGINT)', due_to_sigint=True, force_sync=True
                     )
                     assert ret is None, ret
+                    sigint_received = True
                 else:
                     self.__logger.warning('{} again, ignoring...'.format(base_msg))
 
+            def _on_sigterm(signum: int) -> None:
+                signame = signal.Signals(signum).name
+                self.__logger.error(
+                    'user interrupted with ctrl-\\ ({}), terminating...'.format(signame))
+                # TODO(wjwwood): try to terminate running subprocesses before exiting.
+                self.__logger.error('using {} can result in orphaned processes'.format(signame))
+                self.__logger.error('make sure no processes launched are still running')
+                if this_task:
+                    this_loop.call_soon(this_task.cancel)
+
             with AsyncSafeSignalManager(this_loop) as manager:
                 # Setup signal handlers
-                manager.handle(signal.SIGINT, _on_signal)
-                manager.handle(signal.SIGTERM, _on_signal)
+                manager.handle(signal.SIGINT, _on_sigint)
+                manager.handle(signal.SIGTERM, _on_sigterm)
+                if platform.system() != 'Windows':
+                    manager.handle(signal.SIGQUIT, _on_sigterm)  # type: ignore
                 # Yield asyncio loop and current task.
                 yield this_loop, this_task
         finally:
@@ -234,8 +234,6 @@ class LaunchService:
             with self.__loop_from_run_thread_lock:
                 self.__context._set_asyncio_loop(None)
                 self.__loop_from_run_thread = None
-                self.__this_task = None
-                self.__process_one_event_task = None
                 self.__shutting_down = False
 
     async def _process_one_event(self) -> None:
@@ -330,7 +328,6 @@ class LaunchService:
                     # in the queue
                     if process_one_event_task is None or process_one_event_task.done():
                         process_one_event_task = this_loop.create_task(self._process_one_event())
-                        self.__process_one_event_task = process_one_event_task
 
                     # Add the process event task to the list of awaitables
                     entity_futures.append(process_one_event_task)

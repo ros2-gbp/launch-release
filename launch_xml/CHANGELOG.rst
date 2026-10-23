@@ -2,27 +2,13 @@
 Changelog for package launch_xml
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-3.10.3 (2026-10-23)
--------------------
-* Add boolean launch argument frontend tests (`#1043 <https://github.com/ros2/launch/issues/1043>`_)
-* Contributors: Om Vaghasiya
+3.9.9 (2026-10-23)
+------------------
+* Add boolean launch argument frontend tests (`#1043 <https://github.com/ros2/launch/issues/1043>`_) (`#1046 <https://github.com/ros2/launch/issues/1046>`_)
+* Contributors: mergify[bot]
 
-3.10.2 (2026-10-01)
--------------------
-* Make level attribute required on log action and remove log_info.py (`#1024 <https://github.com/ros2/launch/issues/1024>`_)
-* Reject invalid executable boolean attributes (`#1004 <https://github.com/ros2/launch/issues/1004>`_)
-* Use the SPDX identifier Apache-2.0 in license declarations (`#1013 <https://github.com/ros2/launch/issues/1013>`_)
-* Reject invalid GroupAction boolean attributes (`#1003 <https://github.com/ros2/launch/issues/1003>`_)
-* Sandbox environment variables in launch_xml/launch_yaml tests (`#1001 <https://github.com/ros2/launch/issues/1001>`_)
-* Contributors: Michael Carroll, Peace. A, 渠超胜
-
-3.10.1 (2026-09-02)
--------------------
-* Add string strip substitution (`#997 <https://github.com/ros2/launch/issues/997>`_)
-* Contributors: Dylan Gallagher
-
-3.10.0 (2026-05-07)
--------------------
+3.9.8 (2026-07-14)
+------------------
 
 3.9.7 (2026-04-09)
 ------------------

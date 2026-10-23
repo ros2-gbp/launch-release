@@ -198,8 +198,7 @@ class ExecuteProcess(ExecuteLocal):
         :param: additional_env dictionary of environment variables to be added.
             If 'env' was None, they are added to the current environment.
             If not, 'env' is updated with additional_env.
-        :param: shell if True, a shell is used to execute the cmd. This must be
-            a boolean value in XML launch files; substitutions are not supported.
+        :param: shell if True, a shell is used to execute the cmd
         :param: sigterm_timeout time until shutdown should escalate to SIGTERM,
             as a string or a list of strings and Substitutions to be resolved
             at runtime, defaults to the LaunchConfiguration called
@@ -212,8 +211,6 @@ class ExecuteProcess(ExecuteLocal):
             be overridden with the LaunchConfiguration called 'emulate_tty',
             the value of which is evaluated as true or false according to
             :py:func:`evaluate_condition_expression`.
-            In XML launch files, this attribute must be a boolean value;
-            substitutions are not supported.
             Throws :py:exc:`InvalidConditionExpressionError` if the
             'emulate_tty' configuration does not represent a boolean.
         :param: prefix a set of commands/arguments to precede the cmd, used for
@@ -368,19 +365,6 @@ class ExecuteProcess(ExecuteLocal):
             respawn_max_retries = entity.get_attr('respawn_max_retries', data_type=int,
                                                   optional=True)
             if respawn_max_retries is not None:
-                if isinstance(respawn_max_retries, bool):
-                    raise ValueError(
-                        'Attribute respawn_max_retries of Entity `{}` expected to be '
-                        'an integer but got `{}`'.format(entity.type_name, respawn_max_retries)
-                    )
-                if isinstance(respawn_max_retries, str):
-                    try:
-                        respawn_max_retries = int(respawn_max_retries)
-                    except ValueError:
-                        raise ValueError(
-                            'Attribute respawn_max_retries of Entity `{}` expected to be '
-                            'an integer but got `{}`'.format(entity.type_name, respawn_max_retries)
-                        ) from None
                 kwargs['respawn_max_retries'] = respawn_max_retries
 
         if 'respawn_delay' not in ignore:
@@ -414,13 +398,12 @@ class ExecuteProcess(ExecuteLocal):
                 kwargs['sigterm_timeout'] = str(sigterm_timeout)
 
         if 'shell' not in ignore:
-            shell = entity.get_attr('shell', data_type=bool, optional=True, can_be_str=False)
+            shell = entity.get_attr('shell', data_type=bool, optional=True)
             if shell is not None:
                 kwargs['shell'] = shell
 
         if 'emulate_tty' not in ignore:
-            emulate_tty = entity.get_attr(
-                'emulate_tty', data_type=bool, optional=True, can_be_str=False)
+            emulate_tty = entity.get_attr('emulate_tty', data_type=bool, optional=True)
             if emulate_tty is not None:
                 kwargs['emulate_tty'] = emulate_tty
 

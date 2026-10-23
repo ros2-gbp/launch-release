@@ -2,23 +2,13 @@
 Changelog for package launch_testing
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-3.10.3 (2026-10-23)
--------------------
+3.9.9 (2026-10-23)
+------------------
 
-3.10.2 (2026-10-01)
--------------------
-* Preserve CTest target identity in JUnit results (`#1002 <https://github.com/ros2/launch/issues/1002>`_)
-* Use the SPDX identifier Apache-2.0 in license declarations (`#1013 <https://github.com/ros2/launch/issues/1013>`_)
-* Contributors: Michael Carroll, 渠超胜
-
-3.10.1 (2026-09-02)
--------------------
-
-3.10.0 (2026-05-07)
--------------------
-* Robust pytest_ignore_collect for multi-version Pytest compatibility (`#974 <https://github.com/ros2/launch/issues/974>`_)
-* Fix Pytest 8/9 compatibility and coroutine leaks in launch_pytest (`#972 <https://github.com/ros2/launch/issues/972>`_)
-* Contributors: Michael Carroll
+3.9.8 (2026-07-14)
+------------------
+* Fix Pytest 8/9 compatibility in hooks (backport `#972 <https://github.com/ros2/launch//issues/972>`_) (`#973 <https://github.com/ros2/launch//issues/973>`_)
+* Contributors: mergify[bot]
 
 3.9.7 (2026-04-09)
 ------------------

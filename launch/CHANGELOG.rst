@@ -2,41 +2,20 @@
 Changelog for package launch
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-3.10.3 (2026-10-23)
--------------------
-* Add boolean launch argument frontend tests (`#1043 <https://github.com/ros2/launch/issues/1043>`_)
-* Correct the docstring of DeclareBooleanLaunchArgument (`#1044 <https://github.com/ros2/launch/issues/1044>`_)
-* Fix XML examples in DeclareLaunchArgument and DeclareBooleanLaunchArgument docs (`#1037 <https://github.com/ros2/launch/issues/1037>`_)
-* Make documentation for XML <arg> default match behavior (`#1032 <https://github.com/ros2/launch/issues/1032>`_)
-* Fix launch logging of lazy format arguments (`#1019 <https://github.com/ros2/launch/issues/1019>`_)
-* Contributors: Alejandro Hernández Cordero, Jasper van Brakel, Matthew Elwin, Om Vaghasiya, manbujingxindele
+3.9.9 (2026-10-23)
+------------------
+* Add boolean launch argument frontend tests (`#1043 <https://github.com/ros2/launch/issues/1043>`_) (`#1046 <https://github.com/ros2/launch/issues/1046>`_)
+* Correct the docstring of DeclareBooleanLaunchArgument (`#1044 <https://github.com/ros2/launch/issues/1044>`_) (`#1045 <https://github.com/ros2/launch/issues/1045>`_)
+* Fix XML examples in DeclareLaunchArgument and DeclareBooleanLaunchArgument docs (`#1037 <https://github.com/ros2/launch/issues/1037>`_) (`#1039 <https://github.com/ros2/launch/issues/1039>`_)
+* Make documentation for XML <arg> default match behavior (`#1032 <https://github.com/ros2/launch/issues/1032>`_) (`#1033 <https://github.com/ros2/launch/issues/1033>`_)
+* Describe nested substitutions in conditional expressions (`#1012 <https://github.com/ros2/launch/issues/1012>`_) (`#1030 <https://github.com/ros2/launch/issues/1030>`_)
+* Add OpaqueFunction to the Basic Actions documentation (`#826 <https://github.com/ros2/launch/issues/826>`_) (`#1017 <https://github.com/ros2/launch/issues/1017>`_) (`#1026 <https://github.com/ros2/launch/issues/1026>`_)
+* Contributors: mergify[bot]
 
-3.10.2 (2026-10-01)
--------------------
-* Add documentation for signal handling in launch (`#1025 <https://github.com/ros2/launch/issues/1025>`_)
-* Fix `#666 <https://github.com/ros2/launch/issues/666>`_ handle SIGTERM (`#712 <https://github.com/ros2/launch/issues/712>`_)
-* Describe nested substitutions in conditional expressions (`#1012 <https://github.com/ros2/launch/issues/1012>`_)
-* Add OpaqueFunction to the Basic Actions documentation (`#826 <https://github.com/ros2/launch/issues/826>`_) (`#1017 <https://github.com/ros2/launch/issues/1017>`_)
-* Make level attribute required on log action and remove log_info.py (`#1024 <https://github.com/ros2/launch/issues/1024>`_)
-* Document how the event system works more explicitly (`#1016 <https://github.com/ros2/launch/issues/1016>`_)
-* Reject invalid executable boolean attributes (`#1004 <https://github.com/ros2/launch/issues/1004>`_)
-* Use the SPDX identifier Apache-2.0 in license declarations (`#1013 <https://github.com/ros2/launch/issues/1013>`_)
-* Reject invalid GroupAction boolean attributes (`#1003 <https://github.com/ros2/launch/issues/1003>`_)
-* Contributors: Alistair English, Cian Donovan, Michael Carroll, Peace. A, Sunghyun Kwon, William Woodall, Xxy-0905, 渠超胜
-
-3.10.1 (2026-09-02)
--------------------
-* Apply launch prefix without overwriting the logger name (`#976 <https://github.com/ros2/launch/issues/976>`_)
-* Add string strip substitution (`#997 <https://github.com/ros2/launch/issues/997>`_)
-* fix: parse respawn_max_retries YAML strings (`#969 <https://github.com/ros2/launch/issues/969>`_)
-* Fix LaunchService._is_idle() to consider active background tasks (`#996 <https://github.com/ros2/launch/issues/996>`_)
-* Contributors: Dylan Gallagher, Lidang Jiang, Mosiwon, William Woodall
-
-3.10.0 (2026-05-07)
--------------------
-* Robust pytest_ignore_collect for multi-version Pytest compatibility (`#974 <https://github.com/ros2/launch/issues/974>`_)
-* Fix Pytest 8/9 compatibility and coroutine leaks in launch_pytest (`#972 <https://github.com/ros2/launch/issues/972>`_)
-* Contributors: Michael Carroll
+3.9.8 (2026-07-14)
+------------------
+* Fix Pytest 8/9 compatibility in hooks (backport `#972 <https://github.com/ros2/launch//issues/972>`_) (`#973 <https://github.com/ros2/launch//issues/973>`_)
+* Contributors: mergify[bot]
 
 3.9.7 (2026-04-09)
 ------------------
