@@ -100,9 +100,13 @@ class DeclareLaunchArgument(Action):
 
         <launch>
             <arg name="simple_argument"/>
-            <arg name="with_default_value" default_value="default"/>
-            <arg name="with_default_and_description" default_value="some_default"
+            <arg name="with_default_value" default="default"/>
+            <arg name="with_default_and_description" default="some_default"
                 description="this argument is used to configure ..."/>
+            <arg name="mode" default="A" description="Choose between mode A and mode B">
+                <choice value="A"/>
+                <choice value="B"/>
+            </arg>
         </launch>
     """
 
