@@ -18,9 +18,8 @@ import io
 import textwrap
 
 from launch.actions import ResetLaunchConfigurations, SetLaunchConfiguration
+from launch.frontend import Parser
 from launch.launch_context import LaunchContext
-
-from parser_no_extensions import load_no_extensions
 
 
 def test_reset():
@@ -40,8 +39,11 @@ def test_reset():
                     -   name: 'baz'
                         value: 'BAZ'
         """  # noqa: E501
+    print('Load YAML')
     yaml_file = textwrap.dedent(yaml_file)
-    root_entity, parser = load_no_extensions(io.StringIO(yaml_file))
+    print('Load Parser')
+    root_entity, parser = Parser.load(io.StringIO(yaml_file))
+    print('Parse Description')
     ld = parser.parse_description(root_entity)
 
     assert isinstance(ld.entities[0], SetLaunchConfiguration)
