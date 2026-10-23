@@ -16,7 +16,6 @@
 
 from launch import LaunchContext
 from launch.substitutions import IfElseSubstitution
-from launch.substitutions import NotEqualsSubstitution
 
 import pytest
 
@@ -30,10 +29,6 @@ def test_if_else_substitution_no_values():
 
 def test_if_else_substitution_both_values():
     """Check that the right value is returned when both values are given."""
-    subst = IfElseSubstitution(NotEqualsSubstitution('left', 'none'), 'ivalue', 'evalue')
-    assert subst.describe() == (
-        "IfElseSubstitution(NotEqualsSubstitution('left', 'none'), 'ivalue', 'evalue')")
-
     # Condition is true case
     subst = IfElseSubstitution('true', 'ivalue', 'evalue')
     result = subst.perform(LaunchContext())

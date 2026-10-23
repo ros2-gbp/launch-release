@@ -15,7 +15,6 @@
 """Module for OnActionEventBase class."""
 
 import collections.abc
-from typing import Any
 from typing import Callable
 from typing import List  # noqa
 from typing import Optional
@@ -48,7 +47,7 @@ class OnActionEventBase(BaseEventHandler):
         ],
         target_event_cls: Type[Event],
         target_action_cls: Type['Action'],
-        **kwargs: Any
+        **kwargs
     ) -> None:
         """
         Construct a `OnActionEventBase` instance.

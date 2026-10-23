@@ -14,12 +14,7 @@
 
 """Module for the SetEnvironmentVariable action."""
 
-from typing import Any
-from typing import Dict
 from typing import List
-from typing import Tuple
-from typing import Type
-
 
 from ..action import Action
 from ..frontend import Entity
@@ -40,7 +35,7 @@ class SetEnvironmentVariable(Action):
         self,
         name: SomeSubstitutionsType,
         value: SomeSubstitutionsType,
-        **kwargs: Any
+        **kwargs
     ) -> None:
         """Create a SetEnvironmentVariable action."""
         super().__init__(**kwargs)
@@ -52,7 +47,7 @@ class SetEnvironmentVariable(Action):
         cls,
         entity: Entity,
         parser: Parser,
-    ) -> Tuple[Type['SetEnvironmentVariable'], Dict[str, Any]]:
+    ):
         """Parse a 'set_env' entity."""
         _, kwargs = super().parse(entity, parser)
         kwargs['name'] = parser.parse_substitution(entity.get_attr('name'))

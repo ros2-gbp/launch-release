@@ -14,8 +14,6 @@
 
 """Module for ProcessStarted event."""
 
-from typing import Any
-
 from .running_process_event import RunningProcessEvent
 
 
@@ -24,7 +22,7 @@ class ProcessStarted(RunningProcessEvent):
 
     name = 'launch.events.process.ProcessStarted'
 
-    def __init__(self, **kwargs: Any):
+    def __init__(self, **kwargs):
         """
         Create a ProcessStarted event.
 

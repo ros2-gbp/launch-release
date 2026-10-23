@@ -14,8 +14,6 @@
 
 """Module for the PopEnvironment action."""
 
-from typing import Any
-
 from ..action import Action
 from ..launch_context import LaunchContext
 
@@ -28,10 +26,10 @@ class PopEnvironment(Action):
     :py:class:`launch.actions.PushEnvironment` action.
     """
 
-    def __init__(self, **kwargs: Any) -> None:
+    def __init__(self, **kwargs) -> None:
         """Create a PopEnvironment action."""
         super().__init__(**kwargs)
 
-    def execute(self, context: LaunchContext) -> None:
+    def execute(self, context: LaunchContext):
         """Execute the action."""
         context._pop_environment()

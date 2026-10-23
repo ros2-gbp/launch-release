@@ -14,8 +14,6 @@
 
 """Module for ProcessStdout event."""
 
-from typing import Any
-
 from .process_io import ProcessIO
 
 
@@ -24,7 +22,7 @@ class ProcessStdout(ProcessIO):
 
     name = 'launch.events.process.ProcessStdout'
 
-    def __init__(self, *, text: bytes, **kwargs: Any) -> None:
+    def __init__(self, *, text: bytes, **kwargs) -> None:
         """
         Create a ProcessStdout event.
 

@@ -2,80 +2,56 @@
 Changelog for package launch
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-3.9.9 (2026-10-23)
-------------------
-* Add boolean launch argument frontend tests (`#1043 <https://github.com/ros2/launch/issues/1043>`_) (`#1046 <https://github.com/ros2/launch/issues/1046>`_)
-* Correct the docstring of DeclareBooleanLaunchArgument (`#1044 <https://github.com/ros2/launch/issues/1044>`_) (`#1045 <https://github.com/ros2/launch/issues/1045>`_)
-* Fix XML examples in DeclareLaunchArgument and DeclareBooleanLaunchArgument docs (`#1037 <https://github.com/ros2/launch/issues/1037>`_) (`#1039 <https://github.com/ros2/launch/issues/1039>`_)
-* Make documentation for XML <arg> default match behavior (`#1032 <https://github.com/ros2/launch/issues/1032>`_) (`#1033 <https://github.com/ros2/launch/issues/1033>`_)
-* Describe nested substitutions in conditional expressions (`#1012 <https://github.com/ros2/launch/issues/1012>`_) (`#1030 <https://github.com/ros2/launch/issues/1030>`_)
-* Add OpaqueFunction to the Basic Actions documentation (`#826 <https://github.com/ros2/launch/issues/826>`_) (`#1017 <https://github.com/ros2/launch/issues/1017>`_) (`#1026 <https://github.com/ros2/launch/issues/1026>`_)
+3.8.10 (2026-10-23)
+-------------------
+* Make documentation for XML <arg> default match behavior (`#1032 <https://github.com/ros2/launch/issues/1032>`_) (`#1034 <https://github.com/ros2/launch/issues/1034>`_)
+* Add OpaqueFunction to the Basic Actions documentation (`#826 <https://github.com/ros2/launch/issues/826>`_) (`#1017 <https://github.com/ros2/launch/issues/1017>`_) (`#1027 <https://github.com/ros2/launch/issues/1027>`_)
 * Contributors: mergify[bot]
 
-3.9.8 (2026-07-14)
+3.8.9 (2026-09-18)
 ------------------
-* Fix Pytest 8/9 compatibility in hooks (backport `#972 <https://github.com/ros2/launch//issues/972>`_) (`#973 <https://github.com/ros2/launch//issues/973>`_)
+* Robust pytest_ignore_collect for multi-version Pytest compatibility (`#974 <https://github.com/ros2/launch/issues/974>`_) (`#1005 <https://github.com/ros2/launch/issues/1005>`_)
+* Fix Pytest 8/9 compatibility and coroutine leaks in launch_pytest (`#972 <https://github.com/ros2/launch/issues/972>`_) (`#1007 <https://github.com/ros2/launch/issues/1007>`_)
+* Contributors: Guilhem Saurel
+
+3.8.8 (2026-07-14)
+------------------
+* Correct typos (backport `#961 <https://github.com/ros2/launch//issues/961>`_) (`#962 <https://github.com/ros2/launch//issues/962>`_)
 * Contributors: mergify[bot]
 
-3.9.7 (2026-04-09)
+3.8.7 (2026-01-12)
 ------------------
-* Correct typos (`#961 <https://github.com/ros2/launch/issues/961>`_)
-* hotfix (`#950 <https://github.com/ros2/launch/issues/950>`_)
-* Declare Boolean Launch Argument (`#944 <https://github.com/ros2/launch/issues/944>`_)
-* Support frontends for PathJoinSubstitution (`#943 <https://github.com/ros2/launch/issues/943>`_)
-* Contributors: Auguste Lalande, Christophe Bedard, David V. Lu!!, Michael Carlstrom
-
-3.9.6 (2026-01-12)
-------------------
-* test python substitution with submodules (`#688 <https://github.com/ros2/launch/issues/688>`_)
-* Scope launch file dir/path locals to included launch file (`#862 <https://github.com/ros2/launch/issues/862>`_)
-* Capture the environment variables in TimerAction (`#728 <https://github.com/ros2/launch/issues/728>`_)
-* Remove importlib metadata (`#932 <https://github.com/ros2/launch/issues/932>`_)
-* Fix intersphinx_mapping format (`#921 <https://github.com/ros2/launch/issues/921>`_)
-* Contributors: Christophe Bedard, Jonas Otto, Michael Carlstrom, Sebastian Javier D'Alessandro Szymanowski, Will
-
-3.9.5 (2025-11-07)
-------------------
-* Make the directory-finding substitutions into a PathSubstitution for / operator (`#914 <https://github.com/ros2/launch//issues/914>`_)
-* Expose StringJoinSubstitution to frontend (`#857 <https://github.com/ros2/launch//issues/857>`_)
-* Contributors: Christian Ruf, Emerson Knapp
-
-3.9.4 (2025-10-17)
-------------------
-* Shared logic for substitutions (`#769 <https://github.com/ros2/launch/issues/769>`_)
-* Use yaml types (`#781 <https://github.com/ros2/launch/issues/781>`_)
-* Switch osrf_pycommon dependency to system package (`#817 <https://github.com/ros2/launch/issues/817>`_)
-* Fix all/any in xml and yaml launch files (`#906 <https://github.com/ros2/launch/issues/906>`_)
-* Contributors: Matthijs van der Burgh, Michael Carlstrom, Scott K Logan
-
-3.9.3 (2025-10-06)
-------------------
-* Allow providing launch args to include using let in frontends (`#848 <https://github.com/ros2/launch//issues/848>`_)
-* Contributors: Christophe Bedard
-
-3.9.2 (2025-07-29)
-------------------
-* Fix Setuptoolsdeprecations (`#898 <https://github.com/ros2/launch/issues/898>`_)
-* Remove LaunchDescriptionArgument (`#891 <https://github.com/ros2/launch/issues/891>`_)
-* Contributors: Harrison Chen, mosfet80
-
-3.9.1 (2025-06-19)
-------------------
-* Make sure to install py.typed files (`#886 <https://github.com/ros2/launch/issues/886>`_)
-* use custom log_file name as per the user setting (`#861 <https://github.com/ros2/launch/issues/861>`_)
-* Using ``TimerAction`` with ``SetParameter`` from launch_ros causes crash (`#879 <https://github.com/ros2/launch/issues/879>`_)
-* Fix `log\_*` warnings (`#883 <https://github.com/ros2/launch/issues/883>`_)
-* Updated `launch` typings (`#831 <https://github.com/ros2/launch/issues/831>`_)
+* Remove importlib metadata (backport `#932 <https://github.com/ros2/launch/issues/932>`_) (`#934 <https://github.com/ros2/launch/issues/934>`_)
+* Merge pull request `#928 <https://github.com/ros2/launch/issues/928>`_ from ros2/mergify/bp/kilted/pr-873
 * Allow Path in substitutions, instead of requiring cast to str (`#873 <https://github.com/ros2/launch/issues/873>`_)
-* Add a `/` path join operator for `PathJoinSubstitution` (`#868 <https://github.com/ros2/launch/issues/868>`_)
-* Other Logging Implementations with `getLevelNamesMapping` fix (`#866 <https://github.com/ros2/launch/issues/866>`_)
-* Revert "Add Other Logging Implementations (`#858 <https://github.com/ros2/launch/issues/858>`_)" (`#865 <https://github.com/ros2/launch/issues/865>`_)
-  This reverts commit b7b31c45b0eb350deedd282b88398d1ca0d5faf4.
-* Add Other Logging Implementations (`#858 <https://github.com/ros2/launch/issues/858>`_)
-* Contributors: Christophe Bedard, Emerson Knapp, Kenji Brameld (TRACLabs), Michael Carlstrom, Tanishq Chaudhary
+* Fix intersphinx_mapping format (`#921 <https://github.com/ros2/launch/issues/921>`_) (`#924 <https://github.com/ros2/launch/issues/924>`_)
+* Contributors: Emerson Knapp, mergify[bot]
 
-3.9.0 (2025-04-24)
+3.8.6 (2025-11-07)
 ------------------
+* [backport kilted] Make the directory-finding substitutions into a PathSubstitution for / operator (backport `#914 <https://github.com/ros2/launch//issues/914>`_) (`#919 <https://github.com/ros2/launch//issues/919>`_)
+* Contributors: mergify[bot]
+
+3.8.5 (2025-10-17)
+------------------
+* Fix all/any in xml and yaml launch files (backport `#906 <https://github.com/ros2/launch/issues/906>`_) (`#911 <https://github.com/ros2/launch/issues/911>`_)
+* Contributors: mergify[bot]
+
+3.8.4 (2025-10-06)
+------------------
+* Allow providing launch args to include using let in frontends (`#848 <https://github.com/ros2/launch/issues/848>`_) (`#909 <https://github.com/ros2/launch/issues/909>`_)
+* Contributors: mergify[bot]
+
+3.8.3 (2025-09-11)
+------------------
+* Using ``TimerAction`` with ``SetParameter`` from launch_ros causes crash (backport `#879 <https://github.com/ros2/launch/issues/879>`_) (`#902 <https://github.com/ros2/launch/issues/902>`_)
+* Remove LaunchDescriptionArgument (`#891 <https://github.com/ros2/launch/issues/891>`_) (`#895 <https://github.com/ros2/launch/issues/895>`_)
+* Contributors: mergify[bot]
+
+3.8.2 (2025-06-23)
+------------------
+* Add a `/` path join operator for `PathJoinSubstitution` (`#868 <https://github.com/ros2/launch/issues/868>`_) (`#875 <https://github.com/ros2/launch/issues/875>`_)
+* Contributors: mergify[bot]
 
 3.8.1 (2025-04-18)
 ------------------

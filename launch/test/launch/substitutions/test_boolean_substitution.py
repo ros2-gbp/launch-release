@@ -66,8 +66,6 @@ def test_and_substitution():
 
 def test_or_substitution():
     lc = LaunchContext()
-    assert OrSubstitution(NotSubstitution('true'), 'false').describe() == (
-        "OrSubstitution(NotSubstitution('true'), 'false')")
     assert OrSubstitution('true', 'true').perform(lc) == 'true'
     assert OrSubstitution('true', 'false').perform(lc) == 'true'
     assert OrSubstitution('false', 'true').perform(lc) == 'true'
@@ -96,8 +94,6 @@ def test_or_substitution():
 
 def test_any_substitution():
     lc = LaunchContext()
-    assert AnySubstitution(['tr', 'ue'], 'false').describe() == (
-        "AnySubstitution('tr' + 'ue', 'false')")
     assert AnySubstitution().perform(lc) == 'false'
     assert AnySubstitution('true').perform(lc) == 'true'
     assert AnySubstitution('false').perform(lc) == 'false'

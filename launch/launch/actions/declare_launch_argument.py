@@ -14,13 +14,9 @@
 
 """Module for the DeclareLaunchArgument action."""
 
-from typing import Any
-from typing import Dict
 from typing import List
 from typing import Optional
 from typing import Text
-from typing import Tuple
-from typing import Type
 
 import launch.logging
 
@@ -103,10 +99,6 @@ class DeclareLaunchArgument(Action):
             <arg name="with_default_value" default="default"/>
             <arg name="with_default_and_description" default="some_default"
                 description="this argument is used to configure ..."/>
-            <arg name="mode" default="A" description="Choose between mode A and mode B">
-                <choice value="A"/>
-                <choice value="B"/>
-            </arg>
         </launch>
     """
 
@@ -117,7 +109,7 @@ class DeclareLaunchArgument(Action):
         default_value: Optional[SomeSubstitutionsType] = None,
         description: Optional[Text] = None,
         choices: Optional[List[Text]] = None,
-        **kwargs: Any
+        **kwargs
     ) -> None:
         """Create a DeclareLaunchArgument action."""
         super().__init__(**kwargs)
@@ -171,7 +163,7 @@ class DeclareLaunchArgument(Action):
         cls,
         entity: Entity,
         parser: 'Parser'
-    ) -> Tuple[Type['DeclareLaunchArgument'], Dict[str, Any]]:
+    ):
         """Parse `arg` tag."""
         _, kwargs = super().parse(entity, parser)
         kwargs['name'] = parser.escape_characters(entity.get_attr('name'))
@@ -208,7 +200,7 @@ class DeclareLaunchArgument(Action):
         """Getter for self.__choices."""
         return self.__choices
 
-    def execute(self, context: LaunchContext) -> None:
+    def execute(self, context: LaunchContext):
         """Execute the action."""
         if self.name not in context.launch_configurations:
             if self.default_value is None:

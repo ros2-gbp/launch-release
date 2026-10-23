@@ -14,14 +14,9 @@
 
 """Module for the IfElseSubstitution substitution."""
 
-from typing import Any
-from typing import Dict
 from typing import List
 from typing import Sequence
 from typing import Text
-from typing import Tuple
-from typing import Type
-
 
 from .substitution_failure import SubstitutionFailure
 from ..frontend import expose_substitution
@@ -81,8 +76,7 @@ class IfElseSubstitution(Substitution):
         self._else_value = normalize_to_list_of_substitutions(else_value)
 
     @classmethod
-    def parse(cls, data: Sequence[SomeSubstitutionsType]
-              ) -> Tuple[Type['IfElseSubstitution'], Dict[str, Any]]:
+    def parse(cls, data: Sequence[SomeSubstitutionsType]):
         """Parse `IfElseSubstitution` substitution."""
         if len(data) < 2 or len(data) > 3:
             raise TypeError('if substitution expects from 2 or 3 arguments')
@@ -108,10 +102,7 @@ class IfElseSubstitution(Substitution):
 
     def describe(self) -> Text:
         """Return a description of this substitution as a string."""
-        condition = ' + '.join(sub.describe() for sub in self.condition)
-        if_value = ' + '.join(sub.describe() for sub in self.if_value)
-        else_value = ' + '.join(sub.describe() for sub in self.else_value)
-        return f'IfElseSubstitution({condition}, {if_value}, {else_value})'
+        return f'IfElseSubstitution({self.condition}, {self.if_value}, {self.else_value})'
 
     def perform(self, context: LaunchContext) -> Text:
         """Perform the substitution by evaluating the condition."""
